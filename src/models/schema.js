@@ -59,6 +59,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "stationaryCombustion": {
+                    "name": "stationaryCombustion",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "mobileCombustion": {
+                    "name": "mobileCombustion",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "fugitiveEmmission": {
+                    "name": "fugitiveEmmission",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "yearresultID": {
                     "name": "yearresultID",
                     "isArray": false,
@@ -529,5 +550,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "8ab25228aeb9f336a84db8972f94a750"
+    "version": "5b45eec9b5312dca306ca5f2539885a4"
 };

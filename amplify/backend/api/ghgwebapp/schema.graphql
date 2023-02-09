@@ -7,6 +7,9 @@ type Facility @model @auth(rules: [{allow: public}]) {
   marketNaturalGas: Float
   marketElectricity: Float
   heatAndSteam: Float
+  stationaryCombustion: Float
+  mobileCombustion: Float
+  fugitiveEmmission: Float
   yearresultID: ID! @index(name: "byYearResult")
 }
 
@@ -42,3 +45,4 @@ type User @model @auth(rules: [{allow: public}]) {
   isLeader: Boolean!
   groupID: ID @index(name: "byGroup")
 }
+ 

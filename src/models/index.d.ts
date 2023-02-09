@@ -19,6 +19,9 @@ type EagerFacility = {
   readonly marketNaturalGas?: number | null;
   readonly marketElectricity?: number | null;
   readonly heatAndSteam?: number | null;
+  readonly stationaryCombustion?: number | null;
+  readonly mobileCombustion?: number | null;
+  readonly fugitiveEmmission?: number | null;
   readonly yearresultID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -37,6 +40,9 @@ type LazyFacility = {
   readonly marketNaturalGas?: number | null;
   readonly marketElectricity?: number | null;
   readonly heatAndSteam?: number | null;
+  readonly stationaryCombustion?: number | null;
+  readonly mobileCombustion?: number | null;
+  readonly fugitiveEmmission?: number | null;
   readonly yearresultID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
