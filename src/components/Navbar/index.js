@@ -1,27 +1,49 @@
 import React from "react";
+import { FaBars } from "react-icons/fa";
+import {animateScroll as scroll} from 'react-scroll'
 import logo from '../../assets/logo.svg';
-import { Nav, NavLink} from "./NavBarElements";
-  
-const Navbar = () => {
+import { 
+  Nav, 
+  NavbarContainer, 
+  NavLogo, 
+  MobileIcons, 
+  NavMenu, 
+  NavItem, 
+  NavLinks,
+  NavBtn,
+  NavBtnLink
+} from "./NavBarElements";
+
+const toggleHome = () => {
+  scroll.scrollToTop();
+};
+
+const Navbar = ({toggle}) => {
   return (
+    <>
       <Nav>
-        <NavLink to="/">
-          {/* <img src={logo} alt=""/> */}
-          Landing
-        </NavLink>
-        <NavLink to="/about" activeStyle>
-          About
-        </NavLink>
-        <NavLink to="/contact" activeStyle>
-          Contact Us
-        </NavLink>
-        <NavLink to="/faq" activeStyle>
-          FAQ
-        </NavLink>
-        <NavLink to="/home" activeStyle>
-          Home
-        </NavLink>
+        <NavbarContainer>
+          <NavLogo exact to="/" onClick={toggleHome}>GHG</NavLogo>
+          <MobileIcons onClick={toggle}>
+            <FaBars />
+          </MobileIcons>
+          <NavMenu>
+            <NavItem>
+              <NavLinks to="about">About</NavLinks>
+            </NavItem>
+            <NavItem>
+              <NavLinks to="contact">Contact</NavLinks>
+            </NavItem>
+            <NavItem>
+              <NavLinks to="faq">FAQ</NavLinks>
+            </NavItem>
+          </NavMenu>
+          <NavBtn>
+            <NavBtnLink to="home">Sign in</NavBtnLink>
+          </NavBtn>
+        </NavbarContainer>
       </Nav>
+    </>
   );
 };
   
