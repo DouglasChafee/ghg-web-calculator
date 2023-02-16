@@ -89,8 +89,8 @@ export const NavLinks = styled(LinkRouter)` // -------LinkScroll Originally-----
   cursor: pointer;
   font-weight: bold;
 
-  &.active {
-    border-bottom: 3px solid #01bf71;
+  &:active {
+    border-bottom: 10px solid #01bf71;
   }
 
   &:hover {
@@ -122,7 +122,7 @@ export const NavBtnLink = styled(LinkRouter)`
   text-decoration: none;
   font-weight: bold;
 
-  &hover {
+  &:hover {
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
