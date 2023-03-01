@@ -3,8 +3,7 @@ import { Expander, ExpanderItem, Flex, Heading, } from '@aws-amplify/ui-react';
 
 function About(){
     return(
-        
-        <info>
+        <div>
             <Flex
                 marginLeft={"10%"}
                 marginRight={"10%"}
@@ -19,7 +18,10 @@ function About(){
                 maxWidth={"1100px"}
             >
                 <Heading level={3} font-weight={"bold"}>About</Heading>
-                <Expander type="multiple">
+                <Expander type="multiple" // Expanding text box section
+                // To change whether only one item can be opened at the same time
+                // type="single"
+                >
                     <ExpanderItem title="GHG Web Calculator" value="about-item-1">
                     With climate change being the forefront of everyone's mind, there is this increase in
                     responsibility for companies to start reporting their greenhouse gas (GHG) emissions annually.
@@ -34,8 +36,9 @@ function About(){
                     </ExpanderItem>
                     <ExpanderItem
                     title="User Accounts" value="about-item-3">
-                        User accounts contain a history of previous yearly calculations.
-                        A single account is intended for use for a single companies GHG calculation. 
+                        User accounts allow you to track your yearly calculations using previous yearly history.
+                        A single account is intended for use for a single companies GHG calculation.
+                        To ceate an account, use this link to <a href="/">sign up</a>.
                     </ExpanderItem>
                     <ExpanderItem
                     title="User Groups" value="about-item-4">
@@ -47,7 +50,7 @@ function About(){
                     </ExpanderItem>
                 </Expander>
             </Flex>
-        </info>
+        </div>
     );
     
 }
