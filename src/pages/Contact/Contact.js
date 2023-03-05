@@ -24,6 +24,7 @@ function Contact(){
                     alignContent="flex-start"
                     wrap="wrap"
                     gap="10rem"
+                    paddingBottom={"10rem"}
                 >
                 <View>
                     <figure style={{display: 'inline-block'}}>
