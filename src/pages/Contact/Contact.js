@@ -22,7 +22,7 @@ function Contact(){
                     justifyContent="space-evenly"
                     alignItems="stretch"
                     alignContent="flex-start"
-                    wrap="nowrap"
+                    wrap="wrap"
                     gap="10rem"
                 >
                 <View>
