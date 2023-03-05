@@ -1,11 +1,19 @@
 import React from 'react';
+import { Amplify } from 'aws-amplify';
 
-function Home(){
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
+
+function Home({ signOut, user }){
     return(
-        <div>
-            <h1> This is the Home Page!</h1>
-        </div>
+        <>
+        <h1>Hello {user.username}</h1>
+        <button onClick={signOut}>Sign out</button>
+      </>
     );
 }
 
-export default Home
+export default withAuthenticator(Home)

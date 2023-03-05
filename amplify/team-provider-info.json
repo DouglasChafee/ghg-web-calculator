@@ -10,6 +10,12 @@
       "StackName": "amplify-amplifyfacde958d1604-staging-10053",
       "StackId": "arn:aws:cloudformation:us-east-2:698751960917:stack/amplify-amplifyfacde958d1604-staging-10053/342ff090-a815-11ed-af85-02e7ceb4eaf2",
       "AmplifyAppId": "d3321zzlgs5l3a"
+    },
+    "categories": {
+      "auth": {
+        "ghgwebappe9450c35": {},
+        "ghgwebapp": {}
+      }
     }
   }
 }
