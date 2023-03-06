@@ -8,7 +8,7 @@ import FAQ from './pages/FAQ/FAQ'
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
-import Profile from './pages/Profile/Profile2'
+import Profile from './pages/Profile/Profile'
 
 function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state

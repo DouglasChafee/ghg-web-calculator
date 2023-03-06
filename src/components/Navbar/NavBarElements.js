@@ -22,7 +22,6 @@ export const Nav = styled.nav`
 
 export const NavbarContainer = styled.div`
   display: flex;
-  margin-right: 50px;             // Manually Moved Over by 50px
   justify-content: space-between;
   height: 80px;
   z-index: 1;
@@ -68,7 +67,7 @@ export const NavMenu = styled.ul`
   align-items: center;
   list-style: none;
   text-align; center;
-  margin-right: -22px;
+  margin-right: 65px; // Manually Moved Over by 65px
 
   @media screen and (max-width: 768px) {
     display: none;
