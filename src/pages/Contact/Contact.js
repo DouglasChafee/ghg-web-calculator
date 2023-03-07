@@ -1,7 +1,7 @@
 import React from 'react';
-import emailpng from './email.png';
-import phonepng from './phone-call.png';
-import addresspng from './maps-and-flags.png';
+import emailpng from '../../assets/email.png';
+import phonepng from '../../assets/phone-call.png';
+import addresspng from '../../assets/maps-and-flags.png';
 import {Flex, View, Heading, Divider} from '@aws-amplify/ui-react';
 
 function Contact(){
