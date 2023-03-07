@@ -39,8 +39,9 @@ type Admin @model @auth(rules: [{allow: public}]) {
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   email: AWSEmail!
-  firstName: String!
+  password: String!
   Results: [YearResult] @hasMany(indexName: "byUser", fields: ["id"])
+  firstName: String!
   lastName: String!
   isLeader: Boolean!
   groupID: ID @index(name: "byGroup")

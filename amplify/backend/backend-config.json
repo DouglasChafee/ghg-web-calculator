@@ -1,5 +1,43 @@
 {
   "api": {
+    "api4ef6c8be": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgCreateUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgUpdateUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgCreateGroup"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "ghgwebapp": {
       "dependsOn": [],
       "output": {
@@ -20,6 +58,127 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync"
+    }
+  },
+  "auth": {
+    "ghgwebapp": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OPTIONAL",
+        "mfaTypes": [
+          "TOTP"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+          ],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "ghgCreateGroup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgCreateUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgReadUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgUpdateUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_ghgCreateGroup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateGroup"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateGroup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateGroup"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgReadUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgReadUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgUpdateUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgUpdateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgUpdateUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgUpdateUser"
+        }
+      ]
     }
   }
 }
