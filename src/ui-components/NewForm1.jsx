@@ -8,18 +8,21 @@
 import * as React from "react";
 import {
   Button,
+  Divider,
   Flex,
   Grid,
-  SwitchField,
+  Heading,
+  PasswordField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function UserCreateForm(props) {
+export default function NewForm1(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    user,
     onSuccess,
     onError,
     onSubmit,
@@ -30,35 +33,43 @@ export default function UserCreateForm(props) {
   } = props;
   const initialValues = {
     email: "",
-    password: "",
     firstName: "",
     lastName: "",
-    isLeader: false,
-    groupID: "",
+    Field0: undefined,
+    password: "",
   };
   const [email, setEmail] = React.useState(initialValues.email);
-  const [password, setPassword] = React.useState(initialValues.password);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [isLeader, setIsLeader] = React.useState(initialValues.isLeader);
-  const [groupID, setGroupID] = React.useState(initialValues.groupID);
+  const [Field0, setField0] = React.useState(initialValues.Field0);
+  const [password, setPassword] = React.useState(initialValues.password);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setEmail(initialValues.email);
-    setPassword(initialValues.password);
-    setFirstName(initialValues.firstName);
-    setLastName(initialValues.lastName);
-    setIsLeader(initialValues.isLeader);
-    setGroupID(initialValues.groupID);
+    const cleanValues = userRecord
+      ? { ...initialValues, ...userRecord }
+      : initialValues;
+    setEmail(cleanValues.email);
+    setFirstName(cleanValues.firstName);
+    setLastName(cleanValues.lastName);
+    setField0(cleanValues.Field0);
+    setPassword(cleanValues.password);
     setErrors({});
   };
+  const [userRecord, setUserRecord] = React.useState(user);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp ? await DataStore.query(User, idProp) : user;
+      setUserRecord(record);
+    };
+    queryData();
+  }, [idProp, user]);
+  React.useEffect(resetStateValues, [userRecord]);
   const validations = {
     email: [{ type: "Required" }, { type: "Email" }],
-    password: [{ type: "Required" }],
     firstName: [{ type: "Required" }],
     lastName: [{ type: "Required" }],
-    isLeader: [{ type: "Required" }],
-    groupID: [],
+    Field0: [],
+    password: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -86,11 +97,10 @@ export default function UserCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           email,
-          password,
           firstName,
           lastName,
-          isLeader,
-          groupID,
+          Field0,
+          password,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -120,12 +130,13 @@ export default function UserCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new User(modelFields));
+          await DataStore.save(
+            User.copyOf(userRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -133,9 +144,18 @@ export default function UserCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "UserCreateForm")}
+      {...getOverrideProps(overrides, "NewForm1")}
       {...rest}
     >
+      <Heading
+        level={4}
+        children="Update Profile"
+        {...getOverrideProps(overrides, "SectionalElement1")}
+      ></Heading>
+      <Divider
+        orientation="horizontal"
+        {...getOverrideProps(overrides, "SectionalElement0")}
+      ></Divider>
       <TextField
         label="Email"
         isRequired={true}
@@ -146,11 +166,10 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email: value,
-              password,
               firstName,
               lastName,
-              isLeader,
-              groupID,
+              Field0,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -166,35 +185,6 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
-        label="Password"
-        isRequired={true}
-        isReadOnly={false}
-        value={password}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              email,
-              password: value,
-              firstName,
-              lastName,
-              isLeader,
-              groupID,
-            };
-            const result = onChange(modelFields);
-            value = result?.password ?? value;
-          }
-          if (errors.password?.hasError) {
-            runValidationTasks("password", value);
-          }
-          setPassword(value);
-        }}
-        onBlur={() => runValidationTasks("password", password)}
-        errorMessage={errors.password?.errorMessage}
-        hasError={errors.password?.hasError}
-        {...getOverrideProps(overrides, "password")}
-      ></TextField>
-      <TextField
         label="First name"
         isRequired={true}
         isReadOnly={false}
@@ -204,11 +194,10 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
-              password,
               firstName: value,
               lastName,
-              isLeader,
-              groupID,
+              Field0,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -233,11 +222,10 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
-              password,
               firstName,
               lastName: value,
-              isLeader,
-              groupID,
+              Field0,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -252,76 +240,74 @@ export default function UserCreateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
-      <SwitchField
-        label="Is leader"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isLeader}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              email,
-              password,
-              firstName,
-              lastName,
-              isLeader: value,
-              groupID,
-            };
-            const result = onChange(modelFields);
-            value = result?.isLeader ?? value;
-          }
-          if (errors.isLeader?.hasError) {
-            runValidationTasks("isLeader", value);
-          }
-          setIsLeader(value);
-        }}
-        onBlur={() => runValidationTasks("isLeader", isLeader)}
-        errorMessage={errors.isLeader?.errorMessage}
-        hasError={errors.isLeader?.hasError}
-        {...getOverrideProps(overrides, "isLeader")}
-      ></SwitchField>
-      <TextField
-        label="Group id"
-        isRequired={false}
-        isReadOnly={false}
-        value={groupID}
+      <PasswordField
+        label="Password"
+        descriptiveText=""
+        defaultValue={Field0}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               email,
-              password,
               firstName,
               lastName,
-              isLeader,
-              groupID: value,
+              Field0: value,
+              password,
             };
             const result = onChange(modelFields);
-            value = result?.groupID ?? value;
+            value = result?.Field0 ?? value;
           }
-          if (errors.groupID?.hasError) {
-            runValidationTasks("groupID", value);
+          if (errors.Field0?.hasError) {
+            runValidationTasks("Field0", value);
           }
-          setGroupID(value);
+          setField0(value);
         }}
-        onBlur={() => runValidationTasks("groupID", groupID)}
-        errorMessage={errors.groupID?.errorMessage}
-        hasError={errors.groupID?.hasError}
-        {...getOverrideProps(overrides, "groupID")}
+        onBlur={() => runValidationTasks("Field0", Field0)}
+        errorMessage={errors.Field0?.errorMessage}
+        hasError={errors.Field0?.hasError}
+        {...getOverrideProps(overrides, "Field0")}
+      ></PasswordField>
+      <TextField
+        label="Password"
+        isRequired={true}
+        isReadOnly={false}
+        value={password}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              email,
+              firstName,
+              lastName,
+              Field0,
+              password: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.password ?? value;
+          }
+          if (errors.password?.hasError) {
+            runValidationTasks("password", value);
+          }
+          setPassword(value);
+        }}
+        onBlur={() => runValidationTasks("password", password)}
+        errorMessage={errors.password?.errorMessage}
+        hasError={errors.password?.hasError}
+        {...getOverrideProps(overrides, "password")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || user)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -331,7 +317,10 @@ export default function UserCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || user) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

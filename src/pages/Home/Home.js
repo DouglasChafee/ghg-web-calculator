@@ -16,7 +16,7 @@ function Home({ signOut, user }){
         
         <div style={{ display: "flex", flexDirection: 'column', position: 'relative', height: 600, alignItems:'center', justifyContent:'center'}}>
             <>
-                <h1>Hello {user.username}</h1>
+                <h1>Hello {user.attributes.email}</h1>
                 <button onClick={signOut}>Sign out</button>
             </>
             <button 

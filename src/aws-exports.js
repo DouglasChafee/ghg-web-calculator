@@ -3,10 +3,45 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-2",
+    "aws_cloud_logic_custom": [
+        {
+            "name": "api4ef6c8be",
+            "endpoint": "https://ulifg72eog.execute-api.us-east-2.amazonaws.com/staging",
+            "region": "us-east-2"
+        }
+    ],
     "aws_appsync_graphqlEndpoint": "https://dsgx2v5cfjattlkuzvh5rgmaiq.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-gap5524dtvbupfh7nsolapacz4"
+    "aws_appsync_apiKey": "da2-gap5524dtvbupfh7nsolapacz4",
+    "aws_cognito_identity_pool_id": "us-east-2:968f0586-af9d-469c-ace9-f5e370340282",
+    "aws_cognito_region": "us-east-2",
+    "aws_user_pools_id": "us-east-2_YQdBTlpff",
+    "aws_user_pools_web_client_id": "6e1kgl44tncdrfhqpk50r2dth9",
+    "oauth": {},
+    "aws_cognito_username_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_social_providers": [],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_mfa_configuration": "OPTIONAL",
+    "aws_cognito_mfa_types": [
+        "TOTP"
+    ],
+    "aws_cognito_password_protection_settings": {
+        "passwordPolicyMinLength": 8,
+        "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+        ]
+    },
+    "aws_cognito_verification_mechanisms": [
+        "EMAIL"
+    ]
 };
 
 
