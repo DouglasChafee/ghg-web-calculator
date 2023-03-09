@@ -8,11 +8,9 @@
 import * as React from "react";
 import {
   Button,
-  Divider,
   Flex,
   Grid,
-  Heading,
-  PasswordField,
+  SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
@@ -33,23 +31,29 @@ export default function UserUpdateForm(props) {
   } = props;
   const initialValues = {
     email: "",
+    password: "",
     firstName: "",
     lastName: "",
-    password: undefined,
+    isLeader: false,
+    groupID: "",
   };
   const [email, setEmail] = React.useState(initialValues.email);
+  const [password, setPassword] = React.useState(initialValues.password);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [password, setPassword] = React.useState(initialValues.password);
+  const [isLeader, setIsLeader] = React.useState(initialValues.isLeader);
+  const [groupID, setGroupID] = React.useState(initialValues.groupID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
       ? { ...initialValues, ...userRecord }
       : initialValues;
     setEmail(cleanValues.email);
+    setPassword(cleanValues.password);
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
-    setPassword(cleanValues.password);
+    setIsLeader(cleanValues.isLeader);
+    setGroupID(cleanValues.groupID);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(user);
@@ -63,9 +67,11 @@ export default function UserUpdateForm(props) {
   React.useEffect(resetStateValues, [userRecord]);
   const validations = {
     email: [{ type: "Required" }, { type: "Email" }],
+    password: [{ type: "Required" }],
     firstName: [{ type: "Required" }],
     lastName: [{ type: "Required" }],
-    password: [],
+    isLeader: [{ type: "Required" }],
+    groupID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -93,9 +99,11 @@ export default function UserUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           email,
+          password,
           firstName,
           lastName,
-          password,
+          isLeader,
+          groupID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -142,15 +150,6 @@ export default function UserUpdateForm(props) {
       {...getOverrideProps(overrides, "UserUpdateForm")}
       {...rest}
     >
-      <Heading
-        level={3}
-        children="Change Password"
-        {...getOverrideProps(overrides, "SectionalElement1")}
-      ></Heading>
-      <Divider
-        orientation="horizontal"
-        {...getOverrideProps(overrides, "SectionalElement0")}
-      ></Divider>
       <TextField
         label="Email"
         isRequired={true}
@@ -161,9 +160,11 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email: value,
+              password,
               firstName,
               lastName,
-              password,
+              isLeader,
+              groupID,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -179,6 +180,35 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
+        label="Password"
+        isRequired={true}
+        isReadOnly={false}
+        value={password}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              email,
+              password: value,
+              firstName,
+              lastName,
+              isLeader,
+              groupID,
+            };
+            const result = onChange(modelFields);
+            value = result?.password ?? value;
+          }
+          if (errors.password?.hasError) {
+            runValidationTasks("password", value);
+          }
+          setPassword(value);
+        }}
+        onBlur={() => runValidationTasks("password", password)}
+        errorMessage={errors.password?.errorMessage}
+        hasError={errors.password?.hasError}
+        {...getOverrideProps(overrides, "password")}
+      ></TextField>
+      <TextField
         label="First name"
         isRequired={true}
         isReadOnly={false}
@@ -188,9 +218,11 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName: value,
               lastName,
-              password,
+              isLeader,
+              groupID,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -215,9 +247,11 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName,
               lastName: value,
-              password,
+              isLeader,
+              groupID,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -232,40 +266,70 @@ export default function UserUpdateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
-      <PasswordField
-        label="Password"
-        descriptiveText=""
+      <SwitchField
+        label="Is leader"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isLeader}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              email,
+              password,
+              firstName,
+              lastName,
+              isLeader: value,
+              groupID,
+            };
+            const result = onChange(modelFields);
+            value = result?.isLeader ?? value;
+          }
+          if (errors.isLeader?.hasError) {
+            runValidationTasks("isLeader", value);
+          }
+          setIsLeader(value);
+        }}
+        onBlur={() => runValidationTasks("isLeader", isLeader)}
+        errorMessage={errors.isLeader?.errorMessage}
+        hasError={errors.isLeader?.hasError}
+        {...getOverrideProps(overrides, "isLeader")}
+      ></SwitchField>
+      <TextField
+        label="Group id"
         isRequired={false}
         isReadOnly={false}
-        defaultValue={password}
+        value={groupID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName,
               lastName,
-              password: value,
+              isLeader,
+              groupID: value,
             };
             const result = onChange(modelFields);
-            value = result?.password ?? value;
+            value = result?.groupID ?? value;
           }
-          if (errors.password?.hasError) {
-            runValidationTasks("password", value);
+          if (errors.groupID?.hasError) {
+            runValidationTasks("groupID", value);
           }
-          setPassword(value);
+          setGroupID(value);
         }}
-        onBlur={() => runValidationTasks("password", password)}
-        errorMessage={errors.password?.errorMessage}
-        hasError={errors.password?.hasError}
-        {...getOverrideProps(overrides, "password")}
-      ></PasswordField>
+        onBlur={() => runValidationTasks("groupID", groupID)}
+        errorMessage={errors.groupID?.errorMessage}
+        hasError={errors.groupID?.hasError}
+        {...getOverrideProps(overrides, "groupID")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
@@ -279,7 +343,7 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
           <Button
-            children="Update"
+            children="Submit"
             type="submit"
             variation="primary"
             isDisabled={

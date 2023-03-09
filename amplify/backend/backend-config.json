@@ -8,14 +8,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "ghgReadUser"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "ghgCreateUser"
         },
         {
@@ -33,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "ghgCreateGroup"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgReadUser"
         }
       ],
       "providerPlugin": "awscloudformation",

@@ -21,7 +21,7 @@ function Profile({ signOut, user }) {
         //   email: 'karlwdorogy@gmail.com'
         // }
         queryStringParameters: { // 1. pass parameters here
-          id: '0113e00f-96e2-46c2-b3cb-50d04d3bf1b5'
+          id: 'e36bc896-8a81-4ce1-abf0-f2779f558e5a'
         }
       };
       await API.get('api4ef6c8be', '/ghgReadUser', requestInfo).then((response) => {

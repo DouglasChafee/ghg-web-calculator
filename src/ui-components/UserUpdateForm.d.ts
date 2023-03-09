@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { DividerProps, GridProps, HeadingProps, PasswordFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 export declare type ValidationResponse = {
@@ -15,25 +15,29 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type UserUpdateFormInputValues = {
     email?: string;
+    password?: string;
     firstName?: string;
     lastName?: string;
-    password?: string;
+    isLeader?: boolean;
+    groupID?: string;
 };
 export declare type UserUpdateFormValidationValues = {
     email?: ValidationFunction<string>;
+    password?: ValidationFunction<string>;
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
-    password?: ValidationFunction<string>;
+    isLeader?: ValidationFunction<boolean>;
+    groupID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserUpdateFormOverridesProps = {
     UserUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    SectionalElement1?: PrimitiveOverrideProps<HeadingProps>;
-    SectionalElement0?: PrimitiveOverrideProps<DividerProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
+    password?: PrimitiveOverrideProps<TextFieldProps>;
     firstName?: PrimitiveOverrideProps<TextFieldProps>;
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
-    password?: PrimitiveOverrideProps<PasswordFieldProps>;
+    isLeader?: PrimitiveOverrideProps<SwitchFieldProps>;
+    groupID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserUpdateFormOverridesProps | undefined | null;
