@@ -33,6 +33,14 @@
           ],
           "category": "function",
           "resourceName": "ghgReadUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -109,6 +117,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "ghgScope1and2Calculator": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "ghgUpdateUser": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -161,6 +174,22 @@
         {
           "category": "function",
           "resourceName": "ghgReadUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgScope1and2Calculator_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgScope1and2Calculator_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
         }
       ]
     },

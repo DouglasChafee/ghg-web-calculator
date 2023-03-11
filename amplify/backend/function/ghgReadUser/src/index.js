@@ -15,10 +15,13 @@ exports.handler = async (event, context, callback) => {
     const userid = event.queryStringParameters.id;
     await readProfile(userid).then((data) => {
         console.log(data)
+        const dataObj = {
+            name: data.Item.id
+        }
         
         callback(null, {
             statusCode: 200,
-            body: JSON.stringify('Read User Profile Infromation: ' + data.Item.id),
+            body: JSON.stringify(dataObj),
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "*"

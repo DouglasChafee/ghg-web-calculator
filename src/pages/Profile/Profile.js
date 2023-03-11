@@ -7,16 +7,20 @@ import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
 function Profile({ signOut, user, setLogInState, setLogOutState}) {
-    const [data, setData] = useState("")
+    const [FName, setFName] = useState("")
+    const [LName, setLName] = useState("")
+    const [Email, setEmail] = useState("")
+    const [Verified, setVerified] = useState("")
+    const [GName, setGName] = useState("")
+    const [GRole, setGRole] = useState("")
 
-    // Retrieve user profile info once every page render
+    // List of actions to preform once every page render
     useEffect(() => {
-      //console.log('attributes:', user.attributes); THIS MAKES THE COGINTO API CALL AUTOMATICALLY
-      callAPI()
-    }, [data])
-  
-    setLogInState("none"); // on page render disable sign-in button
-    setLogOutState("flex"); // on page render enable sign-out button
+      setLogInState("none"); // disable sign-in button
+      setLogOutState("flex"); // enable sign-out button
+      callAPI() // Retrieve user profile info
+    }, [])
+
     async function callAPI() {
       const user = await Auth.currentAuthenticatedUser()
       const token = user.signInUserSession.idToken.jwtToken
@@ -29,9 +33,13 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
           id: user.attributes.sub
         }
       };
-      await API.get('api4ef6c8be', '/ghgReadUser', requestInfo).then((response) => {
-        setData(response)
-        console.log(response)
+      await API.get('api4ef6c8be', '/ghgReadUser', requestInfo).then((response) => { // Api get request
+        console.log(response);
+        console.log(user);
+        setFName(response.name);
+        setLName(response.name);
+        setEmail(user.attributes.email);
+        setVerified(user.attributes.email_verified.toString());
       })
     }
 
@@ -60,8 +68,8 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>First Name: </Text>
-                <Text margin="5px">Karl</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>First Name: </Text>
+                <Text margin="5px">{FName}</Text> 
               </Flex>
               <Flex 
                 marginTop="1rem" 
@@ -69,8 +77,8 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>Last Name: </Text>
-                <Text margin="5px">Dorogy</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Last Name: </Text>
+                <Text margin="5px">{LName}</Text> 
               </Flex>
               <Flex 
                 marginTop="1rem" 
@@ -78,19 +86,19 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>Email: </Text>
-                <Text margin="5px">karlwdorogy@gmail.com</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Email: </Text>
+                <Text margin="5px">{Email}</Text> 
               </Flex>
               <Flex 
-                marginTop="1rem" 
+                marginTop="1rem"
+                marginBottom="1.5rem" 
                 border="1px solid"
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>Verified: </Text>
-                <Text margin="5px">True</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Verified: </Text>
+                <Text margin="5px">{Verified}</Text> 
               </Flex>
-              <Divider marginBottom="1rem" size="medium" display="flex" orientation="horizontal"/>
             </Flex>
           </Card>
 
@@ -118,19 +126,19 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>Name: </Text>
-                <Text margin="5px">GHG Developers</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Name: </Text>
+                <Text margin="5px">{GName}</Text> 
               </Flex>
               <Flex 
-                marginTop="1rem" 
+                marginTop="1rem"
+                marginBottom="1.5rem" 
                 border="1px solid"
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" borderRight="1px solid" backgroundColor="#01bf71" fontWeight={700}>Role: </Text>
-                <Text margin="5px">Group Member</Text> 
+                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Role: </Text>
+                <Text margin="5px">{GRole}</Text> 
               </Flex>
-              <Divider marginBottom="1rem" size="medium" display="flex" orientation="horizontal"/>
             </Flex>
           </Card>
 

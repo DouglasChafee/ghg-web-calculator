@@ -6,12 +6,16 @@ import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
 function Home({ signOut, user, setLogInState, setLogOutState}){
-  setLogInState("none"); // on page render disable sign-in button
-  setLogOutState("flex"); // on page render enable sign-out button
+
+  // List of actions to preform once every page render
+  useEffect(() => {
+    setLogInState("none"); // disable sign-in button
+    setLogOutState("flex"); // enable sign-out button
+  }, [])
+
   return(
       <>
-      <h1>Hello {user.attributes.email}</h1>
-      <button onClick={signOut}>Sign out</button>
+      <h1>Welcome Back ... {user.attributes.email}</h1>
     </>
   );
 }
