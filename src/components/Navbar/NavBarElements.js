@@ -67,7 +67,7 @@ export const NavMenu = styled.ul`
   align-items: center;
   list-style: none;
   text-align; center;
-  margin-right: 65px; // Manually Moved Over by 65px
+  margin-right: 45px;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -101,6 +101,12 @@ export const NavLinks = styled(LinkRouter)` // -------LinkScroll Originally-----
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
+`;
+
+export const SignInNavBtn = styled.nav`
+  display: flex;
+  align-items: center;
+  display: ${props => props.display || "flex"};
 
   @media screen and (max-width: 768px) {
     display: none;

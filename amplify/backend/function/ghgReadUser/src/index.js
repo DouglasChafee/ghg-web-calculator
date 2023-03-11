@@ -5,13 +5,14 @@ const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event, context, callback) => {
+
+    // Check if user is has valid authorization token
     if (event.requestContext.authorizer) {
         console.log(`EVENT: ${JSON.stringify(event.requestContext.authorizer.claims)}`);
     }
 
-    // 2. query backend and format data, then put it into body of response
+    // Query backend and format data, then put it into body of API response
     const userid = event.queryStringParameters.id;
-    // format data and then put it into body of response
     await readProfile(userid).then((data) => {
         console.log(data)
         
@@ -28,6 +29,7 @@ exports.handler = async (event, context, callback) => {
     })
 };
 
+// Read & Format DynamoDB User Table Query
 function readProfile(userid) {
     const params = {
         TableName: 'User-hl3z2eogtjg2to4aktokmtn23y-staging',
@@ -35,5 +37,5 @@ function readProfile(userid) {
             id: userid,
         }
     }
-    return ddb.get(params).promise();
+    return ddb.get(params).promise(); // database get request
 };

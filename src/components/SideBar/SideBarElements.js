@@ -83,6 +83,7 @@ export const SideBarRoute = styled(LinkRoute)`
     transition: 0.2s ease-in-out;
     text-decoration: none;
     font-weight: bold;
+    display: ${props => props.display || "flex"};
 
     &:hover {
         transition: 0.2s ease-in-out;
