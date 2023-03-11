@@ -21,7 +21,7 @@
         "createUser": {},
         "ghgReadUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgReadUser-704a3265557149685539-build.zip"
+          "s3Key": "amplify-builds/ghgReadUser-49763953313567436e6c-build.zip"
         },
         "ghgCreateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
