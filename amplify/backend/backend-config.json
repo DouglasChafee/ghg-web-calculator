@@ -41,6 +41,14 @@
           ],
           "category": "function",
           "resourceName": "ghgScope1and2Calculator"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -126,6 +134,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "ghgViewResultSingle": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -206,6 +219,22 @@
         {
           "category": "function",
           "resourceName": "ghgUpdateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
         }
       ]
     }
