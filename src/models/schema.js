@@ -451,8 +451,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "firstName": {
-                    "name": "firstName",
+                "password": {
+                    "name": "password",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -473,6 +473,13 @@ export const schema = {
                             "userID"
                         ]
                     }
+                },
+                "firstName": {
+                    "name": "firstName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "lastName": {
                     "name": "lastName",
@@ -550,5 +557,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "5b45eec9b5312dca306ca5f2539885a4"
+    "version": "ec79060f3a7be6978787c760fce7492d"
 };

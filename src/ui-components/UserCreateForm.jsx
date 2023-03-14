@@ -30,12 +30,14 @@ export default function UserCreateForm(props) {
   } = props;
   const initialValues = {
     email: "",
+    password: "",
     firstName: "",
     lastName: "",
     isLeader: false,
     groupID: "",
   };
   const [email, setEmail] = React.useState(initialValues.email);
+  const [password, setPassword] = React.useState(initialValues.password);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [isLeader, setIsLeader] = React.useState(initialValues.isLeader);
@@ -43,6 +45,7 @@ export default function UserCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setEmail(initialValues.email);
+    setPassword(initialValues.password);
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
     setIsLeader(initialValues.isLeader);
@@ -51,6 +54,7 @@ export default function UserCreateForm(props) {
   };
   const validations = {
     email: [{ type: "Required" }, { type: "Email" }],
+    password: [{ type: "Required" }],
     firstName: [{ type: "Required" }],
     lastName: [{ type: "Required" }],
     isLeader: [{ type: "Required" }],
@@ -82,6 +86,7 @@ export default function UserCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           email,
+          password,
           firstName,
           lastName,
           isLeader,
@@ -141,6 +146,7 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email: value,
+              password,
               firstName,
               lastName,
               isLeader,
@@ -160,6 +166,35 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
+        label="Password"
+        isRequired={true}
+        isReadOnly={false}
+        value={password}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              email,
+              password: value,
+              firstName,
+              lastName,
+              isLeader,
+              groupID,
+            };
+            const result = onChange(modelFields);
+            value = result?.password ?? value;
+          }
+          if (errors.password?.hasError) {
+            runValidationTasks("password", value);
+          }
+          setPassword(value);
+        }}
+        onBlur={() => runValidationTasks("password", password)}
+        errorMessage={errors.password?.errorMessage}
+        hasError={errors.password?.hasError}
+        {...getOverrideProps(overrides, "password")}
+      ></TextField>
+      <TextField
         label="First name"
         isRequired={true}
         isReadOnly={false}
@@ -169,6 +204,7 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName: value,
               lastName,
               isLeader,
@@ -197,6 +233,7 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName,
               lastName: value,
               isLeader,
@@ -225,6 +262,7 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName,
               lastName,
               isLeader: value,
@@ -253,6 +291,7 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
+              password,
               firstName,
               lastName,
               isLeader,

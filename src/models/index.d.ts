@@ -161,8 +161,9 @@ type EagerUser = {
   };
   readonly id: string;
   readonly email: string;
-  readonly firstName: string;
+  readonly password: string;
   readonly Results?: (YearResult | null)[] | null;
+  readonly firstName: string;
   readonly lastName: string;
   readonly isLeader: boolean;
   readonly groupID?: string | null;
@@ -177,8 +178,9 @@ type LazyUser = {
   };
   readonly id: string;
   readonly email: string;
-  readonly firstName: string;
+  readonly password: string;
   readonly Results: AsyncCollection<YearResult>;
+  readonly firstName: string;
   readonly lastName: string;
   readonly isLeader: boolean;
   readonly groupID?: string | null;
