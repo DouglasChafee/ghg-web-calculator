@@ -9,6 +9,7 @@ import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
 import Profile from './pages/Profile/Profile'
+import ViewResultSingle from './pages/View-Result/ViewResultSingle'
 
 function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state
@@ -30,6 +31,7 @@ function App() {
           <Route exact path='/about' element={<About />} />
           <Route exact path='/home' element={<Home setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/profile' element={<Profile setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/ViewResultSingle' element={<ViewResultSingle />} />
       </Routes>
       <Footer />
     </Router>
