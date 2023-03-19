@@ -6,7 +6,7 @@ import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
-function Profile({ signOut, user, setLogInState, setLogOutState}) {
+function Profile({setLogInState, setLogOutState}) {
     const [FName, setFName] = useState("")
     const [LName, setLName] = useState("")
     const [Email, setEmail] = useState("")
@@ -23,6 +23,11 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
 
     async function callAPI() {
       const user = await Auth.currentAuthenticatedUser()
+      setFName(user.attributes.given_name);
+      setLName(user.attributes.family_name);
+      setEmail(user.attributes.email);
+      setVerified(user.attributes.email_verified.toString())
+      /*
       const token = user.signInUserSession.idToken.jwtToken
       console.log({ token }) // log user token
       const requestInfo = {
@@ -33,6 +38,7 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
           id: user.attributes.sub
         }
       };
+      
       await API.get('api4ef6c8be', '/ghgReadUser', requestInfo).then((response) => { // Api get request
         console.log(response);
         console.log(user);
@@ -41,6 +47,7 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
         setEmail(user.attributes.email);
         setVerified(user.attributes.email_verified.toString());
       })
+      */
     }
 
     // Display user profile with data back on page
@@ -55,12 +62,12 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
               >
               <h1>Profile - </h1>
               <NavBtn>
-                <ButtonLinks to="/">Update Information</ButtonLinks>
+                <ButtonLinks to="/profile/update/password">Change Password</ButtonLinks>
               </NavBtn>
             </Flex>
             <Divider size="medium" display="flex" orientation="horizontal"/>
             <Flex direction="column"
-              alignItems="flex-start"
+              alignItems="center"
               >
               <Flex 
                 marginTop="1rem" 
@@ -91,13 +98,19 @@ function Profile({ signOut, user, setLogInState, setLogOutState}) {
               </Flex>
               <Flex 
                 marginTop="1rem"
-                marginBottom="1.5rem" 
                 border="1px solid"
                 borderRadius="10px" 
                 width="100%"
                 > 
                 <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Verified: </Text>
                 <Text margin="5px">{Verified}</Text> 
+              </Flex>
+              <Flex 
+                marginBottom="1.5rem" 
+                >
+                <NavBtn paddingTop="2rem">
+                <ButtonLinks to="/profile/update/info" marginBottom="1rem">Update Information</ButtonLinks>
+                </NavBtn>
               </Flex>
             </Flex>
           </Card>

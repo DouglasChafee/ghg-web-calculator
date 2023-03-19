@@ -11,11 +11,12 @@ function Home({ signOut, user, setLogInState, setLogOutState}){
   useEffect(() => {
     setLogInState("none"); // disable sign-in button
     setLogOutState("flex"); // enable sign-out button
+    console.log(user.attributes)
   }, [])
 
   return(
       <>
-      <h1>Welcome Back ... {user.attributes.email}</h1>
+      <h1>Welcome Back ... {user.attributes.given_name + " " + user.attributes.family_name}</h1>
     </>
   );
 }
