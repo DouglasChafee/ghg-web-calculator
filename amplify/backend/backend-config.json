@@ -8,14 +8,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "ghgReadUser"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "ghgCreateUser"
         },
         {
@@ -33,6 +25,30 @@
           ],
           "category": "function",
           "resourceName": "ghgCreateGroup"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -109,7 +125,17 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "ghgScope1and2Calculator": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "ghgUpdateUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgViewResultSingle": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -164,6 +190,22 @@
         }
       ]
     },
+    "AMPLIFY_function_ghgScope1and2Calculator_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgScope1and2Calculator_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        }
+      ]
+    },
     "AMPLIFY_function_ghgUpdateUser_deploymentBucketName": {
       "usedBy": [
         {
@@ -177,6 +219,22 @@
         {
           "category": "function",
           "resourceName": "ghgUpdateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
         }
       ]
     }

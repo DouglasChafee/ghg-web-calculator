@@ -1,19 +1,6 @@
 {
   "version": 1,
   "paths": {
-    "/ghgReadUser": {
-      "name": "/ghgReadUser",
-      "lambdaFunction": "ghgReadUser",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
-    },
     "/ghgCreateUser": {
       "name": "/ghgCreateUser",
       "lambdaFunction": "ghgCreateUser",
@@ -43,6 +30,45 @@
     "/ghgCreateGroup": {
       "name": "/ghgCreateGroup",
       "lambdaFunction": "ghgCreateGroup",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/ghgReadUser": {
+      "name": "/ghgReadUser",
+      "lambdaFunction": "ghgReadUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/ghgScope1and2Calculator": {
+      "name": "/ghgScope1and2Calculator",
+      "lambdaFunction": "ghgScope1and2Calculator",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/ghgViewResultSingle": {
+      "name": "/ghgViewResultSingle",
+      "lambdaFunction": "ghgViewResultSingle",
       "permissions": {
         "setting": "private",
         "auth": [

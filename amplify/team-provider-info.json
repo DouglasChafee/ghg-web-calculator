@@ -19,19 +19,27 @@
       "function": {
         "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgCreateGroup-457865515159744a5166-build.zip"
+          "s3Key": "amplify-builds/ghgCreateGroup-4a626b61367670705556-build.zip"
         },
         "ghgCreateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgCreateUser-6d2b3943484d30383930-build.zip"
+          "s3Key": "amplify-builds/ghgCreateUser-2f7a3578412b43314b42-build.zip"
         },
         "ghgReadUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgReadUser-704a3265557149685539-build.zip"
+          "s3Key": "amplify-builds/ghgReadUser-30626d51572f677a4f68-build.zip"
         },
         "ghgUpdateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgUpdateUser-564d52496b4c36493377-build.zip"
+          "s3Key": "amplify-builds/ghgUpdateUser-756d42677872584a3274-build.zip"
+        },
+        "ghgScope1and2Calculator": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ghgScope1and2Calculator-336e4f42717976764753-build.zip"
+        },
+        "ghgViewResultSingle": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ghgViewResultSingle-3769736a6e506377455a-build.zip"
         }
       }
     }
