@@ -13,27 +13,22 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-amplifyfacde958d1604-staging-10053-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
-      "auth": {
-        "ghgwebappe9450c35": {},
-        "ghgwebapp": {}
-      },
       "function": {
-        "createUser": {},
-        "ghgReadUser": {
+        "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgReadUser-30626d51572f677a4f68-build.zip"
+          "s3Key": "amplify-builds/ghgCreateGroup-4a626b61367670705556-build.zip"
         },
         "ghgCreateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgCreateUser-2f7a3578412b43314b42-build.zip"
         },
+        "ghgReadUser": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ghgReadUser-30626d51572f677a4f68-build.zip"
+        },
         "ghgUpdateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgUpdateUser-756d42677872584a3274-build.zip"
-        },
-        "ghgCreateGroup": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgCreateGroup-4a626b61367670705556-build.zip"
         },
         "ghgScope1and2Calculator": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
@@ -41,12 +36,11 @@
         },
         "ghgViewResultSingle": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgViewResultSingle-3769736a6e506377455a-build.zip"
+          "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
         }
       },
-      "api": {
-        "ghgwebapp": {},
-        "api4ef6c8be": {}
+      "auth": {
+        "ghgwebapp": {}
       }
     }
   }
