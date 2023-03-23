@@ -1,4 +1,5 @@
 import React from 'react';
+import {Amplify, Auth, API} from 'aws-amplify';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,8 +10,11 @@ import {
     Legend,
     ArcElement,
   } from 'chart.js';
-  import { Bar, Pie} from 'react-chartjs-2';
-  import {View, Flex, Card} from '@aws-amplify/ui-react';
+import { Bar, Pie} from 'react-chartjs-2';
+import {View, Flex, Card, Button} from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
 
   ChartJS.register(
     CategoryScale,
@@ -23,7 +27,6 @@ import {
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
-  //const [Data, setData] = useState("")
 
   export const options = {
     plugins: {
@@ -43,6 +46,7 @@ import {
     },
     
   };
+
   export const optionsPie = {
     plugins: {
       title: {
@@ -53,6 +57,7 @@ import {
     responsive: true,
    
   };
+
   
   const labels = ['fac 1', 'fac 2', 'fac 3', 'fac 4', 'fac 5', 'fac 6', 'fac 7'];
   
@@ -73,6 +78,7 @@ import {
     ],
   };
 
+  
   export const pieData = {
     labels: ['Estimated Natural Gas', 'Estimated Refridgerants', 'Stationary Combustion', 'Mobile Combustion', 'Fugitive Emissions', 'Purchased Electricity'],
     datasets: [
@@ -100,10 +106,12 @@ import {
     ],
   };
 
-function ViewResultSingle(){
-  /*
+function ViewResultSingle(user){
+   
      async function callAPI() {
          const user = await Auth.currentAuthenticatedUser()
+         console.log(user.attributes.sub)
+         const userSub = user.attributes.sub
          const token = user.signInUserSession.idToken.jwtToken
          console.log({ token })
          const requestInfo = {
@@ -111,16 +119,18 @@ function ViewResultSingle(){
              Authorization: token
            },
            queryStringParameters: { 
-             id: '31'
+             userID: userSub
            }
          };
          await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
-           setData(response)
+           
            console.log(response)
+
          })
        }
-    */
-
+    
+    
+    callAPI();
 
       
     return(
@@ -155,6 +165,7 @@ function ViewResultSingle(){
             />
             </Card>
           </View>
+          
       </Flex>  
     );
 
@@ -163,4 +174,4 @@ function ViewResultSingle(){
 
 
 }
-export default ViewResultSingle
+export default withAuthenticator(ViewResultSingle)

@@ -12,17 +12,12 @@ exports.handler = async (event, context, callback) => {
     }
 
     // Query backend and format data, then put it into body of API response
-    const userid = event.queryStringParameters.id;
-    await readProfile().then((data) => {
-        
+    const userid = event.queryStringParameters.userID;
+    await readFacilities(userid).then((data) => {
         console.log(data)
-        const dataObj = {
-            name: data.Item.id
-        }
-        
         callback(null, {
             statusCode: 200,
-            body: JSON.stringify(dataObj),
+            body: JSON.stringify(data),
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "*"
@@ -34,12 +29,13 @@ exports.handler = async (event, context, callback) => {
 };
 
 // Read & Format DynamoDB User Table Query
-function readProfile(userid) {
+function readFacilities(userid) {
     const params = {
+        
         TableName: 'YearResult-hl3z2eogtjg2to4aktokmtn23y-staging',
-        Key: {
-            id: userid,
-        }
+        IndexName: 'byUser',
+        KeyConditionExpression: 'userID = :v_ID',
+        ExpressionAttributeValues: { ':v_ID': userid },
     }
-    return ddb.get(params).promise(); // database get request
+    return ddb.query(params).promise(); // database get request
 };

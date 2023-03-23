@@ -41,7 +41,7 @@
         },
         "ghgViewResultSingle": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgViewResultSingle-3769736a6e506377455a-build.zip"
+          "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
         }
       },
       "api": {
