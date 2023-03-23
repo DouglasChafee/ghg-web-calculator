@@ -41,6 +41,13 @@
       },
       "auth": {
         "ghgwebapp": {}
+      },
+      "api": {
+        "api4ef6c8be": {},
+        "ghgwebapp": {}
+      },
+      "storage": {
+        "scopetemplates": {}
       }
     }
   }

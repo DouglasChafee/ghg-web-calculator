@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { Amplify, API, Auth } from 'aws-amplify';
+import React, { useState, useEffect } from 'react';
+//import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
+import { Amplify, Storage } from 'aws-amplify';
+import awsconfig from '../../aws-exports';
+Amplify.configure(awsconfig);
 
 function About(){
 
@@ -9,6 +12,42 @@ function About(){
     const [LoadingState, setLoadingState] = useState(false)
     const [ClacDisabled, setCalcDisabled] = useState(true)
     const [WarningMessages, addWarningMessage] = useState([])
+
+    // Download Funciton for the template
+    async function downloadTemplateOnClick() {
+        // Download the file using the blob downloader
+        const file = await Storage.get("S1&2_Data_Collection_Template.xlsx", {
+            level: "public", download:true
+        });
+        downloadBlob(file.Body, "S1&2_Data_Collection_Template.xlsx");
+    }
+
+    // Download Funciton for the example
+    async function downloadExampleOnClick() {
+        // Download the file using the blob downloader
+        const file = await Storage.get("S1&2_Example_Data.xlsx", {
+            level: "public", download:true
+        });
+        downloadBlob(file.Body, "S1&2_Example_Data.xlsx");
+    }
+
+    // Download the file within the page
+    function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'download';
+        const clickHandler = () => {
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            a.removeEventListener('click', clickHandler);
+          }, 150);
+        };
+        a.addEventListener('click', clickHandler, false);
+        a.click();
+        return a;
+      }
+      
 
     // On sucsessfull file upload
     async function onSuccess(key) {
@@ -21,8 +60,12 @@ function About(){
         
     };
 
+    const onUploadError = (error) => {
+        addWarningMessage([`${error}`]);
+    };
+
     // Function for on error upload
-    async function onError(key)   {
+    async function onFileError(key)   {
         // First set the loading state to false
         setLoadingState(false)
         // Disable the calculate button
@@ -82,7 +125,7 @@ function About(){
                     <Button
                         // The download template button
                         loadingText=""
-                        onClick={() => alert('Downloading Template')}
+                        onClick={() => downloadTemplateOnClick()}
                         ariaLabel=""
                         size="large"
                     >
@@ -90,7 +133,7 @@ function About(){
                     </Button>
                     <Button
                         loadingText=""
-                        onClick={() => alert('Downloading Example')}
+                        onClick={() => downloadExampleOnClick()}
                         ariaLabel=""
                         size="large"
                     >
@@ -104,8 +147,9 @@ function About(){
                     showImages={false}
                     maxSize={1000000}
                     acceptedFileTypes={['.xlsx']}
-                    accessLevel="public"
+                    accessLevel="private"
                     onSuccess={onSuccess}
+                    onError={onUploadError}
                 />
 
                 <ScrollView 
