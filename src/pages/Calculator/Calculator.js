@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
+import { Amplify, API, Auth } from 'aws-amplify';
+import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 function About(){
 
@@ -136,4 +136,4 @@ function About(){
     
 }
 
-export default About
+export default withAuthenticator(About)
