@@ -8,6 +8,7 @@ import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 Auth.configure(awsExports);
 
+// making auth signin and signup button green
 const theme = {
     name: 'button-theme',
     tokens: {
@@ -39,6 +40,8 @@ const theme = {
       },
     },
   };
+
+  // signup attributes specified as required or optional
   const formFields = {
     signUp: {
       email: {
@@ -47,11 +50,11 @@ const theme = {
       },
       given_name: {
         order: 2,
-        isRequired: false
+        isRequired: true
       },
       family_name: {
         order: 3,
-        isRequired: false
+        isRequired: true
       },
       password: {
         order: 5,
@@ -66,21 +69,24 @@ const theme = {
   
 export default function Home({ signOut, user }){
 
-        console.log(localStorage.getItem('accessToken'));
+    console.log(localStorage.getItem('accessToken'));
+
 
     return(
-        
+        // formating the scope buttons to be centered in a column/vertical format
         <div style={{ display: "flex", flexDirection: 'column', position: 'relative', height: 600, alignItems:'center', justifyContent:'center'}}>
+          
             <ThemeProvider theme={theme}>
                 <Authenticator variation="modal" formFields={formFields}>
                     {({ signOut, user }) => (
                         <main>
-                            <h1>Hello {user.username}</h1>
+                            <h1>Hello {user.attributes.email}</h1>
                             <button onClick={signOut}>Sign out</button>
                         </main>
                     )}
                 </ Authenticator>
             </ThemeProvider>
+            
             <button 
             onClick={() => alert('Scope 1 & 2 under development')}>
                 Scope 1 & 2
@@ -91,6 +97,7 @@ export default function Home({ signOut, user }){
                 View Scope 1 & 2
                 Results
             </button>
+    
         </div>
     );
 
