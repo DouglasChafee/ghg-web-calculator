@@ -9,6 +9,9 @@ import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
 import Profile from './pages/Profile/Profile'
+import UpdateInfo from './pages/UpdateProfile/UpdateInfo'
+import UpdatePassword from './pages/UpdateProfile/UpdatePassword';
+import DeleteAcc from './pages/UpdateProfile/DeleteAcc';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state
@@ -30,6 +33,9 @@ function App() {
           <Route exact path='/about' element={<About />} />
           <Route exact path='/home' element={<Home setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/profile' element={<Profile setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/update/info' element={<UpdateInfo setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/update/password' element={<UpdatePassword setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/delete' element={<DeleteAcc setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
       </Routes>
       <Footer />
     </Router>
