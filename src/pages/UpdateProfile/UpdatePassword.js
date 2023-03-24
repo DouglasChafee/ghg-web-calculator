@@ -133,6 +133,7 @@ function UpdatePassword(props) {
             onSuccess(modelFields);
           }
         } catch (err) {
+          setLoading(false)
           if (onError) {
             onError(modelFields, err.message);
             alert(err);
@@ -232,7 +233,7 @@ function UpdatePassword(props) {
         }}
         onBlur={() => runValidationTasks("password", password)}
         errorMessage={compareErrorMessage}
-        hasError={!(confirmPassword == password)}
+        hasError={!(confirmPassword === password)}
         {...getOverrideProps(overrides, "password")}
       ></PasswordField>
 
@@ -255,7 +256,7 @@ function UpdatePassword(props) {
             isDisabled={
               !(user) || 
               !(passwordRegex.test(password)) ||
-              !(confirmPassword == password) ||
+              !(confirmPassword === password) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

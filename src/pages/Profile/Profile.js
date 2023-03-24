@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator, Flex, Card, Divider, Text} from '@aws-amplify/ui-react';
+import { withAuthenticator, Flex, Card, Divider, Text, View, Heading} from '@aws-amplify/ui-react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../../aws-exports';
@@ -75,7 +75,9 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>First Name: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                First Name:
+                </Heading>
                 <Text margin="5px">{FName}</Text> 
               </Flex>
               <Flex 
@@ -84,7 +86,9 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Last Name: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                Last Name:
+                </Heading>
                 <Text margin="5px">{LName}</Text> 
               </Flex>
               <Flex 
@@ -93,7 +97,9 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Email: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                Email:
+                </Heading>
                 <Text margin="5px">{Email}</Text> 
               </Flex>
               <Flex 
@@ -102,12 +108,17 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Verified: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                Verified:
+                </Heading>
                 <Text margin="5px">{Verified}</Text> 
               </Flex>
               <Flex 
                 marginBottom="1.5rem" 
                 >
+                <NavBtn paddingTop="2rem">
+                <ButtonLinks to="/profile/delete" marginBottom="1rem">Delete Account</ButtonLinks>
+                </NavBtn>
                 <NavBtn paddingTop="2rem">
                 <ButtonLinks to="/profile/update/info" marginBottom="1rem">Update Information</ButtonLinks>
                 </NavBtn>
@@ -139,7 +150,9 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Name: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                Name:
+                </Heading>
                 <Text margin="5px">{GName}</Text> 
               </Flex>
               <Flex 
@@ -149,7 +162,9 @@ function Profile({setLogInState, setLogOutState}) {
                 borderRadius="10px" 
                 width="100%"
                 > 
-                <Text padding="5px"  alignItems="center" borderRadius="10px 0px 0px 10px" backgroundColor="#01bf71" fontWeight={700}>Role: </Text>
+                <Heading width="6.5rem" borderRadius="10px 0px 0px 10px" paddingTop="5px" paddingBottom="5px" textAlign="center" backgroundColor="#01bf71">
+                Role:
+                </Heading>
                 <Text margin="5px">{GRole}</Text> 
               </Flex>
             </Flex>

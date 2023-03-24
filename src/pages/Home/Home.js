@@ -16,7 +16,7 @@ function Home({ signOut, user, setLogInState, setLogOutState}){
 
   return(
       <>
-      <h1>Welcome Back ... {user.attributes.given_name + " " + user.attributes.family_name}</h1>
+      <h1>Welcome Back ... {user.attributes.email}</h1>
     </>
   );
 }

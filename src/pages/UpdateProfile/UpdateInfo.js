@@ -193,6 +193,7 @@ function UpdateInfo(props) {
           }
         } catch (err) {
           if (onError) {
+            setLoading(false)
             onError(modelFields, err.message);
             alert(err);
           }

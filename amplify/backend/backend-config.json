@@ -49,6 +49,14 @@
           ],
           "category": "function",
           "resourceName": "ghgViewResultSingle"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -120,6 +128,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "ghgDeleteUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "ghgReadUser": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -171,6 +184,22 @@
         {
           "category": "function",
           "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
         }
       ]
     },
@@ -237,6 +266,13 @@
           "resourceName": "ghgViewResultSingle"
         }
       ]
+    }
+  },
+  "storage": {
+    "scopetemplates": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
     }
   }
 }
