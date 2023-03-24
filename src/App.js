@@ -9,27 +9,34 @@ import FAQ from './pages/FAQ/FAQ'
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
-import SignIn from './pages/SignIn/SignIn';
+import Profile from './pages/Profile/Profile'
+import UpdateInfo from './pages/UpdateProfile/UpdateInfo'
+import UpdatePassword from './pages/UpdateProfile/UpdatePassword';
+import DeleteAcc from './pages/UpdateProfile/DeleteAcc';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state
-
-    const toggle = () => { //switch drop down states
-        setIsOpen(!isOpen)
-    }
+  const [logInState, setLogInState] = useState("flex")
+  const [logOutState, setLogOutState] = useState("none")
+  const toggle = () => { //switch sidebar drop down states
+      setIsOpen(!isOpen)
+  }
 
   return (
     <>
     <Router>
-      <SideBar isOpen={isOpen} toggle={toggle} />
-      <Navbar toggle={toggle} />
+      <SideBar isOpen={isOpen} toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
+      <Navbar toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
       <Routes>
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/faq' element={<FAQ />} />
           <Route exact path='/contact' element={<Contact />} />
           <Route exact path='/about' element={<About />} />
-          <Route exact path='/home' element={<Home />} />
-          <Route exact path='/signin' element={<SignIn />} />
+          <Route exact path='/home' element={<Home setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile' element={<Profile setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/update/info' element={<UpdateInfo setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/update/password' element={<UpdatePassword setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/profile/delete' element={<DeleteAcc setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
       </Routes>
       <Footer />
     </Router>

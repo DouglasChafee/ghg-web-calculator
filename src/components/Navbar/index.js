@@ -1,7 +1,6 @@
-import React from "react";
+import React from 'react';
 import { FaBars } from "react-icons/fa";
 import {animateScroll as scroll} from 'react-scroll'
-import logo from '../../assets/logo.svg';
 import { 
   Nav, 
   NavbarContainer, 
@@ -10,16 +9,32 @@ import {
   NavMenu, 
   NavItem, 
   NavLinks,
-  NavBtn,
+  SignInNavBtn,
   NavBtnLink
 } from "./NavBarElements";
+import { Amplify, Auth } from 'aws-amplify';
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
 
-const toggleHome = () => {
+function toggleHome() {
   scroll.scrollToTop();
 };
 
-const Navbar = ({toggle}) => {
+function Navbar({toggle, logInState, setLogInState, logOutState, setLogOutState}) {
+
+  function signOutHandler() {
+    try {         
+      Auth.signOut();
+      setLogInState("flex");
+      setLogOutState("none");
+    }
+    catch(e) {
+      console.log("An Error Occured While trying to Signing out" + e)
+    }
+  }
+  
   return (
+    
     <>
       <Nav>
         <NavbarContainer>
@@ -29,6 +44,9 @@ const Navbar = ({toggle}) => {
           </MobileIcons>
           <NavMenu>
             <NavItem>
+              <NavLinks to="home">Home</NavLinks>
+            </NavItem>
+            <NavItem>
               <NavLinks to="about">About</NavLinks>
             </NavItem>
             <NavItem>
@@ -37,10 +55,16 @@ const Navbar = ({toggle}) => {
             <NavItem>
               <NavLinks to="faq">FAQ</NavLinks>
             </NavItem>
+            <NavItem>
+              <NavLinks to="profile">Profile</NavLinks>
+            </NavItem>
           </NavMenu>
-          <NavBtn>
+          <SignInNavBtn display={logInState}>
             <NavBtnLink to="home">Sign in</NavBtnLink>
-          </NavBtn>
+          </SignInNavBtn>
+          <SignInNavBtn display={logOutState}>
+            <NavBtnLink to="/" onClick={signOutHandler}>Sign out</NavBtnLink>
+          </SignInNavBtn>
         </NavbarContainer>
       </Nav>
     </>

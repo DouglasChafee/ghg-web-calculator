@@ -22,7 +22,6 @@ export const Nav = styled.nav`
 
 export const NavbarContainer = styled.div`
   display: flex;
-  margin-right: 50px;             // Manually Moved Over by 50px
   justify-content: space-between;
   height: 80px;
   z-index: 1;
@@ -68,7 +67,7 @@ export const NavMenu = styled.ul`
   align-items: center;
   list-style: none;
   text-align; center;
-  margin-right: -22px;
+  margin-right: 45px;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -102,6 +101,12 @@ export const NavLinks = styled(LinkRouter)` // -------LinkScroll Originally-----
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
+`;
+
+export const SignInNavBtn = styled.nav`
+  display: flex;
+  align-items: center;
+  display: ${props => props.display || "flex"};
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -126,5 +131,26 @@ export const NavBtnLink = styled(LinkRouter)`
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
+  }
+`;
+
+export const ButtonLinks = styled(LinkRouter)`
+  border-radius: 50px;
+  background: #01bf71;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #010606;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #000000;
+    color: #01bf71;
   }
 `;
