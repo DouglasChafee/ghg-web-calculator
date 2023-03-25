@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Amplify, Auth } from 'aws-amplify';
 
 import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react';
@@ -67,9 +67,12 @@ const theme = {
     },
    }
   
-export default function Home({ signOut, user }){
+export default function Home({ signOut, user, setLogInState, setLogOutState }){
 
-    console.log(localStorage.getItem('accessToken'));
+  useEffect(() => {
+    setLogInState("none"); // disable sign-in button
+    setLogOutState("flex"); // enable sign-out button
+  }, [])
 
 
     return(
