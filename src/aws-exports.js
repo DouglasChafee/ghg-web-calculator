@@ -41,7 +41,9 @@ const awsmobile = {
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
-    ]
+    ],
+    "aws_user_files_s3_bucket": "ghgwebapptemplatebucketfh3471h93h91c10053-staging",
+    "aws_user_files_s3_bucket_region": "us-east-2"
 };
 
 

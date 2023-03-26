@@ -238,5 +238,12 @@
         }
       ]
     }
+  },
+  "storage": {
+    "scopetemplates": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
   }
 }
