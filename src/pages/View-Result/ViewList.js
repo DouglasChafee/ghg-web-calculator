@@ -1,8 +1,64 @@
-import React from 'react';
-import { CheckboxField, useTheme, Divider, Flex, Heading, } from '@aws-amplify/ui-react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API} from 'aws-amplify';
+import { Collection, Card, Button, CheckboxField, useTheme, Divider, Flex, Heading, } from '@aws-amplify/ui-react';
 
     function ViewList() {
+
+
+
+        const sel = [];
+        const onSubmit = (event) => {
+            event.preventDefault();
+            //alert(event.target.Year.value);
+            if(sel.includes(event.target.Year.value) == false){
+                sel.push(event.target.Year.value);
+            }
+            console.log("Test " + sel);
+          };
+
+          const onSend = (event) => {
+            alert(sel);
+        }
         const { tokens } = useTheme();
+        const [responsedata, setresponsedata] = useState("");
+        const [itemlength, setitemlength] = useState("");
+
+        async function callAPI() {
+            const user = await Auth.currentAuthenticatedUser()
+            console.log(user.attributes.sub)
+            const userSub = user.attributes.sub
+            const token = user.signInUserSession.idToken.jwtToken
+            console.log({ token })
+            const requestInfo = {
+              headers: {
+                Authorization: token
+              },
+              queryStringParameters: { 
+                userID: userSub
+              }
+            };
+            await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
+              setresponsedata(response);
+              setitemlength(response.Items.length);
+              console.log(response);
+   
+            })
+          }
+       
+       
+          useEffect(() => {
+            callAPI(); 
+            }, [])
+
+       
+       const items = [];
+       for(let i = 0; i < itemlength; i++){
+            if(items.includes(responsedata.Items[i].YEAR) == false){
+            items.push(responsedata.Items[i].YEAR);
+            }
+       }
+       console.log("Goodbye " + items);
+
     return(
         <div>
             <Flex 
@@ -20,20 +76,38 @@ import { CheckboxField, useTheme, Divider, Flex, Heading, } from '@aws-amplify/u
             >
                 
                 <Heading level={3} font-weight={"bold"}>View Results</Heading>
-                <Heading level={8} font-weight={"bold"}>Select the years you wish to view</Heading>
+                <Heading level={8} font-weight={"bold"}>Select the years you wish to view</Heading> 
             
-                <Divider orientation="horizontal" />
-                <CheckboxField fontWeight={tokens.fontWeights.bold} label="2018" name="2018" value="yes"  /*yes is value passed, try to make into variable*/ size="large" />
-                <Divider orientation="horizontal" />
+
+
+                <Collection
+                items={items}
+      gap="1.5rem"
+      direction={"row"}
+      wrap="wrap"
+      paddingBottom={"11rem"}
+
+    >
+      {(item, index) => (
+        
+        <Card key={index} padding="1rem">
+    <form onSubmit={onSubmit}>
+
+        <CheckboxField type="submit" fontWeight={tokens.fontWeights.bold} label={item} name={"Year"} value={item} size="large" />
+        </form>
+
+
+        </Card>
+      )}
+      
+    </Collection>
+    
+    <form onSubmit={onSend}>
+    <Button type="submit">Submit</Button>
+    </form>
 
 
 
-                <CheckboxField fontWeight={tokens.fontWeights.bold} label="2019" name="2019" value="yes"  /*yes is value passed, try to make into variable*/ size="large" />
-                <Divider orientation="horizontal" />
-                <CheckboxField fontWeight={tokens.fontWeights.bold} label="2020" name="2020" value="yes"  /*yes is value passed, try to make into variable*/ size="large" />
-                <Divider orientation="horizontal" />
-                <CheckboxField fontWeight={tokens.fontWeights.bold} label="2021" name="2021" value="yes"  /*yes is value passed, try to make into variable*/ size="large" />
-                <Divider orientation="horizontal" />
             </Flex>
         </div>
     );
