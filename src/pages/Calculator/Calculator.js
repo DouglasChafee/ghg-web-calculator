@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-//import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import { Amplify, Storage } from 'aws-amplify';
+import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
 
@@ -54,17 +53,58 @@ function About(){
         // First update the submit button to begin loading
         setLoadingState(true)
         // Then set the message to blank
-        addWarningMessage( [] )
+        const c = await Storage.get(key, {
+            level:'private'
+          });
+        addWarningMessage( [
+            <Card width={"900px"} height="2.5rem">
+                <Text color="green">{c}</Text>
+            </Card>
+        ] )
         // Then call the api to parse the uploaded file
-        
-        
+        CallParseAPI(key)
     };
 
-    const onUploadError = (error) => {
-        addWarningMessage([`${error}`]);
+    // Call the Parse API
+    async function CallParseAPI(key) {
+        // First get the auth of the user
+        const user = await Auth.currentAuthenticatedUser()
+        const token = user.signInUserSession.idToken.jwtToken
+        // Create the request info
+        const requestInfo = {
+            headers: { // pass user authorization token
+              Authorization: token 
+            },
+            queryStringParameters: { // pass query parameters
+              key
+            }
+        };
+        await API.get('api4ef6c8be', '/ParseExcelAPI', requestInfo).then((response) => { // Api get request
+            console.log(response);
+          })
     };
 
     // Function for on error upload
+    const onUploadError = (error) => {
+        // First get the message as a string
+        const message = `${error}`
+        // Start the message
+        addWarningMessage(
+            [ <Card width={"900px"} height="2.5rem">
+                <Text color="red">There was an unexpected error when uploading your file.</Text>
+            </Card> ]
+        )
+        // Then display the error
+        addWarningMessage(
+            WarningMessages.concat([
+                <Card width={"900px"} height="2.5rem">
+                    <Text color="red">Error: {message}</Text>
+                </Card>
+            ] )
+        )
+    };
+
+    // After upload on check, when there are issues with the file
     async function onFileError(key)   {
         // First set the loading state to false
         setLoadingState(false)
@@ -74,10 +114,10 @@ function About(){
         // Add an element to the message box
         addWarningMessage(
             WarningMessages.concat([
-                <Card width={"700px"} height="2.5rem">
-                    Error
+                <Card width={"900px"} height="2.5rem">
+                    <Text color="red">There was an unexpected error when uploading your file.</Text>
                 </Card>
-            ])
+            ] )
         )
     }
 
@@ -155,8 +195,7 @@ function About(){
                 <ScrollView 
                     // This scroll view is where all the returned errors are displayed
                     id="MessageBox"
-                    //width="auto"
-                    //orientation='horizontal'
+                    width="auto"
                 > 
                     { WarningMessages.map(warningText => warningText) }
                 </ScrollView>
@@ -175,6 +214,7 @@ function About(){
                     Calculate
                 </Button>
             </Flex>
+            
         </div>
     );
     
