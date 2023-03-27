@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import { Auth, API} from 'aws-amplify';
 import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
 
@@ -14,7 +15,14 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                     sel.push(element.value);
                 }
             }
-            alert(sel);
+            if(sel.length === 0){  // If no buttons pressed disable submit button
+                let get = document.getElementsByClassName("Button");
+                get.setAttribute('disabled',true);
+            }
+            // Create URL with years attached
+            let Values = new URL("http://" + window.location.host+"/ViewResultSingle");
+            Values.searchParams.set("Year",sel);
+            window.location=Values;
         }
 
         // API call
@@ -52,6 +60,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
        for(let i = 0; i < itemlength; i++){
             if(items.includes(responsedata.Items[i].YEAR) === false){
             items.push(responsedata.Items[i].YEAR);
+            items.sort();
             }
        }
 
@@ -91,16 +100,22 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         )}
                     
                     </Collection>
-                    
-                    <Button type="submit">Submit</Button>
-
-                    <div>
-                        <Flex
-                        paddingBottom={"5rem"}
-                        ></Flex>
-                    </div>
-
                 </form>
+
+                <form onSubmit={onSubmit}>
+                    {/* <NavBtn> */}
+                        <Button class="Button" type="submit">Submit</Button>
+                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
+                        {/* <Button class="Button" type="submit">Delete</Button> */}
+                    {/* </NavBtn> */}
+                </form>
+               
+                <div>
+                    <Flex
+                        paddingBottom={"5rem"}
+                    ></Flex>
+                </div>
+
             </Flex>
         </div>
     );

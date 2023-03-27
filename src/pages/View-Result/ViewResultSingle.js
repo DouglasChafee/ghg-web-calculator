@@ -132,6 +132,10 @@ function ViewResultSingle(user){
     
     callAPI();
 
+    // Access URL to make const Years with a list of years selected
+    const urlParams = new URLSearchParams(window.location.search);
+    const Years = urlParams.get("Year").split(",");
+    console.log(Years);
       
     return(
       <Flex
