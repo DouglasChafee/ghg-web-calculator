@@ -4,10 +4,9 @@ import { schema } from './schema';
 
 
 
-const { Facility, YearResult, Group, Admin, User } = initSchema(schema);
+const { YearResult, Group, Admin, User } = initSchema(schema);
 
 export {
-  Facility,
   YearResult,
   Group,
   Admin,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 //import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import { Amplify, Storage } from 'aws-amplify';
+import { Amplify, Storage, API } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
 
@@ -81,7 +81,7 @@ function About(){
         )
     }
 
-    // A function which occurs upon returned sucsess from the API
+    // A function which occurs upon returned success from the API
     async function onFileReady(key)   {
         // First display the message on sucsess
         addWarningMessage( [
@@ -93,6 +93,10 @@ function About(){
         setLoadingState(false)
         // Then enable the calculate button
         setCalcDisabled(false)
+    }
+
+    async function results(key) {
+        const apiData = await API.get('api4ef6c8be', '/ParseExcel')
     }
 
     return(
@@ -164,12 +168,12 @@ function About(){
                 <Button
                     id='calculateButton'
                     // The submit calculation button
-                    isDisabled={ClacDisabled}
+                    isDisabled={false}
                     isLoading={LoadingState}
                     variation="primary"
                     size="large"
                     loadingText = "Parsing File"
-                    onClick={() => alert('File Sent')}
+                    onClick={() => results()}
                     ariaLabel=""
                 >
                     Calculate
