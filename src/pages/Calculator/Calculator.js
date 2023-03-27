@@ -95,8 +95,8 @@ function About(){
         setCalcDisabled(false)
     }
 
-    async function results(key) {
-        const apiData = await API.get('api4ef6c8be', '/ParseExcel')
+    async function results() {
+        API.post('api4ef6c8be', '/ParseExcelAPI')
     }
 
     return(
@@ -173,7 +173,7 @@ function About(){
                     variation="primary"
                     size="large"
                     loadingText = "Parsing File"
-                    onClick={() => results()}
+                    onClick={results()}
                     ariaLabel=""
                 >
                     Calculate

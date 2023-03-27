@@ -12,8 +12,9 @@ def handler(event, context):
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
-    reponse1 = s3Client.get_object(Bucket=bucket, Key=key)
-    reponse2 = s3Client.get_object(Bucket=bucket, Key='s3://ghgwebapptemplatebucketfh3471h93h91c10053-staging/public/Emission_Factors.xlsx')
+    #reponse1 = s3Client.get_object(Bucket=bucket, Key=key)
+    reponse1 = s3Client.get_object(Bucket='ghgwebapptemplatebucketfh3471h93h91c10053-staging', Key='public/S1&2_Example_Data.xlsx')
+    reponse2 = s3Client.get_object(Bucket='ghgwebapptemplatebucketfh3471h93h91c10053-staging', Key='public/Emission_Factors.xlsx')
 
     # getting response body (file data)
     scopeData = reponse1['Body'].read()
@@ -152,7 +153,7 @@ def handler(event, context):
     purchased_energy_summary_emissions = pd.concat([purchased_energy_co2_emissions, purchased_energy_ch4_emissions, purchased_energy_n2o_emissions, purchased_energy_total_emissions], axis=1)
     purchased_energy_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
     print(purchased_energy_summary_emissions)
-
+    
     return {
         'statusCode': 200,
         'headers': {
