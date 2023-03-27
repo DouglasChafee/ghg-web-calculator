@@ -13,7 +13,17 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-amplifyfacde958d1604-staging-10053-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
+      "auth": {
+        "ghgwebapp": {}
+      },
+      "storage": {
+        "scopetemplates": {}
+      },
       "function": {
+        "ParseExcel": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ParseExcel-387354716c7878763846-build.zip"
+        },
         "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgCreateGroup-4a626b61367670705556-build.zip"
@@ -22,40 +32,26 @@
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgCreateUser-2f7a3578412b43314b42-build.zip"
         },
+        "ghgDeleteUser": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ghgDeleteUser-666a6d6c534876714b56-build.zip"
+        },
         "ghgReadUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgReadUser-4d587236544773742b46-build.zip"
-        },
-        "ghgUpdateUser": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgUpdateUser-756d42677872584a3274-build.zip"
         },
         "ghgScope1and2Calculator": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgScope1and2Calculator-336e4f42717976764753-build.zip"
         },
+        "ghgUpdateUser": {
+          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
+          "s3Key": "amplify-builds/ghgUpdateUser-756d42677872584a3274-build.zip"
+        },
         "ghgViewResultSingle": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
-        },
-        "ghgDeleteUser": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgDeleteUser-666a6d6c534876714b56-build.zip"
-        },
-        "ParseExcel": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-387354716c7878763846-build.zip"
         }
-      },
-      "auth": {
-        "ghgwebapp": {}
-      },
-      "api": {
-        "api4ef6c8be": {},
-        "ghgwebapp": {}
-      },
-      "storage": {
-        "scopetemplates": {}
       }
     }
   }
