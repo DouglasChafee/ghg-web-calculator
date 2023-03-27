@@ -78,6 +78,7 @@ function ViewResultSingle(){
     var facNum=0;
     for(let i=0;i<ItemLength;i++){
       if(responseData.Items[i].YEAR === YEAR_SELECTED){
+        console.log("ADDING RESPONSE ID " + responseData.Items[i].id + " FROM YEAR " + responseData.Items[i].YEAR + " TO TOTALS");
         facNum = facNum + 1;
         labels.push("Facility " + facNum);
         
@@ -97,8 +98,10 @@ function ViewResultSingle(){
     var barDataScope1=[];
     var barDataScope2=[];
     for(let i=0;i<ItemLength;i++){
-      barDataScope1.push(responseData.Items[i].COMBUSTION + responseData.Items[i].FUGITIVE + responseData.Items[i].MOBILE);
-      barDataScope2.push(responseData.Items[i].NATURAL_GAS + responseData.Items[i].PURCHASED_ELECTRICITY + responseData.Items[i].REFRIGERANTS);
+      if(responseData.Items[i].YEAR === YEAR_SELECTED){
+        barDataScope1.push(responseData.Items[i].COMBUSTION + responseData.Items[i].FUGITIVE + responseData.Items[i].MOBILE);
+        barDataScope2.push(responseData.Items[i].NATURAL_GAS + responseData.Items[i].PURCHASED_ELECTRICITY + responseData.Items[i].REFRIGERANTS);
+      }
     }
     
 

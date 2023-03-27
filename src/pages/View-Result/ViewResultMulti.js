@@ -12,7 +12,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import {View, Flex, Card, Button} from '@aws-amplify/ui-react';
+import {View, Flex, Card} from '@aws-amplify/ui-react';
 
 Amplify.configure(awsExports);
 
@@ -26,9 +26,9 @@ function getRandomColorVal(min, max){
 
 function ViewResultMulti(){
     const [responseData, setResponseData] = useState("");
+    const [ItemLength, setItemLength] = useState("");
 
     var YEARS_SELECTED = [2019, 2020];
-    var YEARS_SELECTED_STRING = "";
 
     async function callAPI() {
         const user = await Auth.currentAuthenticatedUser()
@@ -49,7 +49,7 @@ function ViewResultMulti(){
           
           console.log(response);
           setResponseData(response);
-    
+          setItemLength(response.Items.length);
           })
         }
 
@@ -57,7 +57,6 @@ function ViewResultMulti(){
         callAPI(); 
         }, [])
 
-    
     
     
     //---------------------
@@ -82,43 +81,85 @@ function ViewResultMulti(){
         },
       };
       
-      var labelsStack = ['2019', '2020'];
+      //var labelsStack = ['2019', '2020'];
       
+      var TOTAL_EMISSION = [];
+
+      for(let i=0;i<YEARS_SELECTED.length;i++){
+        let TOTAL_COMBUSTION = 0;
+        let TOTAL_FUGITIVE = 0;
+        let TOTAL_MOBILE = 0;
+        let TOTAL_NATURAL_GAS = 0;
+        let TOTAL_PURHCASED_ELECTRICITY = 0;
+        let TOTAL_REFRIGERANTS = 0;
+
+          for(let j=0;j<ItemLength;j++){
+            if(responseData.Items[j].YEAR === YEARS_SELECTED[i]){
+              TOTAL_COMBUSTION+=responseData.Items[j].COMBUSTION;
+              TOTAL_FUGITIVE+=responseData.Items[j].FUGITIVE;
+              TOTAL_MOBILE+=responseData.Items[j].MOBILE;
+              TOTAL_NATURAL_GAS+=responseData.Items[j].NATURAL_GAS;
+              TOTAL_PURHCASED_ELECTRICITY+=responseData.Items[j].PURCHASED_ELECTRICITY;
+              TOTAL_REFRIGERANTS+=responseData.Items[j].REFRIGERANTS;
+            }
+          }
+        TOTAL_EMISSION.push([TOTAL_NATURAL_GAS, TOTAL_REFRIGERANTS, TOTAL_COMBUSTION, TOTAL_MOBILE, TOTAL_FUGITIVE, TOTAL_PURHCASED_ELECTRICITY]);
+      }
+      console.log(TOTAL_EMISSION)
+
+      var DATA_NATURAL_GAS = [];
+      var DATA_REFRIGERANTS = [];
+      var DATA_COMBUSTION = [];
+      var DATA_MOBILE = [];
+      var DATA_FUGITIVE = [];
+      var DATA_PURCHASED = [];
+
+      for(let i=0;i<YEARS_SELECTED.length;i++){
+        DATA_NATURAL_GAS.push(TOTAL_EMISSION[i][0]);
+        DATA_REFRIGERANTS.push(TOTAL_EMISSION[i][1]);
+        DATA_COMBUSTION.push(TOTAL_EMISSION[i][2]);
+        DATA_MOBILE.push(TOTAL_EMISSION[i][3]);
+        DATA_FUGITIVE.push(TOTAL_EMISSION[i][4]);
+        DATA_PURCHASED.push(TOTAL_EMISSION[5]);
+
+      }
+
       const dataStacked = {
-        labels: labelsStack,
+        labels: YEARS_SELECTED,
         datasets: [
           {
             label: 'Estimated Natural Gas',
-            data: [1, 2, 3],
+            data: DATA_NATURAL_GAS,
             backgroundColor: 'rgb(255, 153, 153)',
           },
           {
             label: 'Estimated Refrigerants',
-            data: [7, 5, 3],
+            data: DATA_REFRIGERANTS,
             backgroundColor: 'rgb(204, 255, 255)',
           },
           {
             label: 'Stationary Combustion',
-            data: [3, 4, 3],
+            data: DATA_COMBUSTION,
             backgroundColor: 'rgb(255, 204, 153)',
           },
           {
             label: 'Mobile Combustion',
-            data: [1, 2, 3],
+            data: DATA_MOBILE,
             backgroundColor: 'rgb(204, 255, 204)',
           },
           {
             label: 'Fugitive Emissions',
-            data: [1, 9, 9],
+            data: DATA_FUGITIVE,
             backgroundColor: 'rgb(255, 255, 204)',
           },
           {
             label: 'Purchased Electricity',
-            data: [1, 2, 3],
+            data: DATA_PURCHASED,
             backgroundColor: 'rgb(255, 204, 255)',
           },
         ],
       };
+
     const optionsGrouped = {
         plugins: {
           title: {
@@ -145,34 +186,24 @@ function ViewResultMulti(){
     
     const dataGrouped = {
         labels: labelsGrouped,
-        datasets: [
-          {
-            label: '2019',
-            data: [1, 2, 3, 7, 2, 3],
-            backgroundColor: 'rgb(255, 99, 132)',
-            stack: 'Stack 0',
-          },
-          {
-            label: '2020',
-            data: [1, 2, 3, 8, 1, 6],
-            backgroundColor: 'rgb(75, 192, 192)',
-            stack: 'Stack 1',
-          },
-        ],
+        datasets: [],
       };
     
-      let red = getRandomColorVal(0, 255);
-      let blue = getRandomColorVal(0, 255);
-      let green = getRandomColorVal(0, 255);
-      let colorString = "rgb(" + red + " ," + green + " ," + blue +")";
-      dataGrouped.datasets.push({
-        label: '2021',
-        data:[4, 3, 2, 1, 5, 7],
-        backgroundColor: colorString,
-        stack: 'Stack 2',
-
-    })
-
+      for(let i=0;i<YEARS_SELECTED.length;i++){
+        let red = getRandomColorVal(0, 255);
+        let blue = getRandomColorVal(0, 255);
+        let green = getRandomColorVal(0, 255);
+        let colorString = "rgb(" + red + " ," + green + " ," + blue +")";
+        dataGrouped.datasets.push(
+          {
+            label: YEARS_SELECTED[i],
+            data: TOTAL_EMISSION[i],
+            backgroundColor: colorString,
+            stack: 'Stack ' + i,
+          }
+        )
+      }
+      
     //---------------------
     // GRAPH SETTINGS END
     //---------------------
