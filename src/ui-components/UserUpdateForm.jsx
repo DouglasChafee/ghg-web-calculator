@@ -31,29 +31,23 @@ export default function UserUpdateForm(props) {
   } = props;
   const initialValues = {
     email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
     isLeader: false,
     groupID: "",
+    password: "",
   };
   const [email, setEmail] = React.useState(initialValues.email);
-  const [password, setPassword] = React.useState(initialValues.password);
-  const [firstName, setFirstName] = React.useState(initialValues.firstName);
-  const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [isLeader, setIsLeader] = React.useState(initialValues.isLeader);
   const [groupID, setGroupID] = React.useState(initialValues.groupID);
+  const [password, setPassword] = React.useState(initialValues.password);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
       ? { ...initialValues, ...userRecord }
       : initialValues;
     setEmail(cleanValues.email);
-    setPassword(cleanValues.password);
-    setFirstName(cleanValues.firstName);
-    setLastName(cleanValues.lastName);
     setIsLeader(cleanValues.isLeader);
     setGroupID(cleanValues.groupID);
+    setPassword(cleanValues.password);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(user);
@@ -67,11 +61,9 @@ export default function UserUpdateForm(props) {
   React.useEffect(resetStateValues, [userRecord]);
   const validations = {
     email: [{ type: "Required" }, { type: "Email" }],
-    password: [{ type: "Required" }],
-    firstName: [{ type: "Required" }],
-    lastName: [{ type: "Required" }],
     isLeader: [{ type: "Required" }],
     groupID: [],
+    password: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -100,11 +92,9 @@ export default function UserUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           email,
-          password,
-          firstName,
-          lastName,
           isLeader,
           groupID,
+          password,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -134,9 +124,14 @@ export default function UserUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
+          const modelFieldsToSave = {
+            email: modelFields.email,
+            isLeader: modelFields.isLeader,
+            groupID: modelFields.groupID,
+          };
           await DataStore.save(
             User.copyOf(userRecord, (updated) => {
-              Object.assign(updated, modelFields);
+              Object.assign(updated, modelFieldsToSave);
             })
           );
           if (onSuccess) {
@@ -161,11 +156,9 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email: value,
-              password,
-              firstName,
-              lastName,
               isLeader,
               groupID,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -180,93 +173,6 @@ export default function UserUpdateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
-      <TextField
-        label="Password"
-        isRequired={true}
-        isReadOnly={false}
-        value={password}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              email,
-              password: value,
-              firstName,
-              lastName,
-              isLeader,
-              groupID,
-            };
-            const result = onChange(modelFields);
-            value = result?.password ?? value;
-          }
-          if (errors.password?.hasError) {
-            runValidationTasks("password", value);
-          }
-          setPassword(value);
-        }}
-        onBlur={() => runValidationTasks("password", password)}
-        errorMessage={errors.password?.errorMessage}
-        hasError={errors.password?.hasError}
-        {...getOverrideProps(overrides, "password")}
-      ></TextField>
-      <TextField
-        label="First name"
-        isRequired={true}
-        isReadOnly={false}
-        value={firstName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              email,
-              password,
-              firstName: value,
-              lastName,
-              isLeader,
-              groupID,
-            };
-            const result = onChange(modelFields);
-            value = result?.firstName ?? value;
-          }
-          if (errors.firstName?.hasError) {
-            runValidationTasks("firstName", value);
-          }
-          setFirstName(value);
-        }}
-        onBlur={() => runValidationTasks("firstName", firstName)}
-        errorMessage={errors.firstName?.errorMessage}
-        hasError={errors.firstName?.hasError}
-        {...getOverrideProps(overrides, "firstName")}
-      ></TextField>
-      <TextField
-        label="Last name"
-        isRequired={true}
-        isReadOnly={false}
-        value={lastName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              email,
-              password,
-              firstName,
-              lastName: value,
-              isLeader,
-              groupID,
-            };
-            const result = onChange(modelFields);
-            value = result?.lastName ?? value;
-          }
-          if (errors.lastName?.hasError) {
-            runValidationTasks("lastName", value);
-          }
-          setLastName(value);
-        }}
-        onBlur={() => runValidationTasks("lastName", lastName)}
-        errorMessage={errors.lastName?.errorMessage}
-        hasError={errors.lastName?.hasError}
-        {...getOverrideProps(overrides, "lastName")}
-      ></TextField>
       <SwitchField
         label="Is leader"
         defaultChecked={false}
@@ -277,11 +183,9 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
-              password,
-              firstName,
-              lastName,
               isLeader: value,
               groupID,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.isLeader ?? value;
@@ -306,11 +210,9 @@ export default function UserUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               email,
-              password,
-              firstName,
-              lastName,
               isLeader,
               groupID: value,
+              password,
             };
             const result = onChange(modelFields);
             value = result?.groupID ?? value;
@@ -324,6 +226,31 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.groupID?.errorMessage}
         hasError={errors.groupID?.hasError}
         {...getOverrideProps(overrides, "groupID")}
+      ></TextField>
+      <TextField
+        label="Label"
+        value={password}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              email,
+              isLeader,
+              groupID,
+              password: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.password ?? value;
+          }
+          if (errors.password?.hasError) {
+            runValidationTasks("password", value);
+          }
+          setPassword(value);
+        }}
+        onBlur={() => runValidationTasks("password", password)}
+        errorMessage={errors.password?.errorMessage}
+        hasError={errors.password?.hasError}
+        {...getOverrideProps(overrides, "password")}
       ></TextField>
       <Flex
         justifyContent="space-between"
