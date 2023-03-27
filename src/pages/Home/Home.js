@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Amplify, Auth } from 'aws-amplify';
+import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 
 import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -84,22 +85,19 @@ export default function Home({ signOut, user, setLogInState, setLogOutState }){
                     {({ signOut, user }) => (
                         <main>
                             <h1>Hello {user.attributes.email}</h1>
-                            <button onClick={signOut}>Sign out</button>
+                            
                         </main>
                     )}
                 </ Authenticator>
             </ThemeProvider>
-            
-            <button 
-            onClick={() => alert('Scope 1 & 2 under development')}>
-                Scope 1 & 2
-            </button>
+            <NavBtn>
+                <ButtonLinks to="/">Scope 1 & 2</ButtonLinks>
+            </NavBtn>
             &nbsp;
-            <button 
-            onClick={() => alert('Scope 1 & 2 Results is under development')}>
-                View Scope 1 & 2
-                Results
-            </button>
+            <NavBtn>
+                <ButtonLinks to="/">View Scope 1 & 2
+                Results</ButtonLinks>
+            </NavBtn>
     
         </div>
     );
