@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Auth, API} from 'aws-amplify';
-import { Collection, Card, Button, CheckboxField, useTheme, Divider, Flex, Heading, } from '@aws-amplify/ui-react';
+import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
 
     function ViewList() {
 
 
-
-        const sel = [];
+        // When submit button is pressed, adds checked elements to a list and sends
         const onSubmit = (event) => {
+            const sel = [];
             event.preventDefault();
-            //alert(event.target.Year.value);
-            if(sel.includes(event.target.Year.value) == false){
-                sel.push(event.target.Year.value);
+            for(let element of document.getElementsByClassName("Year")){
+                if(element.checked){
+                    sel.push(element.value);
+                }
             }
-            console.log("Test " + sel);
-          };
-
-          const onSend = (event) => {
             alert(sel);
         }
+
+        // API call
         const { tokens } = useTheme();
         const [responsedata, setresponsedata] = useState("");
         const [itemlength, setitemlength] = useState("");
@@ -44,20 +43,17 @@ import { Collection, Card, Button, CheckboxField, useTheme, Divider, Flex, Headi
    
             })
           }
-       
-       
           useEffect(() => {
             callAPI(); 
             }, [])
 
-       
+       // Gathers unique years from user's database
        const items = [];
        for(let i = 0; i < itemlength; i++){
-            if(items.includes(responsedata.Items[i].YEAR) == false){
+            if(items.includes(responsedata.Items[i].YEAR) === false){
             items.push(responsedata.Items[i].YEAR);
             }
        }
-       console.log("Goodbye " + items);
 
     return(
         <div>
@@ -78,36 +74,33 @@ import { Collection, Card, Button, CheckboxField, useTheme, Divider, Flex, Headi
                 <Heading level={3} font-weight={"bold"}>View Results</Heading>
                 <Heading level={8} font-weight={"bold"}>Select the years you wish to view</Heading> 
             
+                <form onSubmit={onSubmit}>
 
+                    <Collection
+                        items={items}
+                        gap="1.5rem"
+                        direction={"row"}
+                        wrap="wrap"
+                        paddingBottom={"3rem"}
+                        >
+                        {(item, index) => (
 
-                <Collection
-                items={items}
-      gap="1.5rem"
-      direction={"row"}
-      wrap="wrap"
-      paddingBottom={"11rem"}
+                            <Card key={index} padding="1rem" fontWeight={tokens.fontWeights.bold} fontSize="30px">
+                            <CheckboxField type="checkbox" style={{width:"25px", height:"25px"}} class="Year" fontWeight={tokens.fontWeights.bold} label={item} name={"Year"} value={item} size="large" />
+                            </Card>
+                        )}
+                    
+                    </Collection>
+                    
+                    <Button type="submit">Submit</Button>
 
-    >
-      {(item, index) => (
-        
-        <Card key={index} padding="1rem">
-    <form onSubmit={onSubmit}>
+                    <div>
+                        <Flex
+                        paddingBottom={"5rem"}
+                        ></Flex>
+                    </div>
 
-        <CheckboxField type="submit" fontWeight={tokens.fontWeights.bold} label={item} name={"Year"} value={item} size="large" />
-        </form>
-
-
-        </Card>
-      )}
-      
-    </Collection>
-    
-    <form onSubmit={onSend}>
-    <Button type="submit">Submit</Button>
-    </form>
-
-
-
+                </form>
             </Flex>
         </div>
     );
