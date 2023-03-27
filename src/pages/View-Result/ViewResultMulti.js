@@ -16,6 +16,7 @@ import {View, Flex, Card} from '@aws-amplify/ui-react';
 
 Amplify.configure(awsExports);
 
+//Returns random RGB value
 function getRandomColorVal(min, max){
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -28,8 +29,7 @@ function ViewResultMulti(){
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
 
-    var YEARS_SELECTED = [2019, 2020];
-
+    var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
     async function callAPI() {
         const user = await Auth.currentAuthenticatedUser()
         console.log(user.attributes.sub)
@@ -76,6 +76,10 @@ function ViewResultMulti(){
             stacked: true,
           },
           y: {
+            title:{
+              display: true,
+              text: "CO2e",
+            },
             stacked: true,
           },
         },
@@ -120,7 +124,7 @@ function ViewResultMulti(){
         DATA_COMBUSTION.push(TOTAL_EMISSION[i][2]);
         DATA_MOBILE.push(TOTAL_EMISSION[i][3]);
         DATA_FUGITIVE.push(TOTAL_EMISSION[i][4]);
-        DATA_PURCHASED.push(TOTAL_EMISSION[5]);
+        DATA_PURCHASED.push(TOTAL_EMISSION[i][5]);
 
       }
 
@@ -160,6 +164,7 @@ function ViewResultMulti(){
         ],
       };
 
+    
     const optionsGrouped = {
         plugins: {
           title: {
@@ -176,6 +181,10 @@ function ViewResultMulti(){
             stacked: true,
           },
           y: {
+            title:{
+              display: true,
+              text: "CO2e",
+            },
             stacked: true,
           },
         },
@@ -183,25 +192,36 @@ function ViewResultMulti(){
       
     const labelsGrouped = ['Estimated Natural Gas', 'Estimated Refrigerants', 'Stationary Combustion', 'Mobile Combustion', 'Fugitive Emission', 'Purchased Electricity'];
      
-    
+    var GROUPED_COLORS = ['rgb(255, 153, 153)', 'rgb(204, 255, 255)', 'rgb(255, 204, 153)', 'rgb(204, 255, 204)', 'rgb(255, 255, 204)', 'rgb(255, 204, 255)'];
     const dataGrouped = {
         labels: labelsGrouped,
         datasets: [],
       };
-    
+      let colorCounter=0;
       for(let i=0;i<YEARS_SELECTED.length;i++){
+        /*
+        CODE FOR RANDOMIZED COLOR ON BARS
+
         let red = getRandomColorVal(0, 255);
         let blue = getRandomColorVal(0, 255);
         let green = getRandomColorVal(0, 255);
         let colorString = "rgb(" + red + " ," + green + " ," + blue +")";
+
+        REPLACE GROUPED_COLORS[colorCounter] WITH colorString AND DELETE COLORCOUNTER CODE TO USE
+        */
+        
         dataGrouped.datasets.push(
           {
             label: YEARS_SELECTED[i],
             data: TOTAL_EMISSION[i],
-            backgroundColor: colorString,
+            backgroundColor: GROUPED_COLORS[colorCounter],
             stack: 'Stack ' + i,
           }
         )
+        colorCounter+=1;
+        if(colorCounter===6){
+          colorCounter=1;
+        }
       }
       
     //---------------------

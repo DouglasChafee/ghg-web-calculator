@@ -177,6 +177,10 @@ function ViewResultSingle(){
           stacked: true,
         },
         y: {
+          title:{
+            display: true,
+            text: "CO2e",
+          },
           stacked: true,
         },
       },
