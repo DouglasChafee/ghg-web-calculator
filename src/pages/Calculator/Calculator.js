@@ -10,7 +10,7 @@ function About(){
 
     // The loading state when the file is being parsed
     const [LoadingState, setLoadingState] = useState(false)
-    const [ClacDisabled, setCalcDisabled] = useState(true)
+    const [ClacDisabled, setCalcDisabled] = useState(false) // change to true
     const [WarningMessages, addWarningMessage] = useState([])
 
     // Download Funciton for the template
@@ -168,7 +168,7 @@ function About(){
                 <Button
                     id='calculateButton'
                     // The submit calculation button
-                    isDisabled={false}
+                    isDisabled={ClacDisabled}
                     isLoading={LoadingState}
                     variation="primary"
                     size="large"
