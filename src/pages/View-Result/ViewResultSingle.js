@@ -31,7 +31,8 @@ function ViewResultSingle(){
      
   const [ItemLength, setItemLength] = useState("");
   const [responseData, setResponseData] = useState("");
-  var YEAR_SELECTED = 2019; 
+  const urlParams = new URLSearchParams(window.location.search);
+  var YEAR_SELECTED = parseInt(urlParams.get("Year")); 
   const labels=[]; // # of Facilities for Bar Graph
   
   var TOTAL_COMBUSTION = 0;
@@ -69,11 +70,7 @@ function ViewResultSingle(){
     useEffect(() => {
       callAPI(); 
     }, [])
-    
-    // Access URL to make const Years with a list of years selected
-    const urlParams = new URLSearchParams(window.location.search);
-    const Years = urlParams.get("Year").split(",");
-    console.log(Years)
+      
     
     //console.log("responseData test: " + responseData.Items[0].YEAR);
     

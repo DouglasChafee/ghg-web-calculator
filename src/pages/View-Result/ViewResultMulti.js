@@ -28,8 +28,16 @@ function getRandomColorVal(min, max){
 function ViewResultMulti(){
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
+    const urlParams = new URLSearchParams(window.location.search);
+    //var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
+    var YEARS_SELECTED = [];
+    var YEARS_SELECTED_STRING = urlParams.get("Year").split(',');
 
-    var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
+    for(let i=0;i<YEARS_SELECTED_STRING.length;i++){
+      YEARS_SELECTED.push(parseInt(YEARS_SELECTED_STRING[i]));
+
+    }
+
     async function callAPI() {
         const user = await Auth.currentAuthenticatedUser()
         console.log(user.attributes.sub)
