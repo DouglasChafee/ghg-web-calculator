@@ -30,8 +30,8 @@ function Home({setLogInState, setLogOutState, theme, formFields}){
               maxWidth="100%"
               padding="1rem"
             >
-            <Heading level={1} marginTop="1rem">Welcome Back ... {user.attributes.given_name + " " + user.attributes.family_name}</Heading>
-            <Divider orientation="horizontal" />
+            <Heading level={1} fontWeight="medium" marginTop="1rem">Welcome Back ... {user.attributes.given_name + " " + user.attributes.family_name}</Heading>
+            <Divider orientation="horizontal" size="large" />
             </View>
             <Flex direction="row" alignItems="center" wrap="wrap" justifyContent="center" >   
               <Flex direction="column" alignItems="center">
@@ -43,6 +43,8 @@ function Home({setLogInState, setLogOutState, theme, formFields}){
                       Results</ButtonLinks>
                   </NavBtn>
               </Flex>
+            </Flex>
+            <Divider orientation="horizontal" width="20rem" size="small" label="OR" />
               <Flex direction="column" alignItems="center">
                   <NavBtn>
                       <ButtonLinks to="" >Scope 3</ButtonLinks>
@@ -52,7 +54,6 @@ function Home({setLogInState, setLogOutState, theme, formFields}){
                       Results</ButtonLinks>
                   </NavBtn>
               </Flex>
-            </Flex>
           </Flex>
         )}
       </ Authenticator>

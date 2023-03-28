@@ -1,25 +1,14 @@
-type Facility @model @auth(rules: [{allow: public}]) {
+type YearResult @model @auth(rules: [{allow: public}]) {
   id: ID!
-  locationNaturalGas: Float
-  locationElectricity: Float
-  locationRefrigerants: Float
-  marketRefrigerants: Float
-  marketNaturalGas: Float
-  marketElectricity: Float
-  heatAndSteam: Float
   stationaryCombustion: Float
   mobileCombustion: Float
   fugitiveEmmission: Float
-  yearresultID: ID! @index(name: "byYearResult")
-}
-
-type YearResult @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  calculationYear: String!
-  timeStamp: AWSTimestamp!
-  groupID: ID @index(name: "byGroup")
+  PurchasedElectricity: Float
+  Refrigerants: Float
+  NaturalGas: Float
   userID: ID! @index(name: "byUser")
-  Facilities: [Facility] @hasMany(indexName: "byYearResult", fields: ["id"])
+  groupID: ID @index(name: "byGroup")
+  Year: String!
 }
 
 type Group @model @auth(rules: [{allow: public}]) {
@@ -39,10 +28,7 @@ type Admin @model @auth(rules: [{allow: public}]) {
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   email: AWSEmail!
-  password: String!
   Results: [YearResult] @hasMany(indexName: "byUser", fields: ["id"])
-  firstName: String!
-  lastName: String!
   isLeader: Boolean!
   groupID: ID @index(name: "byGroup")
 }

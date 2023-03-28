@@ -27,6 +27,8 @@ function UpdatePassword(props) {
     overrides,
     theme, 
     formFields,
+    setLogOutState, 
+    setLogInState,
     ...rest
   } = props;
   const initialValues = {
@@ -35,6 +37,8 @@ function UpdatePassword(props) {
     confirmPassword: "",
   };
   const navigate = useNavigate();
+  setLogInState("none"); // disable sign-in button
+  setLogOutState("flex"); // enable sign-out button
   var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
   const passwordErrorMessage = `Requires uppercase, lowercase, and number with a minimum of 8 chars`;
   const compareErrorMessage = `New password does not match confirm password`;
@@ -276,4 +280,4 @@ function UpdatePassword(props) {
   );
 }
 
-export default withAuthenticator(UpdatePassword)
+export default (UpdatePassword)

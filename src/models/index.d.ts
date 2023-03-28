@@ -6,65 +6,21 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/
 
 
 
-type EagerFacility = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Facility, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly locationNaturalGas?: number | null;
-  readonly locationElectricity?: number | null;
-  readonly locationRefrigerants?: number | null;
-  readonly marketRefrigerants?: number | null;
-  readonly marketNaturalGas?: number | null;
-  readonly marketElectricity?: number | null;
-  readonly heatAndSteam?: number | null;
-  readonly stationaryCombustion?: number | null;
-  readonly mobileCombustion?: number | null;
-  readonly fugitiveEmmission?: number | null;
-  readonly yearresultID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyFacility = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Facility, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly locationNaturalGas?: number | null;
-  readonly locationElectricity?: number | null;
-  readonly locationRefrigerants?: number | null;
-  readonly marketRefrigerants?: number | null;
-  readonly marketNaturalGas?: number | null;
-  readonly marketElectricity?: number | null;
-  readonly heatAndSteam?: number | null;
-  readonly stationaryCombustion?: number | null;
-  readonly mobileCombustion?: number | null;
-  readonly fugitiveEmmission?: number | null;
-  readonly yearresultID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Facility = LazyLoading extends LazyLoadingDisabled ? EagerFacility : LazyFacility
-
-export declare const Facility: (new (init: ModelInit<Facility>) => Facility) & {
-  copyOf(source: Facility, mutator: (draft: MutableModel<Facility>) => MutableModel<Facility> | void): Facility;
-}
-
 type EagerYearResult = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<YearResult, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly calculationYear: string;
-  readonly timeStamp: number;
-  readonly groupID?: string | null;
+  readonly stationaryCombustion?: number | null;
+  readonly mobileCombustion?: number | null;
+  readonly fugitiveEmmission?: number | null;
+  readonly PurchasedElectricity?: number | null;
+  readonly Refrigerants?: number | null;
+  readonly NaturalGas?: number | null;
   readonly userID: string;
-  readonly Facilities?: (Facility | null)[] | null;
+  readonly groupID?: string | null;
+  readonly Year: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -75,11 +31,15 @@ type LazyYearResult = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly calculationYear: string;
-  readonly timeStamp: number;
-  readonly groupID?: string | null;
+  readonly stationaryCombustion?: number | null;
+  readonly mobileCombustion?: number | null;
+  readonly fugitiveEmmission?: number | null;
+  readonly PurchasedElectricity?: number | null;
+  readonly Refrigerants?: number | null;
+  readonly NaturalGas?: number | null;
   readonly userID: string;
-  readonly Facilities: AsyncCollection<Facility>;
+  readonly groupID?: string | null;
+  readonly Year: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -161,10 +121,7 @@ type EagerUser = {
   };
   readonly id: string;
   readonly email: string;
-  readonly password: string;
   readonly Results?: (YearResult | null)[] | null;
-  readonly firstName: string;
-  readonly lastName: string;
   readonly isLeader: boolean;
   readonly groupID?: string | null;
   readonly createdAt?: string | null;
@@ -178,10 +135,7 @@ type LazyUser = {
   };
   readonly id: string;
   readonly email: string;
-  readonly password: string;
   readonly Results: AsyncCollection<YearResult>;
-  readonly firstName: string;
-  readonly lastName: string;
   readonly isLeader: boolean;
   readonly groupID?: string | null;
   readonly createdAt?: string | null;

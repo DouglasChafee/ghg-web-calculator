@@ -10,13 +10,6 @@ const awsmobile = {
             "region": "us-east-2"
         }
     ],
-    "aws_cloud_logic_custom": [
-        {
-            "name": "api4ef6c8be",
-            "endpoint": "https://obnwahjzv0.execute-api.us-east-2.amazonaws.com/staging",
-            "region": "us-east-2"
-        }
-    ],
     "aws_appsync_graphqlEndpoint": "https://dsgx2v5cfjattlkuzvh5rgmaiq.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "API_KEY",

@@ -4,11 +4,10 @@ import phonepng from '../../assets/phone-call.png';
 import addresspng from '../../assets/maps-and-flags.png';
 import {Flex, View, Heading, Divider} from '@aws-amplify/ui-react';
 
-function Contact(){
-    
+function Contact({setLogInState, setLogOutState}){
+    setLogInState("flex"); // enable sign-in button
+    setLogOutState("none"); // disable sign-out button
     return(
-        
-
             <div className = "contact">
                 <Heading level={1} 
                     textAlign="center"

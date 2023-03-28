@@ -86,10 +86,10 @@ function App() {
       <SideBar isOpen={isOpen} toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
       <Navbar toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
       <Routes>
-          <Route exact path='/' element={<Landing />} />
-          <Route exact path='/faq' element={<FAQ />} />
-          <Route exact path='/contact' element={<Contact />} />
-          <Route exact path='/about' element={<About />} />
+          <Route exact path='/' element={<Landing setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/faq' element={<FAQ setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/contact' element={<Contact setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
+          <Route exact path='/about' element={<About setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/home' element={<Home setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
           <Route exact path='/profile' element={<Profile setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
           <Route exact path='/profile/update/info' element={<UpdateInfo setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />

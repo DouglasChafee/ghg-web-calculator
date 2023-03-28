@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator, Authenticator, ThemeProvider, Flex, Card, Divider, Text, View, Heading} from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, Flex, Card, Divider, Text, Heading} from '@aws-amplify/ui-react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../../aws-exports';
@@ -55,7 +55,6 @@ function Profile({setLogInState, setLogOutState, theme, formFields}) {
       <>
       <ThemeProvider theme={theme} >
         <Authenticator variation="modal" formFields={formFields}>
-        {({ user }) => (
         <Flex direction="column" alignItems="center" wrap="wrap" marginTop="1rem" marginBottom="5rem">
           
           <Card variation='elevated' borderRadius="1rem" border="1px solid" paddingBottom="1px" paddingTop="1px" paddingLeft="10%" paddingRight="10%" >
@@ -174,7 +173,6 @@ function Profile({setLogInState, setLogOutState, theme, formFields}) {
           </Card>
 
         </Flex>
-        )}
         </ Authenticator>
       </ThemeProvider>
       </>
