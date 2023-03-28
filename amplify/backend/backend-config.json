@@ -57,6 +57,7 @@
           ],
           "category": "function",
           "resourceName": "ghgDeleteUser"
+
         },
         {
           "attributes": [
@@ -65,6 +66,7 @@
           ],
           "category": "function",
           "resourceName": "ParseExcel"
+
         }
       ],
       "providerPlugin": "awscloudformation",

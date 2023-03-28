@@ -43,10 +43,12 @@
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
         },
+
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ParseExcel-426f637159796a693163-build.zip"
         },
+
         "ghgDeleteUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgDeleteUser-666a6d6c534876714b56-build.zip"
@@ -55,6 +57,9 @@
       "api": {
         "ghgwebapp": {},
         "api4ef6c8be": {}
+      },
+      "storage": {
+        "scopetemplates": {}
       }
     }
   }
