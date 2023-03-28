@@ -25,6 +25,11 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
             window.location=Values;
         }
 
+        // When delete button is pressed, deletes checked elements
+        const onDelete = (event) => {
+            console.log("WORKS");
+        }
+
         // API call
         const { tokens } = useTheme();
         const [responsedata, setresponsedata] = useState("");
@@ -101,7 +106,10 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                     
                     </Collection>
                 </form>
-
+                <Flex 
+                direction="row"
+                >
+                
                 <form onSubmit={onSubmit}>
                     {/* <NavBtn> */}
                         <Button class="Button" type="submit">Submit</Button>
@@ -109,12 +117,25 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         {/* <Button class="Button" type="submit">Delete</Button> */}
                     {/* </NavBtn> */}
                 </form>
-               
+
+                <form onDelete={onDelete}>
+                    {/* <NavBtn> */}
+                        <Button class="Button" type="submit">Delete</Button>
+                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
+                        {/* <Button class="Button" type="submit">Delete</Button> */}
+                    {/* </NavBtn> */}
+                </form>
+                </Flex>
+
                 <div>
                     <Flex
                         paddingBottom={"5rem"}
                     ></Flex>
                 </div>
+
+                <Button>Hello world</Button>
+                <Button onClick={() => onDelete('👋 hello')}>Click me</Button>
+
 
             </Flex>
         </div>
