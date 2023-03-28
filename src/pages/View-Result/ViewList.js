@@ -100,8 +100,8 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
 
                     <Collection
                         items={items}
-                        gap="1.5rem"
-                        direction={"row"}
+                        gap="0.5rem"
+                        direction={"column"}
                         wrap="wrap"
                         paddingBottom={"3rem"}
                         >
@@ -119,16 +119,54 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 >
                 
                 <form onSubmit={onSubmit}>
-                    {/* <NavBtn> */}
-                        <Button class="Button" type="submit">Submit</Button>
+                        <Button class="Button" type="submit" style={
+                            {
+                                backgroundColor:"#01BF71",
+                                border: "none",
+                                borderRadius: "20px",
+                                padding: '10px 20px',
+                                cursor: 'pointer',
+                                fontWeight: "Bold",
+                                color: 'Black'
+                            } 
+                        }
+                        onMouseEnter={e => {
+                            e.target.style.backgroundColor = 'black'
+                            e.target.style.color="#01BF71"
+
+                        }}
+                        onMouseLeave={e => {
+                            e.target.style.backgroundColor = '#01BF71'
+                            e.target.style.color="Black"
+                        }
+                        }>Submit</Button>
                         {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
                         {/* <Button class="Button" type="submit">Delete</Button> */}
-                    {/* </NavBtn> */}
                 </form>
 
                 <form onDelete={onDelete}>
                     {/* <NavBtn> */}
-                        <Button class="Button" type="submit">Delete</Button>
+                        <Button class="Button" type="submit" style={
+                            {
+                                backgroundColor:"#01BF71",
+                                border: "none",
+                                borderRadius: "20px",
+                                padding: '10px 20px',
+                                cursor: 'pointer',
+                                fontWeight: "Bold",
+                                color: 'Black'
+                            } 
+                        }
+                        onMouseEnter={e => {
+                            e.target.style.backgroundColor = 'black'
+                            e.target.style.color="#01BF71"
+
+                        }}
+                        onMouseLeave={e => {
+                            e.target.style.backgroundColor = '#01BF71'
+                            e.target.style.color="Black"
+                        }
+                        }>Delete</Button>
                         {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
                         {/* <Button class="Button" type="submit">Delete</Button> */}
                     {/* </NavBtn> */}
@@ -140,7 +178,6 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         paddingBottom={"5rem"}
                     ></Flex>
                 </div>
-                <ButtonLinks onClick={() => onDelete('👋 hello')}>Click me</ButtonLinks>
 
             </Flex>
         </div>
