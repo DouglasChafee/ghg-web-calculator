@@ -91,6 +91,15 @@
           "delete"
         ]
       }
+
+    },
+    "/ParseExcelAPI": {
+      "name": "/ParseExcelAPI",
+      "lambdaFunction": "ParseExcel",
+      "permissions": {
+        "setting": "open"
+      }
+
     }
   }
 }
