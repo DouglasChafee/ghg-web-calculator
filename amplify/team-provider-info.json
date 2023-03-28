@@ -22,7 +22,7 @@
       "function": {
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-663071684935496d495a-build.zip"
+          "s3Key": "amplify-builds/ParseExcel-2f37465851575a505a2b-build.zip"
         },
         "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
@@ -42,7 +42,7 @@
         },
         "ghgScope1and2Calculator": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgScope1and2Calculator-336e4f42717976764753-build.zip"
+          "s3Key": "amplify-builds/ghgScope1and2Calculator-797569556271426c5932-build.zip"
         },
         "ghgUpdateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",

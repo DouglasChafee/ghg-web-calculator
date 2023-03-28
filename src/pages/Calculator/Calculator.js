@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-//import { Amplify, Storage, API, Auth } from 'aws-amplify';
+import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import { Amplify, Storage, API } from 'aws-amplify';
+//import { Amplify, Storage, API } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
 
@@ -96,7 +96,21 @@ function About(){
     }
 
     async function results() {
-        API.post('api4ef6c8be', '/ParseExcelAPI')
+        const user = await Auth.currentAuthenticatedUser()
+        const token = user.signInUserSession.idToken.jwtToken
+        console.log({ token }) // log user token
+        const postInfo = {
+        headers: { // pass user authorization token
+          Authorization: token 
+        },
+        queryStringParameters: { // pass query parameters
+          userID: user.attributes.sub
+        }
+      };
+        await API.get('api4ef6c8be', '/ghgScope1and2Calculator', postInfo).then((response) => { // Api get request
+            console.log(response);
+            console.log(user);
+          })
     }
 
     return(
@@ -173,7 +187,9 @@ function About(){
                     variation="primary"
                     size="large"
                     loadingText = "Parsing File"
-                    onClick={results()}
+                    onClick={() => {
+                        results();
+                      }}
                     ariaLabel=""
                 >
                     Calculate
