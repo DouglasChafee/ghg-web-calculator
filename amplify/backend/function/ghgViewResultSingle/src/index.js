@@ -13,7 +13,7 @@ exports.handler = async (event, context, callback) => {
 
     // Query backend and format data, then put it into body of API response
     const userid = event.queryStringParameters.userID;
-    await readFacilities(userid).then((data) => {
+    await readProfile(userid).then((data) => {
         console.log(data)
         callback(null, {
             statusCode: 200,
@@ -29,9 +29,12 @@ exports.handler = async (event, context, callback) => {
 };
 
 // Read & Format DynamoDB User Table Query
-function readFacilities(userid) {
+function readProfile(userid) {
     const params = {
-        
+        //TableName: 'YearResult-hl3z2eogtjg2to4aktokmtn23y-staging',
+        //Key: {
+        //    id: userid
+        //}
         TableName: 'YearResult-hl3z2eogtjg2to4aktokmtn23y-staging',
         IndexName: 'byUser',
         KeyConditionExpression: 'userID = :v_ID',

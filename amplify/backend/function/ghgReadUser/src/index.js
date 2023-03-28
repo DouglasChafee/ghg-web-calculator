@@ -13,23 +13,23 @@ exports.handler = async (event, context, callback) => {
 
     // Query backend and format data, then put it into body of API response
     const userid = event.queryStringParameters.id;
-    await readProfile(userid).then((data) => {
-        console.log(data)
-        const dataObj = {
-            name: data.Item.id
-        }
-        
-        callback(null, {
-            statusCode: 200,
-            body: JSON.stringify(dataObj),
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*"
+        await readProfile(userid).then((data) => {
+            console.log(data)
+            const dataObj = {
+                name: data.Item.id
             }
-        }).catch((err) => {
-            console.error(err)
+            
+            callback(null, {
+                statusCode: 200,
+                body: JSON.stringify(dataObj),
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*"
+                }
+            }).catch((err) => {
+                console.error(err)
+            })
         })
-    })
 };
 
 // Read & Format DynamoDB User Table Query

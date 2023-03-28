@@ -1,62 +1,13 @@
 export const schema = {
     "models": {
-        "Facility": {
-            "name": "Facility",
+        "YearResult": {
+            "name": "YearResult",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
-                    "attributes": []
-                },
-                "locationNaturalGas": {
-                    "name": "locationNaturalGas",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "locationElectricity": {
-                    "name": "locationElectricity",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "locationRefrigerants": {
-                    "name": "locationRefrigerants",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "marketRefrigerants": {
-                    "name": "marketRefrigerants",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "marketNaturalGas": {
-                    "name": "marketNaturalGas",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "marketElectricity": {
-                    "name": "marketElectricity",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "heatAndSteam": {
-                    "name": "heatAndSteam",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
                     "attributes": []
                 },
                 "stationaryCombustion": {
@@ -80,92 +31,24 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "yearresultID": {
-                    "name": "yearresultID",
+                "PurchasedElectricity": {
+                    "name": "PurchasedElectricity",
                     "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
+                    "type": "Float",
                     "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
+                    "attributes": []
                 },
-                "updatedAt": {
-                    "name": "updatedAt",
+                "Refrigerants": {
+                    "name": "Refrigerants",
                     "isArray": false,
-                    "type": "AWSDateTime",
+                    "type": "Float",
                     "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Facilities",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byYearResult",
-                        "fields": [
-                            "yearresultID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "YearResult": {
-            "name": "YearResult",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
                     "attributes": []
                 },
-                "calculationYear": {
-                    "name": "calculationYear",
+                "NaturalGas": {
+                    "name": "NaturalGas",
                     "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "timeStamp": {
-                    "name": "timeStamp",
-                    "isArray": false,
-                    "type": "AWSTimestamp",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "groupID": {
-                    "name": "groupID",
-                    "isArray": false,
-                    "type": "ID",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -176,21 +59,19 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Facilities": {
-                    "name": "Facilities",
-                    "isArray": true,
-                    "type": {
-                        "model": "Facility"
-                    },
+                "groupID": {
+                    "name": "groupID",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "yearresultID"
-                        ]
-                    }
+                    "attributes": []
+                },
+                "Year": {
+                    "name": "Year",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -219,18 +100,18 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byGroup",
+                        "name": "byUser",
                         "fields": [
-                            "groupID"
+                            "userID"
                         ]
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byUser",
+                        "name": "byGroup",
                         "fields": [
-                            "userID"
+                            "groupID"
                         ]
                     }
                 },
@@ -451,13 +332,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "password": {
-                    "name": "password",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "Results": {
                     "name": "Results",
                     "isArray": true,
@@ -473,20 +347,6 @@ export const schema = {
                             "userID"
                         ]
                     }
-                },
-                "firstName": {
-                    "name": "firstName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "lastName": {
-                    "name": "lastName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "isLeader": {
                     "name": "isLeader",
@@ -557,5 +417,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "ec79060f3a7be6978787c760fce7492d"
+    "version": "57a8f81f0785b2f243cdad770492a865"
 };
