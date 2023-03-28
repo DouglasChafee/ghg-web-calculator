@@ -121,35 +121,36 @@ def checkFacility(excel):
     return facilityIDs
 
 def handler(event, context):
-    #const userid = event.queryStringParameters.id;
-    # bucket and file name
+   
     logger.info(event)
-    # bucket = event['Records'][0]['s3']['bucket']['name']
-    # key = event['Records'][0]['s3']['object']['key']
     logger.info(event["queryStringParameters"])
 
+    # userID and file key
     userID = event["queryStringParameters"]["userID"]
     Key = event["queryStringParameters"]["s3FileKey"]
-    # creating local files
-    local_file_name = '/tmp/userData.xlsx'
+
+    # tmp folder file name
+    local_file_name = '/tmp/' + Key
 
     # downloading files from s3 to tmp ephemeral storage
     s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
-    s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file('public/Emission_Factors.xlsx', '/tmp/emissionFactors.xlsx')
-    # s3Client.download_file('ghgwebapptemplatebucketfh3471h93h91c10053-staging', 'public/S1&2_Example_Data.xlsx', local_file_name)
+    if not os.path.exists('/tmp/emissionFactors.xlsx'):
+        s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file('public/Emission_Factors.xlsx', '/tmp/emissionFactors.xlsx')
 
     logger.info("Passed Chcek Here: " + str(os.path.isfile(local_file_name)))
     logger.info("Passed Chcek Here: " + str(os.path.isfile('/tmp/emissionFactors.xlsx')))
 
     # getting excel object
-    inventory_data = pd.ExcelFile('/tmp/userData.xlsx')
+    inventory_data = pd.ExcelFile(local_file_name)
     emission_factors = pd.ExcelFile('/tmp/emissionFactors.xlsx')
     
     # logger.info(reponse2)
     logger.info(inventory_data)
 
+    # list of possible facilities
     FacilityIDs = checkFacility(inventory_data)
 
+    # Noor's mobile combustion analysis
     mobile_combustion = inventory_data.parse('Scope 1 - Mobile')
     for index, row in mobile_combustion.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -186,12 +187,21 @@ def handler(event, context):
     mobile_combustion_summary_emissions = pd.concat([mobile_combustion_co2_emissions, mobile_combustion_ch4_emissions, mobile_combustion_n2o_emissions, mobile_combustion_total_emissions], axis=1)
     mobile_combustion_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
     
+    # list of tuples where each tuple is a row from the data frame
     mobile_comb = mobile_combustion_total_emissions.index.to_list()
+
+    # list of values from last column (kgCO2e)
     mobile_last_col = mobile_combustion_total_emissions.to_list()
+
+    # year of calculation data
     year_col = mobile_combustion_summary_emissions.index[0]
     year = year_col[4]
 
+    # creates dictionary to store facilities and their respective emmissions
     mobile_dict = {}
+
+    # check every row of data frame (each index of mobile_comb) to match facility f
+    # if f is the rows facility, add its total emmissions to the facility's value in mobile_dict
     for f in FacilityIDs:
         mobile_dict[f] = 0
         for i in range(len(mobile_comb)):
@@ -199,7 +209,7 @@ def handler(event, context):
                 if not isNan(mobile_last_col[i]):
                     mobile_dict.update({f : mobile_dict[f]+mobile_last_col[i]})
 
-
+    # Noor's stationary analysis
     stationary_combustion = inventory_data.parse('Scope 1 - Stationary')
     for index, row in stationary_combustion.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -229,10 +239,17 @@ def handler(event, context):
     stationary_combustion_summary_emissions = pd.concat([stationary_combustion_co2_emissions, stationary_combustion_ch4_emissions, stationary_combustion_n2o_emissions, stationary_combustion_total_emissions], axis=1)
     stationary_combustion_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
    
+    # list of tuples where each tuple is a row from the data frame
     stationary_comb = stationary_combustion_total_emissions.index.to_list()
+
+    # list of values from last column (kgCO2e)
     stationary_last_col = stationary_combustion_total_emissions.to_list()
 
+    # creates dictionary to store facilities and their respective emmissions
     stationary_dict = {}
+
+    # check every row of data frame (each index of stationary_comb) to match facility f
+    # if f is the rows facility, add its total emmissions to the facility's value in stationary_dict
     for f in FacilityIDs:
         stationary_dict[f] = 0
         for i in range(len(stationary_comb)):
@@ -240,7 +257,7 @@ def handler(event, context):
                 if not isNan(stationary_last_col[i]):
                     stationary_dict.update({f : stationary_dict[f]+stationary_last_col[i]})
 
-
+    # Noor's fugitive analysis
     fugitive = inventory_data.parse('Scope 1 - Fugitives')
     for index, row in fugitive.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -267,10 +284,17 @@ def handler(event, context):
     fugitive_summary_emissions = fugitive['Final Quantity'].mul(s1_f_emission_factors['AR5 (kgCO2e)'])
     fugitive_summary_emissions.columns = ['kgCO2e']
     
+    # list of tuples where each tuple is a row from the data frame
     fugitive_comb = fugitive_summary_emissions.index.to_list()
+
+    # list of values from last column (kgCO2e)
     fugitive_last_col = fugitive_summary_emissions.to_list()
 
+    # creates dictionary to store facilities and their respective emmissions
     fugitive_dict = {}
+
+    # check every row of data frame (each index of fugitive_comb) to match facility f
+    # if f is the rows facility, add its total emmissions to the facility's value in fugitive_dict
     for f in FacilityIDs:
         fugitive_dict[f] = 0
         for i in range(len(fugitive_comb)):
@@ -278,7 +302,7 @@ def handler(event, context):
                 if not isNan(fugitive_last_col[i]):
                     fugitive_dict.update({f : fugitive_dict[f]+fugitive_last_col[i]})
 
-
+    # Noor's scope 2 analysis
     purchased_energy = inventory_data.parse('Scope 2 - Purchased Energy')
     for index, row in purchased_energy.iterrows():
         if row['Scope 2'] == 'Facility unique ID':
@@ -308,13 +332,21 @@ def handler(event, context):
     purchased_energy_summary_emissions = pd.concat([purchased_energy_co2_emissions, purchased_energy_ch4_emissions, purchased_energy_n2o_emissions, purchased_energy_total_emissions], axis=1)
     purchased_energy_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
 
-
+    # list of tuples where each tuple is a row from the data frame
     purchased_energy_comb = purchased_energy_total_emissions.index.to_list()
+
+    
+    # list of values from last column (kgCO2e)
     purchased_energy_last_col = purchased_energy_total_emissions.to_list()
 
+    # creates dictionaries to store facilities and their respective emmissions
+    # one dictionary for each scope 2 energy source
     purchased_electricity_dict = {}
     purchased_gas_dict = {}
     purchased_water_dict = {}
+
+    # check every row of data frame (each index of purchased_energy_comb) to match facility f
+    # if f is the rows facility, add its total emmissions to the facility's value in purchased_energy_dict
     for f in FacilityIDs:
         purchased_electricity_dict[f] = 0
         purchased_gas_dict[f] = 0
@@ -346,7 +378,9 @@ def handler(event, context):
         logger.info("Finished Inserting Facility " + str(id))
 
 
-    # remove tmp file here before returning
+    # remove tmp file before returning
+    if os.path.exists(local_file_name):
+        os.remove(local_file_name)
 
     return {
         'statusCode': 200,
