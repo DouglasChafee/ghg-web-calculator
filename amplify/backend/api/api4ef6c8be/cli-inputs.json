@@ -91,7 +91,6 @@
           "delete"
         ]
       }
-
     },
     "/ParseExcelAPI": {
       "name": "/ParseExcelAPI",
@@ -99,7 +98,6 @@
       "permissions": {
         "setting": "open"
       }
-
     }
   }
 }
