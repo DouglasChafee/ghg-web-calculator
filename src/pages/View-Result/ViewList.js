@@ -19,10 +19,18 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 let get = document.getElementsByClassName("Button");
                 get.setAttribute('disabled',true);
             }
-            // Create URL with years attached
-            let Values = new URL("http://" + window.location.host+"/ViewResultSingle");
-            Values.searchParams.set("Year",sel);
-            window.location=Values;
+            if(sel.length === 1){
+                // Create URL with years attached
+                let Values = new URL("http://" + window.location.host+"/ViewResultSingle");
+                Values.searchParams.set("Year",sel);
+                window.location=Values;
+            }
+            else{
+                // Create URL with years attached
+                let Values = new URL("http://" + window.location.host+"/ViewResultMulti");
+                Values.searchParams.set("Year",sel);
+                window.location=Values;
+            }
         }
 
         // When delete button is pressed, deletes checked elements
@@ -132,10 +140,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         paddingBottom={"5rem"}
                     ></Flex>
                 </div>
-
-                <Button>Hello world</Button>
-                <Button onClick={() => onDelete('👋 hello')}>Click me</Button>
-
+                <ButtonLinks onClick={() => onDelete('👋 hello')}>Click me</ButtonLinks>
 
             </Flex>
         </div>

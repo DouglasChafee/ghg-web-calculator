@@ -49,6 +49,24 @@
           ],
           "category": "function",
           "resourceName": "ghgViewResultSingle"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
+
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ParseExcel"
+
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -110,12 +128,22 @@
     }
   },
   "function": {
+    "ParseExcel": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "ghgCreateGroup": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "ghgCreateUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgDeleteUser": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -142,6 +170,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_ParseExcel_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ParseExcel"
+        }
+      ]
+    },
+    "AMPLIFY_function_ParseExcel_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ParseExcel"
+        }
+      ]
+    },
     "AMPLIFY_function_ghgCreateGroup_deploymentBucketName": {
       "usedBy": [
         {
@@ -171,6 +215,22 @@
         {
           "category": "function",
           "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
         }
       ]
     },

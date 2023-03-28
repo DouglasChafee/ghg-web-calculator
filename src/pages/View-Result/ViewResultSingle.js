@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import {Amplify, Auth, API} from 'aws-amplify';
 import {
     Chart as ChartJS,
@@ -27,115 +27,172 @@ Amplify.configure(awsExports);
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
-
-  export const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: '2019 Carbon Emissions',
-      },
-    },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
-    
-  };
-
-  export const optionsPie = {
-    plugins: {
-      title: {
-        display: true,
-        text: '2019 Carbon Emissions',
-      },
-    },
-    responsive: true,
-   
-  };
-
+function ViewResultSingle(){
+     
+  const [ItemLength, setItemLength] = useState("");
+  const [responseData, setResponseData] = useState("");
+  var YEAR_SELECTED = 2019; 
+  const labels=[]; // # of Facilities for Bar Graph
   
-  const labels = ['fac 1', 'fac 2', 'fac 3', 'fac 4', 'fac 5', 'fac 6', 'fac 7'];
+  var TOTAL_COMBUSTION = 0;
+  var TOTAL_FUGITIVE = 0;
+  var TOTAL_MOBILE = 0;
+  var TOTAL_NATURAL_GAS = 0;
+  var TOTAL_PURHCASED_ELECTRICITY = 0;
+  var TOTAL_REFRIGERANTS = 0;
   
-  export const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Scope 1 Emissions',
-        data: [5,2,1],
-        backgroundColor: 'rgb(255, 99, 132)',
-      },
-      {
-        label: 'Scope 2 Emissions',
-        data: [2,1,0],
-        backgroundColor: 'rgb(75, 192, 192)',
-      },
-      
-    ],
-  };
-
   
-  export const pieData = {
-    labels: ['Estimated Natural Gas', 'Estimated Refridgerants', 'Stationary Combustion', 'Mobile Combustion', 'Fugitive Emissions', 'Purchased Electricity'],
-    datasets: [
-      {
-        label: 'Amount Of Emissions',
-        data: [5, 2, 1, 2, 1, 0],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-function ViewResultSingle(user){
-   
-     async function callAPI() {
-         const user = await Auth.currentAuthenticatedUser()
-         console.log(user.attributes.sub)
-         const userSub = user.attributes.sub
-         const token = user.signInUserSession.idToken.jwtToken
-         console.log({ token })
-         const requestInfo = {
-           headers: {
+  async function callAPI() {
+    const user = await Auth.currentAuthenticatedUser()
+    console.log(user.attributes.sub)
+    const userSub = user.attributes.sub
+    const token = user.signInUserSession.idToken.jwtToken
+    console.log({ token })
+    const requestInfo = {
+        headers: {
              Authorization: token
-           },
-           queryStringParameters: { 
+        },
+        queryStringParameters: { 
              userID: userSub
            }
-         };
-         await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
-           
-           console.log(response)
-
-         })
-       }
+        };
     
-    
-    callAPI();
+    await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
+      
+      console.log(response);
+      setItemLength(response.Items.length);
+      setResponseData(response);
 
+      })
+    }
+
+    useEffect(() => {
+      callAPI(); 
+    }, [])
+    
     // Access URL to make const Years with a list of years selected
     const urlParams = new URLSearchParams(window.location.search);
     const Years = urlParams.get("Year").split(",");
-    console.log(Years);
+    console.log(Years)
+    
+    //console.log("responseData test: " + responseData.Items[0].YEAR);
+    
+    // Number of facilities = response item length
+    // Also assigning total vals by adding up all vals
+    var facNum=0;
+    for(let i=0;i<ItemLength;i++){
+      if(responseData.Items[i].YEAR === YEAR_SELECTED){
+        console.log("ADDING RESPONSE ID " + responseData.Items[i].id + " FROM YEAR " + responseData.Items[i].YEAR + " TO TOTALS");
+        facNum = facNum + 1;
+        labels.push("Facility " + facNum);
+        
+        TOTAL_COMBUSTION+=responseData.Items[i].COMBUSTION;
+        TOTAL_FUGITIVE+=responseData.Items[i].FUGITIVE;
+        TOTAL_MOBILE+=responseData.Items[i].MOBILE;
+        TOTAL_NATURAL_GAS+=responseData.Items[i].NATURAL_GAS;
+        TOTAL_PURHCASED_ELECTRICITY+=responseData.Items[i].PURCHASED_ELECTRICITY;
+        TOTAL_REFRIGERANTS+=responseData.Items[i].REFRIGERANTS;
+        
+      }
+    }
+    
+    //console.log("Total Combustion: " + TOTAL_COMBUSTION);
+
+    // Creating Scope 1 and Scope 2 totals
+    var barDataScope1=[];
+    var barDataScope2=[];
+    for(let i=0;i<ItemLength;i++){
+      if(responseData.Items[i].YEAR === YEAR_SELECTED){
+        barDataScope1.push(responseData.Items[i].COMBUSTION + responseData.Items[i].FUGITIVE + responseData.Items[i].MOBILE);
+        barDataScope2.push(responseData.Items[i].NATURAL_GAS + responseData.Items[i].PURCHASED_ELECTRICITY + responseData.Items[i].REFRIGERANTS);
+      }
+    }
+    
+
+
+    //----------------------
+    // GRAPH SETTINGS START
+    //----------------------
+    const pieData = {
+      labels: ['Estimated Natural Gas', 'Estimated Refrigerants', 'Stationary Combustion', 'Mobile Combustion', 'Fugitive Emissions', 'Purchased Electricity'],
+      datasets: [
+        {
+          label: 'Emissions',
+          data: [TOTAL_NATURAL_GAS, TOTAL_REFRIGERANTS, TOTAL_COMBUSTION, TOTAL_MOBILE, TOTAL_FUGITIVE, TOTAL_PURHCASED_ELECTRICITY],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Scope 1 Emissions',
+          data: barDataScope1,
+          backgroundColor: 'rgb(255, 99, 132)',
+        },
+        {
+          label: 'Scope 2 Emissions',
+          data: barDataScope2,
+          backgroundColor: 'rgb(75, 192, 192)',
+        },
+        
+      ],
+    };
+    
+    const optionsPie = {
+      plugins: {
+        title: {
+          display: true,
+          text:  YEAR_SELECTED + ' Carbon Emissions',
+        },
+      },
+      responsive: true,
+     
+    };
+
+    const options = {
+      plugins: {
+        title: {
+          display: true,
+          text: YEAR_SELECTED + ' Carbon Emissions',
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          title:{
+            display: true,
+            text: "CO2e",
+          },
+          stacked: true,
+        },
+      },
+      
+    };
+    //---------------------
+    // GRAPH SETTINGS END
+    //---------------------
       
     return(
       <Flex

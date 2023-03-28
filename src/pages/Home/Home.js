@@ -11,6 +11,7 @@ function Home({ signOut, user, setLogInState, setLogOutState}){
   useEffect(() => {
     setLogInState("none"); // disable sign-in button
     setLogOutState("flex"); // enable sign-out button
+    console.log(user.attributes)
   }, [])
 
   return(

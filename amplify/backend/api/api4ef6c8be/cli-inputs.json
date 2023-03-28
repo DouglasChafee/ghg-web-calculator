@@ -78,6 +78,28 @@
           "delete"
         ]
       }
+    },
+    "/ghgDeleteUser": {
+      "name": "/ghgDeleteUser",
+      "lambdaFunction": "ghgDeleteUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+
+    },
+    "/ParseExcelAPI": {
+      "name": "/ParseExcelAPI",
+      "lambdaFunction": "ParseExcel",
+      "permissions": {
+        "setting": "open"
+      }
+
     }
   }
 }
