@@ -41,7 +41,7 @@ def createFacility(
         'NATURAL_GAS': {
         'N': str(NaturalGas)
         },
-        'Purchased_Electricity': {
+        'PURCHASED_ELECTRICITY': {
         'N': str(Electicity)
         },
         'REFRIGERANTS': {
