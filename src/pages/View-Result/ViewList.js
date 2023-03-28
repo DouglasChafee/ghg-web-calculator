@@ -133,7 +133,6 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         onMouseEnter={e => {
                             e.target.style.backgroundColor = 'black'
                             e.target.style.color="#01BF71"
-
                         }}
                         onMouseLeave={e => {
                             e.target.style.backgroundColor = '#01BF71'
@@ -160,7 +159,6 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         onMouseEnter={e => {
                             e.target.style.backgroundColor = 'black'
                             e.target.style.color="#01BF71"
-
                         }}
                         onMouseLeave={e => {
                             e.target.style.backgroundColor = '#01BF71'
