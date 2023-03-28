@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function AdminUpdateForm(props) {
   const {
     id: idProp,
-    admin,
+    admin: adminModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -35,14 +35,16 @@ export default function AdminUpdateForm(props) {
     setName(cleanValues.name);
     setErrors({});
   };
-  const [adminRecord, setAdminRecord] = React.useState(admin);
+  const [adminRecord, setAdminRecord] = React.useState(adminModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Admin, idProp) : admin;
+      const record = idProp
+        ? await DataStore.query(Admin, idProp)
+        : adminModelProp;
       setAdminRecord(record);
     };
     queryData();
-  }, [idProp, admin]);
+  }, [idProp, adminModelProp]);
   React.useEffect(resetStateValues, [adminRecord]);
   const validations = {
     name: [{ type: "Required" }],
@@ -155,7 +157,7 @@ export default function AdminUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || admin)}
+          isDisabled={!(idProp || adminModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -167,7 +169,7 @@ export default function AdminUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || admin) ||
+              !(idProp || adminModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

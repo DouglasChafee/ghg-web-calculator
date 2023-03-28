@@ -32,7 +32,7 @@
         },
         "ghgScope1and2Calculator": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgScope1and2Calculator-336e4f42717976764753-build.zip"
+          "s3Key": "amplify-builds/ghgScope1and2Calculator-34785865727536717a37-build.zip"
         },
         "ghgViewResultSingle": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
@@ -44,7 +44,7 @@
         },
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-387354716c7878763846-build.zip"
+          "s3Key": "amplify-builds/ParseExcel-33306f342f4c746c3955-build.zip"
         }
       },
       "auth": {

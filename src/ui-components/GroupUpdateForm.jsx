@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function GroupUpdateForm(props) {
   const {
     id: idProp,
-    group,
+    group: groupModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -35,14 +35,16 @@ export default function GroupUpdateForm(props) {
     setName(cleanValues.name);
     setErrors({});
   };
-  const [groupRecord, setGroupRecord] = React.useState(group);
+  const [groupRecord, setGroupRecord] = React.useState(groupModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Group, idProp) : group;
+      const record = idProp
+        ? await DataStore.query(Group, idProp)
+        : groupModelProp;
       setGroupRecord(record);
     };
     queryData();
-  }, [idProp, group]);
+  }, [idProp, groupModelProp]);
   React.useEffect(resetStateValues, [groupRecord]);
   const validations = {
     name: [{ type: "Required" }],
@@ -155,7 +157,7 @@ export default function GroupUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || group)}
+          isDisabled={!(idProp || groupModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -167,7 +169,7 @@ export default function GroupUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || group) ||
+              !(idProp || groupModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
