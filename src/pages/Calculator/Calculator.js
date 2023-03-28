@@ -96,6 +96,7 @@ function About(){
     }
 
     async function results() {
+        setLoadingState(true)
         const user = await Auth.currentAuthenticatedUser()
         const token = user.signInUserSession.idToken.jwtToken
         console.log({ token }) // log user token
@@ -104,12 +105,13 @@ function About(){
           Authorization: token 
         },
         queryStringParameters: { // pass query parameters
-          userID: user.attributes.sub
+          userID: user.attributes.sub,
+          s3FileKey : 'public/S1&2 Data Collection Template2.xlsx' // replace value with key from josh
         }
       };
         await API.get('api4ef6c8be', '/ghgScope1and2Calculator', postInfo).then((response) => { // Api get request
             console.log(response);
-            console.log(user);
+            setLoadingState(false)
           })
     }
 
@@ -186,7 +188,7 @@ function About(){
                     isLoading={LoadingState}
                     variation="primary"
                     size="large"
-                    loadingText = "Parsing File"
+                    loadingText = "Calculating"
                     onClick={() => {
                         results();
                       }}

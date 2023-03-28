@@ -5,10 +5,120 @@ import openpyxl
 import boto3
 import io
 import logging
+import os
 
-s3Client = boto3.client('s3')
+s3 = boto3.resource('s3')
+ddb = boto3.client('dynamodb')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+# Format & Exectue DynamoDB User Table Deletion Statement
+def createFacility(
+        FacilityID, 
+        MobileCombustion, 
+        StationaryCombustion, 
+        Fugitive, 
+        NaturalGas, 
+        Electicity, 
+        Refrigerants, 
+        userID, 
+        year):
+    TableName='YearResult-hl3z2eogtjg2to4aktokmtn23y-staging'
+    uniqueID = userID + str(year) + FacilityID
+    Item={
+        'id': {
+        'S': str(uniqueID)
+        },
+        'COMBUSTION': {
+        'N': str(StationaryCombustion)
+        },
+        'FUGITIVE': {
+        'N': str(Fugitive)
+        },
+        'MOBILE': {
+        'N': str(MobileCombustion)
+        },
+        'NATURAL_GAS': {
+        'N': str(NaturalGas)
+        },
+        'Purchased_Electricity': {
+        'N': str(Electicity)
+        },
+        'REFRIGERANTS': {
+        'N': str(Refrigerants)
+        },
+        'userID': {
+        'S': str(userID)
+        },
+        'YEAR': {
+        'N': str(year)
+        }
+    }
+    return ddb.put_item(TableName=TableName, Item=Item)
+
+
+def getParsedPage(excel, page):
+    # Try to parse of the excel file
+    try:
+        # Return a successfully parsed page
+        return( excel.parse(page) )
+    except:
+        return
+    
+def isArrNan(arr):
+    return all(isNan(a) for a in arr)
+
+def isNan(val):
+    return pd.isnull(val)
+
+def checkFacility(excel):
+    pageName = "Facility Info"
+    # First get the data of the facility page
+    page = getParsedPage(excel, pageName)
+
+    # Transform the page to an array or arrays [[row], ... , [row]]
+    data = page.to_numpy()
+    
+    # Hold an array of facilites
+    facilityIDs = []
+    facility_count = 0
+    # Next parse through and find the location of 'unique facility ID'
+    row = -1 # Hold the row index
+    # Next find the facility unique ID title
+    for i in range(len(data)):
+        # If the first row contains the string 'Facility unique ID'
+        if(data[i][0] == 'Facility unique ID'):
+            row = i
+            break
+
+    all_facil_index = -1
+    # Using the index of the key, check all future rows until All facilities is found
+    for i in range(row+1, len(data)):
+        # First check if this is the all facilites row
+        if(data[i][0] == 'All facilities'):
+            # Set the row and break
+            all_facil_index = i
+            break
+        else:
+            # First check if the row is not empty
+            if not isArrNan(data[i]):
+                # Add to the count
+                facility_count+=1
+                col = 0
+                # Check the validity of the row one column at a time
+
+                # Col A: Unique ID
+                id = data[i][col]
+                # Check if the id is valid regex
+                if(not isNan(id)):
+                    # Check if the name is already present in the list
+                    if id in facilityIDs:
+                        # Send an error
+                        pass
+                    else:
+                        # Add the id to the list of ids
+                        facilityIDs.append(id) 
+    return facilityIDs
 
 def handler(event, context):
     #const userid = event.queryStringParameters.id;
@@ -18,23 +128,28 @@ def handler(event, context):
     # key = event['Records'][0]['s3']['object']['key']
     logger.info(event["queryStringParameters"])
 
-    #reponse1 = s3Client.get_object(Bucket=bucket, Key=key)
-    reponse1 = s3Client.get_object(Bucket='ghgwebapptemplatebucketfh3471h93h91c10053-staging', Key='public/S1&2_Example_Data.xlsx')
-    reponse2 = s3Client.get_object(Bucket='ghgwebapptemplatebucketfh3471h93h91c10053-staging', Key='public/Emission_Factors.xlsx')
+    userID = event["queryStringParameters"]["userID"]
+    Key = event["queryStringParameters"]["s3FileKey"]
+    # creating local files
+    local_file_name = '/tmp/userData.xlsx'
 
-    # getting response body (file data)
-    scopeData = reponse1['Body'].read()
-    emissionFactors = reponse2['Body'].read()
-    logger.info(reponse1)
+    # downloading files from s3 to tmp ephemeral storage
+    s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
+    s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file('public/Emission_Factors.xlsx', '/tmp/emissionFactors.xlsx')
+    # s3Client.download_file('ghgwebapptemplatebucketfh3471h93h91c10053-staging', 'public/S1&2_Example_Data.xlsx', local_file_name)
 
-    # gets file object
-    scopeDF  = io.BytesIO(scopeData)
-    emissionFactorsDF = io.BytesIO(emissionFactors)
+    logger.info("Passed Chcek Here: " + str(os.path.isfile(local_file_name)))
+    logger.info("Passed Chcek Here: " + str(os.path.isfile('/tmp/emissionFactors.xlsx')))
 
-    inventory_data = pd.read_excel(scopeDF, sheet_name=None)
-    emission_factors = pd.read_excel(emissionFactorsDF, sheet_name=None)
+    # getting excel object
+    inventory_data = pd.ExcelFile('/tmp/userData.xlsx')
+    emission_factors = pd.ExcelFile('/tmp/emissionFactors.xlsx')
+    
+    # logger.info(reponse2)
+    logger.info(inventory_data)
 
-    # Noor's mobile code
+    FacilityIDs = checkFacility(inventory_data)
+
     mobile_combustion = inventory_data.parse('Scope 1 - Mobile')
     for index, row in mobile_combustion.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -70,8 +185,21 @@ def handler(event, context):
     mobile_combustion_total_emissions = mobile_combustion_co2_emissions + (mobile_combustion_ch4_emissions*28) + (mobile_combustion_n2o_emissions*265)
     mobile_combustion_summary_emissions = pd.concat([mobile_combustion_co2_emissions, mobile_combustion_ch4_emissions, mobile_combustion_n2o_emissions, mobile_combustion_total_emissions], axis=1)
     mobile_combustion_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
+    
+    mobile_comb = mobile_combustion_total_emissions.index.to_list()
+    mobile_last_col = mobile_combustion_total_emissions.to_list()
+    year_col = mobile_combustion_summary_emissions.index[0]
+    year = year_col[4]
 
-    # Noor's stationary code
+    mobile_dict = {}
+    for f in FacilityIDs:
+        mobile_dict[f] = 0
+        for i in range(len(mobile_comb)):
+            if f in mobile_comb[i]:
+                if not isNan(mobile_last_col[i]):
+                    mobile_dict.update({f : mobile_dict[f]+mobile_last_col[i]})
+
+
     stationary_combustion = inventory_data.parse('Scope 1 - Stationary')
     for index, row in stationary_combustion.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -100,9 +228,19 @@ def handler(event, context):
     stationary_combustion_total_emissions = stationary_combustion_co2_emissions + (stationary_combustion_ch4_emissions*28/1000) + (stationary_combustion_n2o_emissions*265/1000)
     stationary_combustion_summary_emissions = pd.concat([stationary_combustion_co2_emissions, stationary_combustion_ch4_emissions, stationary_combustion_n2o_emissions, stationary_combustion_total_emissions], axis=1)
     stationary_combustion_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
-    print(stationary_combustion_summary_emissions)
+   
+    stationary_comb = stationary_combustion_total_emissions.index.to_list()
+    stationary_last_col = stationary_combustion_total_emissions.to_list()
 
-    # Noor's fugitive code
+    stationary_dict = {}
+    for f in FacilityIDs:
+        stationary_dict[f] = 0
+        for i in range(len(stationary_comb)):
+            if f in stationary_comb[i]:
+                if not isNan(stationary_last_col[i]):
+                    stationary_dict.update({f : stationary_dict[f]+stationary_last_col[i]})
+
+
     fugitive = inventory_data.parse('Scope 1 - Fugitives')
     for index, row in fugitive.iterrows():
         if row['Scope 1'] == 'Facility unique ID':
@@ -128,9 +266,19 @@ def handler(event, context):
 
     fugitive_summary_emissions = fugitive['Final Quantity'].mul(s1_f_emission_factors['AR5 (kgCO2e)'])
     fugitive_summary_emissions.columns = ['kgCO2e']
-    print(fugitive_summary_emissions)
+    
+    fugitive_comb = fugitive_summary_emissions.index.to_list()
+    fugitive_last_col = fugitive_summary_emissions.to_list()
 
-    # Noor's scope2 code
+    fugitive_dict = {}
+    for f in FacilityIDs:
+        fugitive_dict[f] = 0
+        for i in range(len(fugitive_comb)):
+            if f in fugitive_comb[i]:
+                if not isNan(fugitive_last_col[i]):
+                    fugitive_dict.update({f : fugitive_dict[f]+fugitive_last_col[i]})
+
+
     purchased_energy = inventory_data.parse('Scope 2 - Purchased Energy')
     for index, row in purchased_energy.iterrows():
         if row['Scope 2'] == 'Facility unique ID':
@@ -159,9 +307,46 @@ def handler(event, context):
     purchased_energy_total_emissions = purchased_energy_co2_emissions + (purchased_energy_ch4_emissions*28/1000) + (purchased_energy_n2o_emissions*265/1000)
     purchased_energy_summary_emissions = pd.concat([purchased_energy_co2_emissions, purchased_energy_ch4_emissions, purchased_energy_n2o_emissions, purchased_energy_total_emissions], axis=1)
     purchased_energy_summary_emissions.columns = ['kgCO2', 'kgCH4', 'kgN2O', 'kgCO2e']
-    print(purchased_energy_summary_emissions)
-    
-    logger.info(purchased_energy_total_emissions)
+
+
+    purchased_energy_comb = purchased_energy_total_emissions.index.to_list()
+    purchased_energy_last_col = purchased_energy_total_emissions.to_list()
+
+    purchased_electricity_dict = {}
+    purchased_gas_dict = {}
+    purchased_water_dict = {}
+    for f in FacilityIDs:
+        purchased_electricity_dict[f] = 0
+        purchased_gas_dict[f] = 0
+        purchased_water_dict[f] = 0
+        for i in range(len(purchased_energy_comb)):
+            if f in purchased_energy_comb[i]:
+                if not isNan(purchased_energy_last_col[i]):
+                    if "Electricity" in purchased_energy_summary_emissions.index[i][2]:
+                            purchased_electricity_dict.update({f : purchased_electricity_dict[f]+purchased_energy_last_col[i]})
+                    elif "heat" in purchased_energy_summary_emissions.index[i][2]:
+                            purchased_gas_dict.update({f : purchased_gas_dict[f]+purchased_energy_last_col[i]})
+                    elif "water" in purchased_energy_summary_emissions.index[i][2]:
+                            purchased_water_dict.update({f : purchased_water_dict[f]+purchased_energy_last_col[i]})
+
+    # Insert facility data in database one at a time
+    for id in FacilityIDs:
+        logger.info("Processing Facility " + str(id))
+        createFacility(
+        id,
+        mobile_dict[id],
+        stationary_dict[id],
+        fugitive_dict[id],
+        purchased_gas_dict[id],
+        purchased_electricity_dict[id],
+        purchased_water_dict[id],
+        userID,
+        int(year)
+        )
+        logger.info("Finished Inserting Facility " + str(id))
+
+
+    # remove tmp file here before returning
 
     return {
         'statusCode': 200,
@@ -170,5 +355,5 @@ def handler(event, context):
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': json.dumps('WEEWOOWEEWOO Chad alert!')
+        'body': json.dumps('Calculation Submission was Successful')
     }
