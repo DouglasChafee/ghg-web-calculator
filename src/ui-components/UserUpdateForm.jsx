@@ -70,10 +70,9 @@ export default function UserUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -124,14 +123,9 @@ export default function UserUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          const modelFieldsToSave = {
-            email: modelFields.email,
-            isLeader: modelFields.isLeader,
-            groupID: modelFields.groupID,
-          };
           await DataStore.save(
             User.copyOf(userRecord, (updated) => {
-              Object.assign(updated, modelFieldsToSave);
+              Object.assign(updated, modelFields);
             })
           );
           if (onSuccess) {
