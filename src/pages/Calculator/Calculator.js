@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
+import { withAuthenticator, Authenticator, ThemeProvider, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { useNavigate } from "react-router-dom";
@@ -199,7 +199,7 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"2rem"}
+                paddingBottom={"12rem"}
                 paddingTop={"2rem"}
                 gap="1rem"
                 direction="column" 

@@ -16,9 +16,6 @@
       "auth": {
         "ghgwebapp": {}
       },
-      "storage": {
-        "scopetemplates": {}
-      },
       "function": {
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",

@@ -33,7 +33,7 @@ function FAQ({setLogInState, setLogOutState}){
                             A: Under the group info section of your profile page, click "Create Group" and follow the subuqent prompts.
                         </ExpanderItem>
 
-                        <ExpanderItem title="Q: How do I Invite Memebers?" value="about-item-3">
+                        <ExpanderItem title="Q: How do I Invite Members?" value="about-item-3">
                             A: Under the group info section of your profile page, click "Manage Group" then click "Add Member Link". A link will be copied to your clipboard which you must send yourself to the invitee. We recommend sending the link via email.
                         </ExpanderItem>
 

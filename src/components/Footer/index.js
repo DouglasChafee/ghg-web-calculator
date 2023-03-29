@@ -39,8 +39,8 @@ const Footer = () => {
                 <FooterLinksWrapper>
                 <FooterLinkItems>
                     <FooterLinkTitle> Contact Us</FooterLinkTitle>
-                        <FooterLink to="/FAQ">Contact</FooterLink>
-                        <FooterLink to="/FAQ">Support</FooterLink>
+                        <FooterLink to="/contact">Contact</FooterLink>
+                        <FooterLink to="/contact">Support</FooterLink>
                         <FooterLink to="/FAQ">FAQ</FooterLink>
                         <FooterLink href="//www.youtube.com" target="_blank" aria-label='Youtube'>Helpful Videos</FooterLink>
                 </FooterLinkItems>
