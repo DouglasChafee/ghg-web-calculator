@@ -22,7 +22,7 @@
       "function": {
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-68785877596e63474e58-build.zip"
+          "s3Key": "amplify-builds/ParseExcel-6b5a48374d766b433032-build.zip"
         },
         "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",

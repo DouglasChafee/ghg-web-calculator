@@ -10,9 +10,9 @@ function About(){
 
     // The loading state when the file is being parsed
     const [LoadingState, setLoadingState] = useState(false)
-    const [ClacDisabled, setCalcDisabled] = useState(false) // change to true
+    const [ClacDisabled, setCalcDisabled] = useState(true)
+    const [LoadingDisplayText, setLoadingDisplayText] = useState("Parsing File")
     const [WarningMessages, addWarningMessage] = useState([])
-    const FileKey = ''
 
     // Download Funciton for the template
     async function downloadTemplateOnClick() {
@@ -54,15 +54,10 @@ function About(){
     async function onSuccess(key) {
         // First update the submit button to begin loading
         setLoadingState(true)
+        setLoadingDisplayText("Parsing File")
+
         // Then set the message to blank
-        const c = await Storage.get(key, {
-            level:'private'
-          });
-        addWarningMessage( [
-            <Card width={"900px"}>
-                <Text color="green">{c}</Text>
-            </Card>
-        ] )
+        addWarningMessage( [ ] )
         // Then call the api to parse the uploaded file
         CallParseAPI(key)
     };
@@ -79,7 +74,7 @@ function About(){
             },
                 queryStringParameters: { // pass query parameters
                 userID: user.attributes.sub,
-                s3FileKey : 'public/S1&2 Data Collection Template2.xlsx' // replace value with key from josh
+                s3FileKey : 'public/S1&2_Example_Data.xlsx' // replace value with key from josh
             }   
         };
         await API.get('api4ef6c8be', '/ParseExcelAPI', postInfo).then((response) => { // Api get request
@@ -155,6 +150,7 @@ function About(){
     }
 
     async function results() {
+        setLoadingDisplayText("Calculating")
         setLoadingState(true)
         const user = await Auth.currentAuthenticatedUser()
         const token = user.signInUserSession.idToken.jwtToken
@@ -246,7 +242,7 @@ function About(){
                     isLoading={LoadingState}
                     variation="primary"
                     size="large"
-                    loadingText = "Calculating"
+                    loadingText = {LoadingDisplayText}
                     onClick={() => {
                         results();
                       }}
