@@ -44,7 +44,7 @@
         },
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-2b624161765576333677-build.zip"
+          "s3Key": "amplify-builds/ParseExcel-68785877596e63474e58-build.zip"
         },
         "ghgDeleteYear": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",

@@ -180,6 +180,152 @@
       "service": "Lambda"
     }
   },
+  "parameters": {
+    "AMPLIFY_function_ParseExcel_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ParseExcel"
+        }
+      ]
+    },
+    "AMPLIFY_function_ParseExcel_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ParseExcel"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateGroup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateGroup"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateGroup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateGroup"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgCreateUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgCreateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteYear_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteYear"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteYear_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteYear"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgReadUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgReadUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgReadUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgScope1and2Calculator_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgScope1and2Calculator_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgScope1and2Calculator"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgUpdateUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgUpdateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgUpdateUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgUpdateUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgViewResultSingle_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgViewResultSingle"
+        }
+      ]
+    }
+  },
   "storage": {
     "scopetemplates": {
       "dependsOn": [],

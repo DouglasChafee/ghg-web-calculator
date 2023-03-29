@@ -11,6 +11,7 @@ function About(){
     const [LoadingState, setLoadingState] = useState(false)
     const [ClacDisabled, setCalcDisabled] = useState(true)
     const [WarningMessages, addWarningMessage] = useState([])
+    const FileKey = ''
 
     // Download Funciton for the template
     async function downloadTemplateOnClick() {
@@ -57,7 +58,7 @@ function About(){
             level:'private'
           });
         addWarningMessage( [
-            <Card width={"900px"} height="2.5rem">
+            <Card width={"900px"}>
                 <Text color="green">{c}</Text>
             </Card>
         ] )
@@ -70,18 +71,29 @@ function About(){
         // First get the auth of the user
         const user = await Auth.currentAuthenticatedUser()
         const token = user.signInUserSession.idToken.jwtToken
-        // Create the request info
-        const requestInfo = {
-            headers: { // pass user authorization token
-              Authorization: token 
+        console.log({ token }) // log user token
+        const postInfo = {
+        headers: { // pass user authorization token
+            Authorization: token 
             },
-            queryStringParameters: { // pass query parameters
-              key
-            }
+                queryStringParameters: { // pass query parameters
+                userID: user.attributes.sub,
+                s3FileKey : 'public/S1&2 Data Collection Template2.xlsx' // replace value with key from josh
+            }   
         };
-        await API.get('api4ef6c8be', '/ParseExcelAPI', requestInfo).then((response) => { // Api get request
+        await API.get('api4ef6c8be', '/ParseExcelAPI', postInfo).then((response) => { // Api get request
             console.log(response);
-          })
+            // Given the response call an error or on sucsess
+            if(response.isValid) {
+                // Call the on sucsess function
+                onFileReady(response.errorList);
+            }
+            else {
+                // Otherwise call on error
+                // And send the list of error strings
+                onFileError(response.errorList);
+            }
+        })
     };
 
     // Function for on error upload
@@ -105,34 +117,40 @@ function About(){
     };
 
     // After upload on check, when there are issues with the file
-    async function onFileError(key)   {
+    function onFileError(errors)   {
         // First set the loading state to false
         setLoadingState(false)
         // Disable the calculate button
         setCalcDisabled(true)
-        // Then delete the file from the private bucket
         // Add an element to the message box
-        addWarningMessage(
-            WarningMessages.concat([
-                <Card width={"900px"} height="2.5rem">
-                    <Text color="red">There was an unexpected error when uploading your file.</Text>
-                </Card>
-            ] )
-        )
+        addMessagesFromList(errors, "red")
     }
 
     // A function which occurs upon returned sucsess from the API
-    async function onFileReady(key)   {
-        // First display the message on sucsess
-        addWarningMessage( [
-            <Card width={"700px"} height="2.5rem">
-                <Text color="green">Success. Ready to calculate.</Text>
-            </Card>
-        ] )
-        // Then stop the loading state
+    async function onFileReady(warning)   {
+        // Stop the loading state
         setLoadingState(false)
         // Then enable the calculate button
         setCalcDisabled(false)
+        // Add an element to the message box
+        addMessagesFromList(warning, "orange")
+    }
+
+    // Add all messages in a list to the messages object list
+    function addMessagesFromList(messages, color_word) {
+        // Hold the list of messages
+        let messagesObjects = []
+        // For each message
+        for (let index = 0; index < messages.length; ++index) {
+            // Add an message to the list of messages
+            messagesObjects = messagesObjects.concat( [
+                    <Card width={"900px"} height="2.5rem">
+                        <Text color={color_word}>{messages[index]}</Text>
+                    </Card>
+                ] ) ;
+        }
+        // End by appending the messages
+        addWarningMessage( messagesObjects )
     }
 
     return(
