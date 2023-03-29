@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+//import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 import { Amplify, Storage, API, Auth } from 'aws-amplify';
@@ -9,7 +10,7 @@ function About(){
 
     // The loading state when the file is being parsed
     const [LoadingState, setLoadingState] = useState(false)
-    const [ClacDisabled, setCalcDisabled] = useState(true)
+    const [ClacDisabled, setCalcDisabled] = useState(false) // change to true
     const [WarningMessages, addWarningMessage] = useState([])
     const FileKey = ''
 
@@ -153,6 +154,26 @@ function About(){
         addWarningMessage( messagesObjects )
     }
 
+    async function results() {
+        setLoadingState(true)
+        const user = await Auth.currentAuthenticatedUser()
+        const token = user.signInUserSession.idToken.jwtToken
+        console.log({ token }) // log user token
+        const postInfo = {
+        headers: { // pass user authorization token
+          Authorization: token 
+        },
+        queryStringParameters: { // pass query parameters
+          userID: user.attributes.sub,
+          s3FileKey : 'public/S1&2 Data Collection Template2.xlsx' // replace value with key from josh
+        }
+      };
+        await API.get('api4ef6c8be', '/ghgScope1and2Calculator', postInfo).then((response) => { // Api get request
+            console.log(response);
+            setLoadingState(false)
+          })
+    }
+
     return(
         <div>
             <Flex
@@ -225,8 +246,10 @@ function About(){
                     isLoading={LoadingState}
                     variation="primary"
                     size="large"
-                    loadingText = "Parsing File"
-                    onClick={() => alert('File Sent')}
+                    loadingText = "Calculating"
+                    onClick={() => {
+                        results();
+                      }}
                     ariaLabel=""
                 >
                     Calculate
