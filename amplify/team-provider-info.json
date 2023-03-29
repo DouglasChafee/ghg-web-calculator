@@ -22,7 +22,7 @@
       "function": {
         "ParseExcel": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-2b624161765576333677-build.zip"
+          "s3Key": "amplify-builds/ParseExcel-68785877596e63474e58-build.zip"
         },
         "ghgCreateGroup": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
@@ -42,27 +42,15 @@
         },
         "ghgScope1and2Calculator": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgScope1and2Calculator-70547a334437794a7455-build.zip"
+          "s3Key": "amplify-builds/ghgScope1and2Calculator-772b6b786c6c6b347276-build.zip"
         },
         "ghgUpdateUser": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgUpdateUser-756d42677872584a3274-build.zip"
         },
-        "ghgScope1and2Calculator": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgScope1and2Calculator-772b6b786c6c6b347276-build.zip"
-        },
         "ghgViewResultSingle": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
-        },
-        "ghgDeleteUser": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ghgDeleteUser-666a6d6c534876714b56-build.zip"
-        },
-        "ParseExcel": {
-          "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
-          "s3Key": "amplify-builds/ParseExcel-68785877596e63474e58-build.zip"
         },
         "ghgDeleteYear": {
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",

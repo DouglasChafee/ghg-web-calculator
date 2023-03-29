@@ -130,7 +130,7 @@ def handler(event, context):
     Key = event["queryStringParameters"]["s3FileKey"]
 
     # tmp folder file name
-    local_file_name = '/tmp/' + Key
+    local_file_name = '/tmp/userData'
 
     # downloading files from s3 to tmp ephemeral storage
     s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
