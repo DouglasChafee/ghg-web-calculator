@@ -2,8 +2,11 @@
   "resourceName": "scopetemplates",
   "policyUUID": "813182a9",
   "bucketName": "ghgwebapptemplatebucketfh3471h93h91c",
-  "storageAccess": "auth",
-  "guestAccess": [],
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ",
+    "CREATE_AND_UPDATE"
+  ],
   "authAccess": [
     "READ",
     "CREATE_AND_UPDATE"
