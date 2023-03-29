@@ -117,7 +117,6 @@ function UpdatePassword(props) {
         // Update Backend with User Submitted Input
         try {
           setLoading(true)
-          console.log(modelFields)
           Object.entries(modelFields).forEach(([key, value]) => {
             if (typeof value === "string" && value.trim() === "") {
               modelFields[key] = undefined;

@@ -142,7 +142,7 @@ function Profile({setLogInState, setLogOutState, theme, formFields}) {
               >
               <h1>Group - </h1>
               <NavBtn>
-                <ButtonLinks to="/">Create New Group</ButtonLinks>
+                <ButtonLinks to="">Create New Group</ButtonLinks>
               </NavBtn>
             </Flex>
             <Divider size="medium" display="flex" orientation="horizontal"/>

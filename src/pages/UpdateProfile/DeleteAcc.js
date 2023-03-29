@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect , useState} from 'react';
 import {
   Button,
   Divider,
@@ -23,18 +23,23 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
   setLogOutState("flex"); // enable sign-out button
   const [confirmation, setConfirmation] = React.useState("");
   const [Loading, setLoading] = React.useState(false);
+  const [responseData, setResponseData] = useState("");
+  var facilitiesIDs = [];
 
   async function callAPI() {
     const user = await Auth.currentAuthenticatedUser();
     const token = user.signInUserSession.idToken.jwtToken
+    await getFacilitiesAPI();
     console.log(user);
+    console.log(facilitiesIDs);
     console.log({ token }) // log user token
     const requestInfo = {
       headers: { // pass user authorization token
         Authorization: token 
       },
       queryStringParameters: { // pass query parameters
-        id: user.attributes.sub
+        id: user.attributes.sub,
+        idList: JSON.stringify(facilitiesIDs)
       }
     };
     
@@ -43,6 +48,28 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
     })
     
   }
+
+  // Gather facility information
+  async function getFacilitiesAPI() {
+    const user = await Auth.currentAuthenticatedUser()
+    console.log(user.attributes.sub)
+    const userSub = user.attributes.sub
+    const token = user.signInUserSession.idToken.jwtToken
+    console.log({ token })
+    const requestInfo = {
+        headers: {
+        Authorization: token
+        },
+        queryStringParameters: { 
+        userID: userSub
+        }
+    };
+    await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
+      for(let i = 0; i < response.Items.length; i++){
+        facilitiesIDs.push(response.Items[i].id);
+      }
+    })
+    }
 
   // Beginning of Delete Account Page Layout
   return (
@@ -53,6 +80,7 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
       rowGap="15px"
       columnGap="15px"
       padding="20px"
+      paddingBottom="20rem"
       onSubmit={async (event) => {
         event.preventDefault();
 
@@ -64,11 +92,11 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
           // In DynamoDB tables and Cognito User Pool
           await callAPI();
           setLoading(false)  
-          Auth.signOut(); // auto sign user out
+          //Auth.signOut(); // auto sign user out
           setLogInState("flex"); // enable sign-in button
           setLogOutState("none"); // disable sign-out button
           alert("Account Deletion was Successful");
-          navigate("/");
+          //navigate("/");
 
         } catch (err) {
             setLoading(false)

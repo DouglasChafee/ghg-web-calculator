@@ -13,6 +13,12 @@ exports.handler = async (event, context, callback) => {
     }
 
     // Execute Deletion statment  delete user in DynamoDB
+    const yearids = JSON.parse(event.queryStringParameters.idList);
+    for(let i = 0; i < yearids.length; i++){
+        deleteYear(yearids[i]);
+        console.log("Deleting" + yearids[i]);
+    }
+
     const userid = event.queryStringParameters.id;
     await deleteProfile(userid).then((err) => {
         if (err) {
@@ -56,4 +62,15 @@ function deleteCognitoProfile(userid) {
         Username: userid
     }
     return cognito.adminDeleteUser(params).promise();
+};
+
+// Format & Exectue DynamoDB User Table Deletion Statement
+function deleteYear(yearid) {
+    const params = {
+        TableName: 'YearResult-hl3z2eogtjg2to4aktokmtn23y-staging',
+        Key: {
+            id: yearid,
+        }
+    }
+    return ddb.delete(params).promise();
 };
