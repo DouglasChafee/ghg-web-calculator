@@ -23,13 +23,13 @@ function ViewList({setLogInState, setLogOutState, theme, formFields}) {
         }
         if(sel.length === 1){
             // Create URL with years attached
-            let Values = new URL("http://" + window.location.host+"/ViewResultSingle");  // Change if file names are changed
+            let Values = new URL(window.location.href +"/ViewResultSingle");  // Change if file names are changed
             Values.searchParams.set("Year",sel);
             window.location=Values;
         }
         else{
             // Create URL with years attached
-            let Values = new URL("http://" + window.location.host+"/ViewResultMulti");  // Change if file names are changed
+            let Values = new URL(window.location.href +"/ViewResultMulti");  // Change if file names are changed
             Values.searchParams.set("Year",sel);
             window.location=Values;
         }

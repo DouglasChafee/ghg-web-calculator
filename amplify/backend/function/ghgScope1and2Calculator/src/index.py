@@ -133,7 +133,7 @@ def handler(event, context):
 
     s3Bucket = s3.Bucket('bucket')
     for obj in s3Bucket.objects.all():
-        if Key in obj.key:
+        if Key in obj.key and userID in obj.key:
             Key = Key
             break
 
