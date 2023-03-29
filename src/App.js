@@ -31,7 +31,7 @@ function App() {
           <Route exact path='/about' element={<About />} />
           <Route exact path='/home' element={<Home setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/profile' element={<Profile setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
-          <Route exact path='/calculator' element={<Calculator />} />
+          <Route exact path='/calculator' element={<Calculator setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
       </Routes>
       <Footer />
     </Router>

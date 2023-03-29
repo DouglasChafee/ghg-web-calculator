@@ -7,6 +7,7 @@ import io
 import logging
 import os
 import re
+import urllib.request
 
 # API objects
 s3 = boto3.resource('s3')
@@ -844,13 +845,16 @@ def handler(event, context):
     # creating local files
     local_file_name = '/tmp/userData.xlsx'
 
-    #try to download the file to the temp directory
+     #try to download the file to the temp directory
     try:
-        # downloading files from s3 to tmp ephemeral storage
-        s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
+        logger.info(Key)
+        # Download using the url
+        urllib.request.urlretrieve(Key,local_file_name)
     except:
+        logger.info("Failed")
         # If the file is not downloaded
         addError("File not found.")
+        # Then return
 
     # Hold the excel
     excel = ''

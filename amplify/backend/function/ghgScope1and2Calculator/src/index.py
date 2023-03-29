@@ -6,6 +6,7 @@ import boto3
 import io
 import logging
 import os
+import urllib.request
 
 s3 = boto3.resource('s3')
 ddb = boto3.client('dynamodb')
@@ -133,7 +134,12 @@ def handler(event, context):
     local_file_name = '/tmp/userData'
 
     # downloading files from s3 to tmp ephemeral storage
-    s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
+    try:
+        # Download using the url
+        urllib.request.urlretrieve(Key,local_file_name)
+    except:
+        logger.info("scope1&2 calc failed")
+
     if not os.path.exists('/tmp/emissionFactors.xlsx'):
         s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file('public/Emission_Factors.xlsx', '/tmp/emissionFactors.xlsx')
 

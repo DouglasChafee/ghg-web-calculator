@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
-//import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 import { Amplify, Storage, API, Auth } from 'aws-amplify';
+import { useNavigate } from "react-router-dom";
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
 
-function About(){
+var fileKey;
+var file;
+
+function Calculator({setLogInState, setLogOutState, theme, formFields}){
+
+    document.title="Calculator"
+    useEffect(() => {
+        setLogInState("none"); // disable sign-in button
+        setLogOutState("flex"); // enable sign-out button
+    }, [])
 
     // The loading state when the file is being parsed
     const [LoadingState, setLoadingState] = useState(false)
     const [ClacDisabled, setCalcDisabled] = useState(true)
     const [LoadingDisplayText, setLoadingDisplayText] = useState("Parsing File")
     const [WarningMessages, addWarningMessage] = useState([])
+    const navigate = useNavigate();
 
     // Download Funciton for the template
     async function downloadTemplateOnClick() {
@@ -53,6 +63,7 @@ function About(){
     // On sucsessfull file upload
     async function onSuccess(key) {
         // First update the submit button to begin loading
+        fileKey = key
         setLoadingState(true)
         setLoadingDisplayText("Parsing File")
 
@@ -64,6 +75,10 @@ function About(){
 
     // Call the Parse API
     async function CallParseAPI(key) {
+        file = await Storage.get("S1&2_Example_Data.xlsx", {
+        level: "private"
+    });
+        
         // First get the auth of the user
         const user = await Auth.currentAuthenticatedUser()
         const token = user.signInUserSession.idToken.jwtToken
@@ -74,7 +89,7 @@ function About(){
             },
                 queryStringParameters: { // pass query parameters
                 userID: user.attributes.sub,
-                s3FileKey : 'public/S1&2_Example_Data.xlsx' // replace value with key from josh
+                s3FileKey : file
             }   
         };
         await API.get('api4ef6c8be', '/ParseExcelAPI', postInfo).then((response) => { // Api get request
@@ -149,7 +164,7 @@ function About(){
         addWarningMessage( messagesObjects )
     }
 
-    async function results() {
+    async function results(key) {
         setLoadingDisplayText("Calculating")
         setLoadingState(true)
         const user = await Auth.currentAuthenticatedUser()
@@ -161,16 +176,20 @@ function About(){
         },
         queryStringParameters: { // pass query parameters
           userID: user.attributes.sub,
-          s3FileKey : 'public/S1&2 Data Collection Template2.xlsx' // replace value with key from josh
+          s3FileKey : file
         }
       };
         await API.get('api4ef6c8be', '/ghgScope1and2Calculator', postInfo).then((response) => { // Api get request
             console.log(response);
             setLoadingState(false)
+            alert("Calculations Were Successful");
+            navigate("/");
           })
     }
 
     return(
+        <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <div>
             <Flex
                 // Flex container for entire page
@@ -244,17 +263,18 @@ function About(){
                     size="large"
                     loadingText = {LoadingDisplayText}
                     onClick={() => {
-                        results();
+                        results(fileKey);
                       }}
                     ariaLabel=""
                 >
                     Calculate
                 </Button>
             </Flex>
-            
         </div>
+    </Authenticator>
+    </ThemeProvider>
     );
     
 }
 
-export default withAuthenticator(About)
+export default Calculator

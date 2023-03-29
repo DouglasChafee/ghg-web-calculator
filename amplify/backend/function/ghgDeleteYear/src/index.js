@@ -13,13 +13,10 @@ exports.handler = async (event, context, callback) => {
     }
 
     // Execute Deletion statment  delete user in DynamoDB
-    const yearids = event.queryStringParameters.id;
+    const yearids = JSON.parse(event.queryStringParameters.idList);
     for(let i = 0; i < yearids.length; i++){
-        await deleteYear(yearids).then((err) => {
-            if (err) {
-                console.log(err)
-            }
-        })
+       deleteYear(yearids[i]);
+       console.log("Deleting" + yearids[i]);
     }
 
     // format response and body of API response

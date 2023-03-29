@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function GroupUpdateForm(props) {
   const {
     id: idProp,
-    group: groupModelProp,
+    group,
     onSuccess,
     onError,
     onSubmit,
@@ -35,16 +35,14 @@ export default function GroupUpdateForm(props) {
     setName(cleanValues.name);
     setErrors({});
   };
-  const [groupRecord, setGroupRecord] = React.useState(groupModelProp);
+  const [groupRecord, setGroupRecord] = React.useState(group);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(Group, idProp)
-        : groupModelProp;
+      const record = idProp ? await DataStore.query(Group, idProp) : group;
       setGroupRecord(record);
     };
     queryData();
-  }, [idProp, groupModelProp]);
+  }, [idProp, group]);
   React.useEffect(resetStateValues, [groupRecord]);
   const validations = {
     name: [{ type: "Required" }],
@@ -54,10 +52,9 @@ export default function GroupUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -157,7 +154,7 @@ export default function GroupUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || groupModelProp)}
+          isDisabled={!(idProp || group)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -169,7 +166,7 @@ export default function GroupUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || groupModelProp) ||
+              !(idProp || group) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
