@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
+import { useNavigate } from "react-router-dom";
 import { Amplify, Auth, API} from 'aws-amplify';
 import { Authenticator, ThemeProvider, Divider,  Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 API.configure(awsExports);
 
-function ViewList({setLogInState, setLogOutState, theme, formFields}) {
+function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formFields}) {
+    document.title="Year List"
+    const navigate = useNavigate();
 
     // When submit button is pressed, adds checked elements to a list and sends
     const onSubmit = (event) => {
@@ -18,20 +21,15 @@ function ViewList({setLogInState, setLogOutState, theme, formFields}) {
             }
         }
         if(sel.length === 0){  // If no buttons pressed disable submit button
-            let get = document.getElementsByClassName("Button");
-            get.setAttribute('disabled',true);
+            alert("Please Select at least one Year");
         }
         if(sel.length === 1){
-            // Create URL with years attached
-            let Values = new URL(window.location.href +"/ViewResultSingle");  // Change if file names are changed
-            Values.searchParams.set("Year",sel);
-            window.location=Values;
+            setSelectedYears(sel)
+            navigate("/ViewResultSingle");
         }
-        else{
-            // Create URL with years attached
-            let Values = new URL(window.location.href +"/ViewResultMulti");  // Change if file names are changed
-            Values.searchParams.set("Year",sel);
-            window.location=Values;
+        else {
+            setSelectedYears(sel)
+            navigate("/ViewResultMulti");
         }
     }
 

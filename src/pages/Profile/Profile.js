@@ -9,6 +9,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function Profile({setLogInState, setLogOutState, theme, formFields}) {
+    document.title="Profile"
     const [FName, setFName] = useState("")
     const [LName, setLName] = useState("")
     const [Email, setEmail] = useState("")

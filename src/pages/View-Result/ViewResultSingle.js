@@ -28,12 +28,11 @@ API.configure(awsExports);
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ViewResultSingle({setLogInState, setLogOutState, theme, formFields}){
-     
+function ViewResultSingle({selectedYears, setLogInState, setLogOutState, theme, formFields}){
+  document.title="Viewing Single Result ..."  
   const [ItemLength, setItemLength] = useState("");
   const [responseData, setResponseData] = useState("");
-  const urlParams = new URLSearchParams(window.location.search);
-  var YEAR_SELECTED = parseInt(urlParams.get("Year")); 
+  var YEAR_SELECTED = parseInt(selectedYears[0]); 
   const labels=[]; // # of Facilities for Bar Graph
   
   var TOTAL_COMBUSTION = 0;
@@ -75,14 +74,12 @@ function ViewResultSingle({setLogInState, setLogOutState, theme, formFields}){
     }, [])
       
     
-    //console.log("responseData test: " + responseData.Items[0].YEAR);
     
     // Number of facilities = response item length
     // Also assigning total vals by adding up all vals
     var facNum=0;
     for(let i=0;i<ItemLength;i++){
       if(responseData.Items[i].YEAR === YEAR_SELECTED){
-        console.log("ADDING RESPONSE ID " + responseData.Items[i].id + " FROM YEAR " + responseData.Items[i].YEAR + " TO TOTALS");
         facNum = facNum + 1;
         labels.push("Facility " + facNum);
         
@@ -96,7 +93,6 @@ function ViewResultSingle({setLogInState, setLogOutState, theme, formFields}){
       }
     }
     
-    //console.log("Total Combustion: " + TOTAL_COMBUSTION);
 
     // Creating Scope 1 and Scope 2 totals
     var barDataScope1=[];

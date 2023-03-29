@@ -16,6 +16,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
+  document.title="Delete Account"
   const user = Auth.currentAuthenticatedUser();
   const navigate = useNavigate();
   setLogInState("none"); // disable sign-in button

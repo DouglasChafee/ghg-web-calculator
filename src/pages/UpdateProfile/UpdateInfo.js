@@ -19,6 +19,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function UpdateInfo(props) {
+  document.title="Update Info"
   var {
     user = Auth.currentAuthenticatedUser(),
     onSuccess,

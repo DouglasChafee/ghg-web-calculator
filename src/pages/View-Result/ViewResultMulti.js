@@ -25,13 +25,15 @@ function getRandomColorVal(min, max){
 }
 
 
-function ViewResultMulti({setLogInState, setLogOutState, theme, formFields}){
+function ViewResultMulti({selectedYears, setLogInState, setLogOutState, theme, formFields}){
+    document.title="Viewing Multiple Results ..."
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
     const urlParams = new URLSearchParams(window.location.search);
     //var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
+
     var YEARS_SELECTED = [];
-    var YEARS_SELECTED_STRING = urlParams.get("Year").split(',');
+    var YEARS_SELECTED_STRING = selectedYears;
 
     for(let i=0;i<YEARS_SELECTED_STRING.length;i++){
       YEARS_SELECTED.push(parseInt(YEARS_SELECTED_STRING[i]));
@@ -63,8 +65,6 @@ function ViewResultMulti({setLogInState, setLogOutState, theme, formFields}){
 
     useEffect(() => {
         callAPI();
-        setLogInState("none"); // disable sign-in button
-        setLogOutState("flex"); // enable sign-out button  
         }, [])
 
     

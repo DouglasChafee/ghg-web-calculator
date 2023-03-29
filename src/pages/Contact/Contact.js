@@ -5,6 +5,7 @@ import addresspng from '../../assets/maps-and-flags.png';
 import {Flex, View, Heading, Divider} from '@aws-amplify/ui-react';
 
 function Contact({setLogInState, setLogOutState}){
+    document.title="Contact"
     setLogInState("flex"); // enable sign-in button
     setLogOutState("none"); // disable sign-out button
     return(

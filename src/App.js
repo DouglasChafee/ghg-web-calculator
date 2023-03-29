@@ -22,6 +22,7 @@ function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state
   const [logInState, setLogInState] = useState("flex")
   const [logOutState, setLogOutState] = useState("none")
+  const [selectedYears, setSelectedYears] = useState([])
   const toggle = () => { //switch sidebar drop down states
       setIsOpen(!isOpen)
   }
@@ -99,9 +100,9 @@ function App() {
           <Route exact path='/profile/update/info' element={<UpdateInfo setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
           <Route exact path='/profile/update/password' element={<UpdatePassword setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
           <Route exact path='/profile/delete' element={<DeleteAcc setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
-          <Route exact path='/ViewList/ViewResultSingle' element={<ViewResultSingle setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
-          <Route exact path='/ViewList' element={<ViewList setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
-          <Route exact path='/ViewList/ViewResultMulti' element={<ViewResultMulti setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
+          <Route exact path='/ViewResultSingle' element={<ViewResultSingle selectedYears={selectedYears} setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
+          <Route exact path='/ViewList' element={<ViewList  setSelectedYears={setSelectedYears} setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
+          <Route exact path='/ViewResultMulti' element={<ViewResultMulti selectedYears={selectedYears} setsetLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
       </Routes>
       <Footer />
     </Router>

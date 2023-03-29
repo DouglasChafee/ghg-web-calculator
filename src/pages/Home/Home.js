@@ -10,6 +10,7 @@ Amplify.configure(awsExports);
 Auth.configure(awsExports);
   
 function Home({setLogInState, setLogOutState, theme, formFields}){
+  document.title="Home"
   useEffect(() => {
     const user = Auth.currentAuthenticatedUser()
     setLogInState("none"); // disable sign-in button

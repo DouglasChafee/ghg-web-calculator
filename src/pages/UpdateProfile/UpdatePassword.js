@@ -17,6 +17,7 @@ import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
 function UpdatePassword(props) {
+  document.title="Update Password"
   const {
     user = Auth.currentAuthenticatedUser(),
     onSuccess,
