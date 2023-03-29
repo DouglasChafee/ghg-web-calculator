@@ -277,4 +277,4 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
     
 }
 
-export default Calculator
+export default withAuthenticator(Calculator)

@@ -53,7 +53,7 @@
           "deploymentBucketName": "amplify-amplifyfacde958d1604-staging-10053-deployment",
           "s3Key": "amplify-builds/ghgViewResultSingle-526a79524132686f4e75-build.zip"
         }
-      },        
+      },
       "api": {
         "ghgwebapp": {},
         "api4ef6c8be": {}
