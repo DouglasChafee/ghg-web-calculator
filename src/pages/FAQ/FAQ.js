@@ -3,7 +3,9 @@ import { Expander, ExpanderItem, Flex, Heading, } from '@aws-amplify/ui-react';
 
 
 
-function FAQ(){
+function FAQ({setLogInState, setLogOutState}){
+    setLogInState("flex"); // enable sign-in button
+    setLogOutState("none"); // disable sign-out button
     return(
         <div>
             <Flex
@@ -13,7 +15,6 @@ function FAQ(){
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"2rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 
@@ -49,7 +50,7 @@ function FAQ(){
                 <div>
                     <Flex
                         // Ensures footer at bottom of page
-                        paddingBottom={"15rem"}
+                        paddingBottom={"12rem"}
                     ></Flex>
                 </div>
 

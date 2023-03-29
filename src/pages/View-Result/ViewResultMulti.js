@@ -1,6 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import {Amplify, Auth, API} from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import awsExports from '../../aws-exports';
 import {
     Chart as ChartJS,
@@ -25,7 +25,7 @@ function getRandomColorVal(min, max){
 }
 
 
-function ViewResultMulti(){
+function ViewResultMulti({setLogInState, setLogOutState, theme, formFields}){
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
     const urlParams = new URLSearchParams(window.location.search);
@@ -62,7 +62,9 @@ function ViewResultMulti(){
         }
 
     useEffect(() => {
-        callAPI(); 
+        callAPI();
+        setLogInState("none"); // disable sign-in button
+        setLogOutState("flex"); // enable sign-out button  
         }, [])
 
     
@@ -239,6 +241,8 @@ function ViewResultMulti(){
 
 
     return(
+        <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <Flex
         direction="row"
         justifyContent="space-evenly"
@@ -271,11 +275,13 @@ function ViewResultMulti(){
             </Card>
           </View>
           
-      </Flex> 
+      </Flex>
+      </ Authenticator>
+      </ThemeProvider>
         
 
     );
 
 
 }
-export default withAuthenticator(ViewResultMulti)
+export default (ViewResultMulti)

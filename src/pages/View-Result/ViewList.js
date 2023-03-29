@@ -1,113 +1,115 @@
 import React, { useEffect, useState } from 'react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import { Auth, API} from 'aws-amplify';
-import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, Divider,  Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
 
-    function ViewList() {
+function ViewList({setLogInState, setLogOutState, theme, formFields}) {
 
-        // When submit button is pressed, adds checked elements to a list and sends
-        const onSubmit = (event) => {
-            const sel = [];
-            event.preventDefault();
-            for(let element of document.getElementsByClassName("Year")){
-                if(element.checked){
-                    sel.push(element.value);
-                }
-            }
-            if(sel.length === 0){  // If no buttons pressed disable submit button
-                let get = document.getElementsByClassName("Button");
-                get.setAttribute('disabled',true);
-            }
-            if(sel.length === 1){
-                // Create URL with years attached
-                let Values = new URL("http://" + window.location.host+"/ViewResultSingle");  // Change if file names are changed
-                Values.searchParams.set("Year",sel);
-                window.location=Values;
-            }
-            else{
-                // Create URL with years attached
-                let Values = new URL("http://" + window.location.host+"/ViewResultMulti");  // Change if file names are changed
-                Values.searchParams.set("Year",sel);
-                window.location=Values;
+    // When submit button is pressed, adds checked elements to a list and sends
+    const onSubmit = (event) => {
+        const sel = [];
+        event.preventDefault();
+        for(let element of document.getElementsByClassName("Year")){
+            if(element.checked){
+                sel.push(element.value);
             }
         }
-
-        // When delete button is pressed, deletes checked elements
-        const onDelete = () => {
-            const sel = [];
-            const idSel = [];
-            for(let element of document.getElementsByClassName("Year")){
-                if(element.checked){
-                    sel.push(element.value);
-                }
-            }
-            for(let i = 0; i < itemlength; i++){
-                if(sel.includes(String(responsedata.Items[i].YEAR))){
-                    idSel.push(responsedata.Items[i].id);
-                }
-            }
-            console.log(idSel);
-
-            if(sel.length === 0){  // If no buttons pressed disable delete button
-                let get = document.getElementsByClassName("Button");
-                get.setAttribute('disabled',true);
-            }
-            deleteAPI(idSel);
+        if(sel.length === 0){  // If no buttons pressed disable submit button
+            let get = document.getElementsByClassName("Button");
+            get.setAttribute('disabled',true);
         }
+        if(sel.length === 1){
+            // Create URL with years attached
+            let Values = new URL("http://" + window.location.host+"/ViewResultSingle");  // Change if file names are changed
+            Values.searchParams.set("Year",sel);
+            window.location=Values;
+        }
+        else{
+            // Create URL with years attached
+            let Values = new URL("http://" + window.location.host+"/ViewResultMulti");  // Change if file names are changed
+            Values.searchParams.set("Year",sel);
+            window.location=Values;
+        }
+    }
 
-        // API call
-        const { tokens } = useTheme();
-        const [responsedata, setresponsedata] = useState("");
-        const [itemlength, setitemlength] = useState("");
-
-        // Gather user information
-        async function callAPI() {
-            const user = await Auth.currentAuthenticatedUser()
-            console.log(user.attributes.sub)
-            const userSub = user.attributes.sub
-            const token = user.signInUserSession.idToken.jwtToken
-            console.log({ token })
-            const requestInfo = {
-              headers: {
-                Authorization: token
-              },
-              queryStringParameters: { 
-                userID: userSub
-              }
-            };
-            await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
-              setresponsedata(response);
-              setitemlength(response.Items.length);
-              console.log(response);
-   
-            })
-          }
-          useEffect(() => {
-            callAPI(); 
-            }, [])
-
-        // Delete Selected Years
-        async function deleteAPI(idSel) {
-            const user = await Auth.currentAuthenticatedUser()
-            console.log(user.attributes.sub)
-            const userSub = user.attributes.sub
-            const token = user.signInUserSession.idToken.jwtToken
-            console.log({ token })
-            console.log(idSel);
-            const requestInfo = {
-                headers: {
-                Authorization: token
-                },
-                queryStringParameters: { 
-                idList: JSON.stringify(idSel)
-                }
-            };
-            await API.get('api4ef6c8be', '/ghgDeleteYear', requestInfo).then((response) => {
-                let Values = new URL(window.location.href);
-                window.location=Values;
-                console.log(response);
-            })
+    // When delete button is pressed, deletes checked elements
+    const onDelete = () => {
+        const sel = [];
+        const idSel = [];
+        for(let element of document.getElementsByClassName("Year")){
+            if(element.checked){
+                sel.push(element.value);
             }
+        }
+        for(let i = 0; i < itemlength; i++){
+            if(sel.includes(String(responsedata.Items[i].YEAR))){
+                idSel.push(responsedata.Items[i].id);
+            }
+        }
+        console.log(idSel);
+
+        if(sel.length === 0){  // If no buttons pressed disable delete button
+            let get = document.getElementsByClassName("Button");
+            get.setAttribute('disabled',true);
+        }
+        deleteAPI(idSel);
+    }
+
+    // API call
+    const { tokens } = useTheme();
+    const [responsedata, setresponsedata] = useState("");
+    const [itemlength, setitemlength] = useState("");
+
+    // Gather user information
+    async function callAPI() {
+        const user = await Auth.currentAuthenticatedUser()
+        console.log(user.attributes.sub)
+        const userSub = user.attributes.sub
+        const token = user.signInUserSession.idToken.jwtToken
+        console.log({ token })
+        const requestInfo = {
+            headers: {
+            Authorization: token
+            },
+            queryStringParameters: { 
+            userID: userSub
+            }
+        };
+        await API.get('api4ef6c8be', '/ghgViewResultSingle', requestInfo).then((response) => {
+            setresponsedata(response);
+            setitemlength(response.Items.length);
+            console.log(response);
+
+        })
+        }
+        useEffect(() => {
+        callAPI();
+        setLogInState("none"); // disable sign-in button
+        setLogOutState("flex"); // enable sign-out button 
+        }, [])
+
+    // Delete Selected Years
+    async function deleteAPI(idSel) {
+        const user = await Auth.currentAuthenticatedUser()
+        console.log(user.attributes.sub)
+        const userSub = user.attributes.sub
+        const token = user.signInUserSession.idToken.jwtToken
+        console.log({ token })
+        console.log(idSel);
+        const requestInfo = {
+            headers: {
+            Authorization: token
+            },
+            queryStringParameters: { 
+            idList: JSON.stringify(idSel)
+            }
+        };
+        await API.get('api4ef6c8be', '/ghgDeleteYear', requestInfo).then((response) => {
+            let Values = new URL(window.location.href);
+            window.location=Values;
+            console.log(response);
+        })
+        }
 
        // Gathers unique years from user's database (callAPI)
        const items = [];
@@ -119,6 +121,8 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
        }
 
     return(
+        <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <div>
             <Flex 
                 marginLeft={"10%"}
@@ -127,7 +131,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"15rem"}
+                paddingBottom={"16rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 
@@ -205,12 +209,14 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
 
                 <div>
                     <Flex
-                        paddingBottom={"5rem"}
+                        paddingBottom={"0rem"}
                     ></Flex>
                 </div>
 
             </Flex>
         </div>
+        </ Authenticator>
+      </ThemeProvider>
     );
     
     }

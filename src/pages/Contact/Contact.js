@@ -23,7 +23,7 @@ function Contact({setLogInState, setLogOutState}){
                     alignContent="flex-start"
                     wrap="wrap"
                     gap="10rem"
-                    paddingBottom={"10rem"}
+                    paddingBottom={"8rem"}
                 >
                 <View>
                     <figure style={{display: 'inline-block'}}>
