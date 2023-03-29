@@ -193,8 +193,6 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
     }
 
     return(
-        <ThemeProvider theme={theme} >
-        <Authenticator variation="modal" formFields={formFields}>
         <div>
             <Flex
                 // Flex container for entire page
@@ -276,10 +274,8 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
                 </Button>
             </Flex>
         </div>
-    </Authenticator>
-    </ThemeProvider>
     );
     
 }
 
-export default (Calculator)
+export default withAuthenticator(Calculator)
