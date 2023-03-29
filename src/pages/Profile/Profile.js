@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator, Flex, Card, Divider, Text, View, Heading} from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, Flex, Card, Divider, Text, Heading} from '@aws-amplify/ui-react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
-function Profile({setLogInState, setLogOutState}) {
+function Profile({setLogInState, setLogOutState, theme, formFields}) {
     const [FName, setFName] = useState("")
     const [LName, setLName] = useState("")
     const [Email, setEmail] = useState("")
@@ -53,6 +53,8 @@ function Profile({setLogInState, setLogOutState}) {
     // Display user profile with data back on page
     return(
       <>
+      <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <Flex direction="column" alignItems="center" wrap="wrap" marginTop="1rem" marginBottom="5rem">
           
           <Card variation='elevated' borderRadius="1rem" border="1px solid" paddingBottom="1px" paddingTop="1px" paddingLeft="10%" paddingRight="10%" >
@@ -171,8 +173,10 @@ function Profile({setLogInState, setLogOutState}) {
           </Card>
 
         </Flex>
+        </ Authenticator>
+      </ThemeProvider>
       </>
     );
 }
 
-export default withAuthenticator(Profile)
+export default (Profile)

@@ -12,13 +12,13 @@ import { useNavigate } from "react-router-dom";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "../../ui-components/utils";
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 import {CognitoUserAttribute } from "amazon-cognito-identity-js";
 Amplify.configure(awsExports);
 
 function UpdateInfo(props) {
-  const {
+  var {
     user = Auth.currentAuthenticatedUser(),
     onSuccess,
     onError,
@@ -26,6 +26,10 @@ function UpdateInfo(props) {
     onValidate,
     onChange,
     overrides,
+    theme, 
+    formFields,
+    setLogOutState, 
+    setLogInState,
     ...rest
   } = props;
   const initialValues = {
@@ -34,6 +38,8 @@ function UpdateInfo(props) {
     lastName: "",
   };
   const navigate = useNavigate();
+  setLogInState("none"); // disable sign-in button
+  setLogOutState("flex"); // enable sign-out button
   const [email, setEmail] = React.useState(initialValues.email);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -53,6 +59,7 @@ function UpdateInfo(props) {
   }, [])
 
   async function callReadAPI() {
+    const user = await Auth.currentAuthenticatedUser();
     setEmail(user.attributes.email);
     setFirstName(user.attributes.given_name);
     setLastName(user.attributes.family_name);
@@ -100,6 +107,9 @@ function UpdateInfo(props) {
 
   // Beginning of Update Profile Page Layout
   return (
+    <ThemeProvider theme={theme} >
+    <Authenticator variation="modal" formFields={formFields}>
+    {({ user }) => (
     <Grid
       as="form"
       rowGap="15px"
@@ -190,6 +200,7 @@ function UpdateInfo(props) {
 
           if (onSuccess) {
             onSuccess(modelFields);
+            
           }
         } catch (err) {
           if (onError) {
@@ -339,7 +350,10 @@ function UpdateInfo(props) {
         
       </Flex>
     </Grid>
+    )}
+    </ Authenticator>
+    </ThemeProvider>
   );
 }
 
-export default withAuthenticator(UpdateInfo)
+export default (UpdateInfo)

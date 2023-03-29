@@ -10,13 +10,15 @@ import {
 import {CancelButton} from '../../components/ButtonElement'
 import { useNavigate } from "react-router-dom";
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
-function DeleteAcc({setLogInState, setLogOutState}) {
+function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
   const user = Auth.currentAuthenticatedUser();
   const navigate = useNavigate();
+  setLogInState("none"); // disable sign-in button
+  setLogOutState("flex"); // enable sign-out button
   const [confirmation, setConfirmation] = React.useState("");
   const [Loading, setLoading] = React.useState(false);
 
@@ -42,6 +44,8 @@ function DeleteAcc({setLogInState, setLogOutState}) {
 
   // Beginning of Delete Account Page Layout
   return (
+    <ThemeProvider theme={theme} >
+    <Authenticator variation="modal" formFields={formFields}>
     <Grid
       as="form"
       rowGap="15px"
@@ -111,7 +115,9 @@ function DeleteAcc({setLogInState, setLogOutState}) {
         </Flex> 
       </Flex>
     </Grid>
+    </ Authenticator>
+    </ThemeProvider>
   );
 }
 
-export default withAuthenticator(DeleteAcc)
+export default (DeleteAcc)

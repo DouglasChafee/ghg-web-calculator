@@ -8,7 +8,8 @@ import logging
 import os
 import re # might need to add lambda layer
 
-s3Client = boto3.resource('s3')
+s3 = boto3.resource('s3')
+ddb = boto3.client('dynamodb')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -23,20 +24,29 @@ def handler(event, context):
     # u can use a query string parameter with to pass the 'public/S1&2_Example_Data.xlsx' used below to grab the file just make sure ur parameters for the /ParseExcel path are set up in API Gatway correctly
     logger.info(event["queryStringParameters"])
 
+    # Get user ID and key from params
+    userID = event["queryStringParameters"]["userID"]
+    Key = event["queryStringParameters"]["s3FileKey"]
     # creating local files
     local_file_name = '/tmp/userData.xlsx'
 
     # downloading files from s3 to tmp ephemeral storage
-    s3Client.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file('public/S1&2_Example_Data.xlsx', local_file_name)
+    s3.Bucket('ghgwebapptemplatebucketfh3471h93h91c10053-staging').download_file(Key, local_file_name)
+    # s3Client.download_file('ghgwebapptemplatebucketfh3471h93h91c10053-staging', 'public/S1&2_Example_Data.xlsx', local_file_name)
 
-    logger.info("Is " + local_file_name +  "Here Check: " + str(os.path.isfile(local_file_name)))
+    logger.info("Passed Check Here: " + str(os.path.isfile(local_file_name)))
 
     # getting excel object
-    inventory_data = pd.ExcelFile('/tmp/userData.xlsx')  
-    logger.info(inventory_data)
 
-    # YOUR CODE WILL GO HERE MOST LIKELY
-   
+
+
+
+    # Create return dictionary
+    errors = ["Error: 1", "Error: 2", "Error: 3"]
+    valid = True
+    jayson = {'isValid':valid, 'errorList':errors}
+
+    # Return to the request from the api
     return {
         'statusCode': 200,
         'headers': {
@@ -44,5 +54,5 @@ def handler(event, context):
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': json.dumps('WEEWOOWEEWOO Chad alert!')
+        'body': json.dumps(jayson)
     }
