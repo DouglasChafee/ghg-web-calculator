@@ -858,7 +858,8 @@ def handler(event, context):
 
     # Hold the excel
     excel = ''
-
+    
+    global valid
     if(valid):
         # Log the file
         logger.info("Passed Check Here: " + str(os.path.isfile(local_file_name)))
@@ -873,6 +874,7 @@ def handler(event, context):
 
     # Run throught the checks for each page if valid so far
     if(valid):
+        
         # First check the facility
         checkFacility(excel)
         # Next check the scope 1 stationary
@@ -884,13 +886,20 @@ def handler(event, context):
         # Next check the scope 2 purchased energy
         checkScope2PurchasedEnergy(excel)
 
+        global set_year
         # End by ensuring the year has been set
         if(set_year == -1):
             # The year has not been set, return an error
             addError("The year has not been set.")
-
+            
+    global error_messages
     # Create return a new dictionary
     jayson = {'isValid':valid, 'errorList':error_messages}
+
+    # reset values in lambda function
+    set_year = -1
+    error_messages = []
+    valid = True
 
     # Return to the request from the api
     return {

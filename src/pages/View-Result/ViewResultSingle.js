@@ -11,8 +11,8 @@ import {
     ArcElement,
   } from 'chart.js';
 import { Bar, Pie} from 'react-chartjs-2';
-import {View, Flex, Card, Button} from '@aws-amplify/ui-react';
-import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
+import {View, Flex, Card} from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 API.configure(awsExports);

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "../../ui-components/utils";
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 import {CognitoUserAttribute } from "amazon-cognito-identity-js";
 Amplify.configure(awsExports);
@@ -21,7 +21,6 @@ API.configure(awsExports);
 function UpdateInfo(props) {
   document.title="Update Info"
   var {
-    user = Auth.currentAuthenticatedUser(),
     onSuccess,
     onError,
     onSubmit,
@@ -47,14 +46,6 @@ function UpdateInfo(props) {
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [errors, setErrors] = React.useState({});
   const [Loading, setLoading] = React.useState(false);
-
-  const resetStateValues = () => {
-    const cleanValues = initialValues;
-    setEmail(cleanValues.email);
-    setFirstName(cleanValues.firstName);
-    setLastName(cleanValues.lastName);
-    setErrors({});
-  };
 
   React.useEffect(() => {
     callReadAPI() // fill initial text box values
@@ -323,16 +314,6 @@ function UpdateInfo(props) {
         <CancelButton to="/profile" primary="true" dark="false">
         Cancel
         </CancelButton>
-        <Button
-          children="Clear"
-          type="reset"
-          onClick={(event) => {
-            event.preventDefault();
-            resetStateValues();
-          }}
-          isDisabled={!(user)}
-          {...getOverrideProps(overrides, "ResetButton")}
-        ></Button>
         </Flex>
         <Flex
           gap="15px"

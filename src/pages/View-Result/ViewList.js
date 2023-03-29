@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import { useNavigate } from "react-router-dom";
 import { Amplify, Auth, API} from 'aws-amplify';
-import { Authenticator, ThemeProvider, Divider,  Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 API.configure(awsExports);
@@ -14,7 +13,7 @@ function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formF
     // When submit button is pressed, adds checked elements to a list and sends
     const onSubmit = (event) => {
         const sel = [];
-        event.preventDefault();
+        event.preventDefault(); 
         for(let element of document.getElementsByClassName("Year")){
             if(element.checked){
                 sel.push(element.value);
@@ -94,7 +93,6 @@ function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formF
     async function deleteAPI(idSel) {
         const user = await Auth.currentAuthenticatedUser()
         console.log(user.attributes.sub)
-        const userSub = user.attributes.sub
         const token = user.signInUserSession.idToken.jwtToken
         console.log({ token })
         console.log(idSel);

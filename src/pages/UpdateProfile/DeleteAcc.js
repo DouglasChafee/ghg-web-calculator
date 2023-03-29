@@ -1,4 +1,4 @@
-import React, {useEffect , useState} from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Divider,
@@ -10,7 +10,7 @@ import {
 import {CancelButton} from '../../components/ButtonElement'
 import { useNavigate } from "react-router-dom";
 import { Amplify, API, Auth } from 'aws-amplify';
-import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 API.configure(awsExports);
@@ -23,7 +23,6 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
   setLogOutState("flex"); // enable sign-out button
   const [confirmation, setConfirmation] = React.useState("");
   const [Loading, setLoading] = React.useState(false);
-  const [responseData, setResponseData] = useState("");
   var facilitiesIDs = [];
 
   async function callAPI() {
@@ -129,7 +128,7 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
         <CancelButton to="/profile" primary="true" dark="false">
         Cancel
         </CancelButton>
-        <Flex
+        <Flex 
           gap="15px"
         >
           <Button

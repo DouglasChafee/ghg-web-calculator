@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withAuthenticator, Authenticator, ThemeProvider, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
+import {Authenticator, ThemeProvider, Flex, FileUploader, Button, Text, ScrollView, Card } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { useNavigate } from "react-router-dom";
@@ -193,6 +193,8 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
     }
 
     return(
+        <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <div>
             <Flex
                 // Flex container for entire page
@@ -274,8 +276,10 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
                 </Button>
             </Flex>
         </div>
+        </ Authenticator>
+        </ThemeProvider>
     );
     
 }
-
-export default withAuthenticator(Calculator)
+ 
+export default (Calculator)

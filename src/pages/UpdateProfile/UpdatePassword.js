@@ -11,15 +11,14 @@ import {CancelButton} from '../../components/ButtonElement';
 import { useNavigate } from "react-router-dom";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "../../ui-components/utils";
-import { Amplify, Auth } from 'aws-amplify';
-import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react';
+import { Amplify,} from 'aws-amplify';
+import { Authenticator, ThemeProvider } from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
 function UpdatePassword(props) {
   document.title="Update Password"
   const {
-    user = Auth.currentAuthenticatedUser(),
     onSuccess,
     onError,
     onSubmit,
@@ -267,7 +266,7 @@ function UpdatePassword(props) {
               !(passwordRegex.test(password)) ||
               !(confirmPassword === password) ||
               Object.values(errors).some((e) => e?.hasError)
-            }
+            } 
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -1,6 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import {Amplify, Auth, API} from 'aws-amplify';
-import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
+import { Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -21,7 +21,7 @@ function getRandomColorVal(min, max){
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
-
+ 
 }
 
 
@@ -29,8 +29,6 @@ function ViewResultMulti({selectedYears, setLogInState, setLogOutState, theme, f
     document.title="Viewing Multiple Results ..."
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
-    const urlParams = new URLSearchParams(window.location.search);
-    //var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
 
     var YEARS_SELECTED = [];
     var YEARS_SELECTED_STRING = selectedYears;
@@ -94,8 +92,6 @@ function ViewResultMulti({selectedYears, setLogInState, setLogOutState, theme, f
           },
         },
       };
-      
-      //var labelsStack = ['2019', '2020'];
       
       var TOTAL_EMISSION = [];
 
