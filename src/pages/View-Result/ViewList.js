@@ -5,7 +5,6 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
 
     function ViewList() {
 
-
         // When submit button is pressed, adds checked elements to a list and sends
         const onSubmit = (event) => {
             const sel = [];
@@ -21,13 +20,13 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
             }
             if(sel.length === 1){
                 // Create URL with years attached
-                let Values = new URL("http://" + window.location.host+"/ViewResultSingle");
+                let Values = new URL("http://" + window.location.host+"/ViewResultSingle");  // Change if file names are changed
                 Values.searchParams.set("Year",sel);
                 window.location=Values;
             }
             else{
                 // Create URL with years attached
-                let Values = new URL("http://" + window.location.host+"/ViewResultMulti");
+                let Values = new URL("http://" + window.location.host+"/ViewResultMulti");  // Change if file names are changed
                 Values.searchParams.set("Year",sel);
                 window.location=Values;
             }
@@ -37,8 +36,6 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
         const onDelete = () => {
             const sel = [];
             const idSel = [];
-            console.log("HI IM HERE");
-            // event.preventDefault();
             for(let element of document.getElementsByClassName("Year")){
                 if(element.checked){
                     sel.push(element.value);
@@ -51,14 +48,11 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
             }
             console.log(idSel);
 
-            if(sel.length === 0){  // If no buttons pressed disable submit button
+            if(sel.length === 0){  // If no buttons pressed disable delete button
                 let get = document.getElementsByClassName("Button");
                 get.setAttribute('disabled',true);
             }
             deleteAPI(idSel);
-            // wait();
-            // let Values = new URL(window.location.href);
-            // window.location=Values;
         }
 
         // API call
@@ -66,6 +60,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
         const [responsedata, setresponsedata] = useState("");
         const [itemlength, setitemlength] = useState("");
 
+        // Gather user information
         async function callAPI() {
             const user = await Auth.currentAuthenticatedUser()
             console.log(user.attributes.sub)
@@ -91,6 +86,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
             callAPI(); 
             }, [])
 
+        // Delete Selected Years
         async function deleteAPI(idSel) {
             const user = await Auth.currentAuthenticatedUser()
             console.log(user.attributes.sub)
@@ -103,16 +99,17 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 Authorization: token
                 },
                 queryStringParameters: { 
-                idList: idSel
+                idList: JSON.stringify(idSel)
                 }
             };
             await API.get('api4ef6c8be', '/ghgDeleteYear', requestInfo).then((response) => {
+                let Values = new URL(window.location.href);
+                window.location=Values;
                 console.log(response);
             })
             }
 
-
-       // Gathers unique years from user's database
+       // Gathers unique years from user's database (callAPI)
        const items = [];
        for(let i = 0; i < itemlength; i++){
             if(items.includes(responsedata.Items[i].YEAR) === false){
@@ -149,7 +146,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         wrap="wrap"
                         paddingBottom={"3rem"}
                         >
-                        {(item, index) => (
+                        {(item, index) => (  // Loops to display each Year from items list as Checkboxes
 
                             <Card key={index} padding="1rem" fontWeight={tokens.fontWeights.bold} fontSize="30px">
                             <CheckboxField type="checkbox" style={{width:"25px", height:"25px"}} class="Year" fontWeight={tokens.fontWeights.bold} label={item} name={"Year"} value={item} size="large" />
@@ -161,12 +158,7 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 <Flex 
                 direction="row"
                 >
-                
-
-
-                {/* <form onDelete={onDelete}> */}
-                    {/* <NavBtn> */}
-                        <Button class="Button" type="submit" onClick={() => onDelete()} style={
+                        <Button class="Button" type="submit" onClick={() => onDelete()} style={  // When Delete button clicked call onDelete function
                             {
                                 backgroundColor:"#01BF71",
                                 border: "none",
@@ -186,15 +178,9 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                             e.target.style.color="Black"
                         }
                         }>Delete</Button>
-                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
-                        {/* <Button class="Button" type="submit">Delete</Button> */}
-                    {/* </NavBtn> */}
-                {/* </form> */}
-
-
 
                 <form onSubmit={onSubmit}>
-                        <Button class="Button" type="submit" style={
+                        <Button class="Button" type="submit" style={  // Upon clicking submit onSubmit event calls onSubmit
                             {
                                 backgroundColor:"#01BF71",
                                 border: "none",
@@ -214,16 +200,8 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                             e.target.style.color="Black"
                         }
                         }>Submit</Button>
-                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
-                        {/* <Button class="Button" type="submit">Delete</Button> */}
                 </form>
-
-
-                </Flex>
-
-
-
-
+            </Flex>
 
                 <div>
                     <Flex
