@@ -131,7 +131,7 @@ function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formF
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"20rem"}
+                paddingBottom={"21rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 
