@@ -1,7 +1,10 @@
 import React from 'react';
 import { Expander, ExpanderItem, Flex, Heading, } from '@aws-amplify/ui-react';
 
-function About(){
+function About({setLogInState, setLogOutState}){
+    document.title="About"
+    setLogInState("flex"); // enable sign-in button
+    setLogOutState("none"); // disable sign-out button
     return(
         <div>
             <Flex
@@ -11,7 +14,7 @@ function About(){
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"2rem"}
+                paddingBottom={"18rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 
