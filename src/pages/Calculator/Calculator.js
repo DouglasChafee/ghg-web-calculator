@@ -5,6 +5,9 @@ import { Amplify, Storage, API, Auth } from 'aws-amplify';
 import { useNavigate } from "react-router-dom";
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
+API.configure(awsconfig);
+Storage.configure(awsconfig);
 
 var fileKey;
 var file;
