@@ -29,7 +29,7 @@ API.configure(awsExports);
   ChartJS.register(ArcElement, Tooltip, Legend);
 
 function ViewResultSingle({selectedYears, setLogInState, setLogOutState, theme, formFields}){
-  document.title="Viewing Single Result ..."  
+  document.title=" Year Result | GHG Web App"  
   const [ItemLength, setItemLength] = useState("");
   const [responseData, setResponseData] = useState("");
   var YEAR_SELECTED = parseInt(selectedYears[0]); 

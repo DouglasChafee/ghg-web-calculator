@@ -19,7 +19,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function UpdateInfo(props) {
-  document.title="Update Info"
+  document.title="Update Information | GHG Web App"
   var {
     onSuccess,
     onError,

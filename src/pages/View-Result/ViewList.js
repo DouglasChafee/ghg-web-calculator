@@ -7,7 +7,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formFields}) {
-    document.title="Year List"
+    document.title="View Results | GHG Web App"
     const navigate = useNavigate();
 
     // When submit button is pressed, adds checked elements to a list and sends
@@ -131,7 +131,7 @@ function ViewList({setSelectedYears, setLogInState, setLogOutState, theme, formF
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"16rem"}
+                paddingBottom={"20rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 

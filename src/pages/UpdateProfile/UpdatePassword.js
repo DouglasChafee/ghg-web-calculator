@@ -17,7 +17,7 @@ import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
 function UpdatePassword(props) {
-  document.title="Update Password"
+  document.title="Update Password | GHG Web App"
   const {
     onSuccess,
     onError,

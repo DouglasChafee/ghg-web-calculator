@@ -16,7 +16,7 @@ Amplify.configure(awsExports);
 API.configure(awsExports);
 
 function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
-  document.title="Delete Account"
+  document.title="Delete Account | GHG Web App"
   const user = Auth.currentAuthenticatedUser();
   const navigate = useNavigate();
   setLogInState("none"); // disable sign-in button

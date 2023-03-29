@@ -26,7 +26,7 @@ function getRandomColorVal(min, max){
 
 
 function ViewResultMulti({selectedYears, setLogInState, setLogOutState, theme, formFields}){
-    document.title="Viewing Multiple Results ..."
+    document.title="Multi Year Results | GHG Web App"
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
 

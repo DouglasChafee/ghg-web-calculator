@@ -2,7 +2,7 @@ import React from 'react';
 import { Expander, ExpanderItem, Flex, Heading, } from '@aws-amplify/ui-react';
 
 function About({setLogInState, setLogOutState}){
-    document.title="About"
+    document.title="About | GHG Web App"
     setLogInState("flex"); // enable sign-in button
     setLogOutState("none"); // disable sign-out button
     return(

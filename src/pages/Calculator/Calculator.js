@@ -14,7 +14,7 @@ var file;
 
 function Calculator({setLogInState, setLogOutState, theme, formFields}){
 
-    document.title="Calculator"
+    document.title="Calculator | GHG Web App"
     useEffect(() => {
         setLogInState("none"); // disable sign-in button
         setLogOutState("flex"); // enable sign-out button
