@@ -10,13 +10,14 @@ import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
 import Profile from './pages/Profile/Profile'
+
+import Calculator from './pages/Calculator/Calculator'
 import ViewResultSingle from './pages/View-Result/ViewResultSingle'
 import ViewList from './pages/View-Result/ViewList'
 import ViewResultMulti from './pages/View-Result/ViewResultMulti'
 import UpdateInfo from './pages/UpdateProfile/UpdateInfo'
 import UpdatePassword from './pages/UpdateProfile/UpdatePassword';
 import DeleteAcc from './pages/UpdateProfile/DeleteAcc';
-
 
 function App() {
   const [isOpen, setIsOpen] = useState(false) //closed drop down state
@@ -91,6 +92,8 @@ function App() {
       <SideBar isOpen={isOpen} toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
       <Navbar toggle={toggle} logInState={logInState} setLogInState={setLogInState} logOutState={logOutState} setLogOutState={setLogOutState}/>
       <Routes>
+
+          <Route exact path='/calculator' element={<Calculator setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields}/>} />
           <Route exact path='/' element={<Landing setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/faq' element={<FAQ setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
           <Route exact path='/contact' element={<Contact setLogInState={setLogInState} setLogOutState={setLogOutState}/>} />
@@ -103,6 +106,7 @@ function App() {
           <Route exact path='/ViewResultSingle' element={<ViewResultSingle selectedYears={selectedYears} setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
           <Route exact path='/ViewList' element={<ViewList  setSelectedYears={setSelectedYears} setLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
           <Route exact path='/ViewResultMulti' element={<ViewResultMulti selectedYears={selectedYears} setsetLogInState={setLogInState} setLogOutState={setLogOutState} theme={theme} formFields={formFields} />} />
+
       </Routes>
       <Footer />
     </Router>
