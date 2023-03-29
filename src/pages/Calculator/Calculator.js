@@ -30,6 +30,7 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
     // Download Funciton for the template
     async function downloadTemplateOnClick() {
         // Download the file using the blob downloader
+        console.log( Auth.configure() )
         const file = await Storage.get("S1&2_Data_Collection_Template.xlsx", {
             level: "public", download:true
         });
@@ -38,6 +39,7 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
 
     // Download Funciton for the example
     async function downloadExampleOnClick() {
+        console.log( Auth.configure() )
         // Download the file using the blob downloader
         const file = await Storage.get("S1&2_Example_Data.xlsx", {
             level: "public", download:true
@@ -186,7 +188,7 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
             console.log(response);
             setLoadingState(false)
             alert("Calculations Were Successful");
-            navigate("/");
+            navigate("/home");
           })
     }
 
@@ -280,4 +282,4 @@ function Calculator({setLogInState, setLogOutState, theme, formFields}){
     
 }
 
-export default withAuthenticator(Calculator)
+export default (Calculator)

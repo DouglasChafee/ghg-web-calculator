@@ -92,11 +92,11 @@ function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
           // In DynamoDB tables and Cognito User Pool
           await callAPI();
           setLoading(false)  
-          //Auth.signOut(); // auto sign user out
+          Auth.signOut(); // auto sign user out
           setLogInState("flex"); // enable sign-in button
           setLogOutState("none"); // disable sign-out button
           alert("Account Deletion was Successful");
-          //navigate("/");
+          navigate("/");
 
         } catch (err) {
             setLoading(false)
