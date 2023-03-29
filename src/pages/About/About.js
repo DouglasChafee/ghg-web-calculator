@@ -13,7 +13,7 @@ function About({setLogInState, setLogOutState}){
                 position={"center"}
                 paddingLeft={"2rem"}
                 paddingRight={"2rem"}
-                paddingBottom={"2rem"}
+                paddingBottom={"18rem"}
                 paddingTop={"1rem"}
                 gap="1rem"
                 direction="column" 

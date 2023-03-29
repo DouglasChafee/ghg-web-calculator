@@ -11,15 +11,15 @@ Auth.configure(awsExports);
   
 function Home({setLogInState, setLogOutState, theme, formFields}){
   useEffect(() => {
+    const user = Auth.currentAuthenticatedUser()
     setLogInState("none"); // disable sign-in button
     setLogOutState("flex"); // enable sign-out button
-    const user = Auth.currentAuthenticatedUser()
   }, [])
 
 
     return(
       <>
-      <div style={{ display: "flex", flexDirection: 'column', alignItems:'center', justifyContent:'center',  marginBottom: "200px"}}>
+      <div style={{ display: "flex", flexDirection: 'column', alignItems:'center', justifyContent:'center',  marginBottom: "100px"}}>
 
       <ThemeProvider theme={theme} >
         <Authenticator variation="modal" formFields={formFields}>

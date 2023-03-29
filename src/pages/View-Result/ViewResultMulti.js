@@ -1,6 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import {Amplify, Auth, API} from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import awsExports from '../../aws-exports';
 import {
     Chart as ChartJS,
@@ -25,11 +25,19 @@ function getRandomColorVal(min, max){
 }
 
 
-function ViewResultMulti(){
+function ViewResultMulti({setLogInState, setLogOutState, theme, formFields}){
     const [responseData, setResponseData] = useState("");
     const [ItemLength, setItemLength] = useState("");
+    const urlParams = new URLSearchParams(window.location.search);
+    //var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
+    var YEARS_SELECTED = [];
+    var YEARS_SELECTED_STRING = urlParams.get("Year").split(',');
 
-    var YEARS_SELECTED = [2015 , 2017, 2018, 2019, 2020, 2021, 2024];
+    for(let i=0;i<YEARS_SELECTED_STRING.length;i++){
+      YEARS_SELECTED.push(parseInt(YEARS_SELECTED_STRING[i]));
+
+    }
+
     async function callAPI() {
         const user = await Auth.currentAuthenticatedUser()
         console.log(user.attributes.sub)
@@ -54,7 +62,9 @@ function ViewResultMulti(){
         }
 
     useEffect(() => {
-        callAPI(); 
+        callAPI();
+        setLogInState("none"); // disable sign-in button
+        setLogOutState("flex"); // enable sign-out button  
         }, [])
 
     
@@ -231,6 +241,8 @@ function ViewResultMulti(){
 
 
     return(
+        <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
         <Flex
         direction="row"
         justifyContent="space-evenly"
@@ -263,11 +275,13 @@ function ViewResultMulti(){
             </Card>
           </View>
           
-      </Flex> 
+      </Flex>
+      </ Authenticator>
+      </ThemeProvider>
         
 
     );
 
 
 }
-export default withAuthenticator(ViewResultMulti)
+export default (ViewResultMulti)

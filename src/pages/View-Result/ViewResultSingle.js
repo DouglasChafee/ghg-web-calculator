@@ -12,7 +12,7 @@ import {
   } from 'chart.js';
 import { Bar, Pie} from 'react-chartjs-2';
 import {View, Flex, Card, Button} from '@aws-amplify/ui-react';
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
@@ -27,11 +27,12 @@ Amplify.configure(awsExports);
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ViewResultSingle(){
+function ViewResultSingle({setLogInState, setLogOutState, theme, formFields}){
      
   const [ItemLength, setItemLength] = useState("");
   const [responseData, setResponseData] = useState("");
-  var YEAR_SELECTED = 2019; 
+  const urlParams = new URLSearchParams(window.location.search);
+  var YEAR_SELECTED = parseInt(urlParams.get("Year")); 
   const labels=[]; // # of Facilities for Bar Graph
   
   var TOTAL_COMBUSTION = 0;
@@ -67,9 +68,11 @@ function ViewResultSingle(){
     }
 
     useEffect(() => {
-      callAPI(); 
+      callAPI();
+      setLogInState("none"); // disable sign-in button
+      setLogOutState("flex"); // enable sign-out button   
     }, [])
-    
+      
     
     //console.log("responseData test: " + responseData.Items[0].YEAR);
     
@@ -191,6 +194,8 @@ function ViewResultSingle(){
     //---------------------
       
     return(
+      <ThemeProvider theme={theme} >
+      <Authenticator variation="modal" formFields={formFields}>
       <Flex
         direction="row"
         justifyContent="space-evenly"
@@ -223,7 +228,9 @@ function ViewResultSingle(){
             </Card>
           </View>
           
-      </Flex>  
+      </Flex>
+      </ Authenticator>
+      </ThemeProvider>  
     );
 
 
@@ -231,4 +238,4 @@ function ViewResultSingle(){
 
 
 }
-export default withAuthenticator(ViewResultSingle)
+export default (ViewResultSingle)
