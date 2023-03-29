@@ -34,8 +34,31 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
         }
 
         // When delete button is pressed, deletes checked elements
-        const onDelete = (event) => {
-            console.log("WORKS");
+        const onDelete = () => {
+            const sel = [];
+            const idSel = [];
+            console.log("HI IM HERE");
+            // event.preventDefault();
+            for(let element of document.getElementsByClassName("Year")){
+                if(element.checked){
+                    sel.push(element.value);
+                }
+            }
+            for(let i = 0; i < itemlength; i++){
+                if(sel.includes(String(responsedata.Items[i].YEAR))){
+                    idSel.push(responsedata.Items[i].id);
+                }
+            }
+            console.log(idSel);
+
+            if(sel.length === 0){  // If no buttons pressed disable submit button
+                let get = document.getElementsByClassName("Button");
+                get.setAttribute('disabled',true);
+            }
+            deleteAPI(idSel);
+            // wait();
+            // let Values = new URL(window.location.href);
+            // window.location=Values;
         }
 
         // API call
@@ -67,6 +90,27 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
           useEffect(() => {
             callAPI(); 
             }, [])
+
+        async function deleteAPI(idSel) {
+            const user = await Auth.currentAuthenticatedUser()
+            console.log(user.attributes.sub)
+            const userSub = user.attributes.sub
+            const token = user.signInUserSession.idToken.jwtToken
+            console.log({ token })
+            console.log(idSel);
+            const requestInfo = {
+                headers: {
+                Authorization: token
+                },
+                queryStringParameters: { 
+                idList: idSel
+                }
+            };
+            await API.get('api4ef6c8be', '/ghgDeleteYear', requestInfo).then((response) => {
+                console.log(response);
+            })
+            }
+
 
        // Gathers unique years from user's database
        const items = [];
@@ -118,6 +162,37 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                 direction="row"
                 >
                 
+
+
+                {/* <form onDelete={onDelete}> */}
+                    {/* <NavBtn> */}
+                        <Button class="Button" type="submit" onClick={() => onDelete()} style={
+                            {
+                                backgroundColor:"#01BF71",
+                                border: "none",
+                                borderRadius: "20px",
+                                padding: '10px 20px',
+                                cursor: 'pointer',
+                                fontWeight: "Bold",
+                                color: 'Black'
+                            } 
+                        }
+                        onMouseEnter={e => {
+                            e.target.style.backgroundColor = 'black'
+                            e.target.style.color="#01BF71"
+                        }}
+                        onMouseLeave={e => {
+                            e.target.style.backgroundColor = '#01BF71'
+                            e.target.style.color="Black"
+                        }
+                        }>Delete</Button>
+                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
+                        {/* <Button class="Button" type="submit">Delete</Button> */}
+                    {/* </NavBtn> */}
+                {/* </form> */}
+
+
+
                 <form onSubmit={onSubmit}>
                         <Button class="Button" type="submit" style={
                             {
@@ -143,33 +218,12 @@ import { Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } fro
                         {/* <Button class="Button" type="submit">Delete</Button> */}
                 </form>
 
-                <form onDelete={onDelete}>
-                    {/* <NavBtn> */}
-                        <Button class="Button" type="submit" style={
-                            {
-                                backgroundColor:"#01BF71",
-                                border: "none",
-                                borderRadius: "20px",
-                                padding: '10px 20px',
-                                cursor: 'pointer',
-                                fontWeight: "Bold",
-                                color: 'Black'
-                            } 
-                        }
-                        onMouseEnter={e => {
-                            e.target.style.backgroundColor = 'black'
-                            e.target.style.color="#01BF71"
-                        }}
-                        onMouseLeave={e => {
-                            e.target.style.backgroundColor = '#01BF71'
-                            e.target.style.color="Black"
-                        }
-                        }>Delete</Button>
-                        {/* <ButtonLinks class="Button" type="submit">Submit</ButtonLinks> */}
-                        {/* <Button class="Button" type="submit">Delete</Button> */}
-                    {/* </NavBtn> */}
-                </form>
+
                 </Flex>
+
+
+
+
 
                 <div>
                     <Flex

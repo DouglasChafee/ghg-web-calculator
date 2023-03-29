@@ -124,9 +124,14 @@ export default function UserUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
+          const modelFieldsToSave = {
+            email: modelFields.email,
+            isLeader: modelFields.isLeader,
+            groupID: modelFields.groupID,
+          };
           await DataStore.save(
             User.copyOf(userRecord, (updated) => {
-              Object.assign(updated, modelFields);
+              Object.assign(updated, modelFieldsToSave);
             })
           );
           if (onSuccess) {
