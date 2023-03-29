@@ -65,6 +65,14 @@
           ],
           "category": "function",
           "resourceName": "ParseExcel"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ghgDeleteYear"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -142,6 +150,11 @@
       "service": "Lambda"
     },
     "ghgDeleteUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ghgDeleteYear": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -229,6 +242,22 @@
         {
           "category": "function",
           "resourceName": "ghgDeleteUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteYear_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteYear"
+        }
+      ]
+    },
+    "AMPLIFY_function_ghgDeleteYear_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ghgDeleteYear"
         }
       ]
     },
