@@ -16,6 +16,7 @@ import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-
 import awsExports from '../../aws-exports';
 import {CognitoUserAttribute } from "amazon-cognito-identity-js";
 Amplify.configure(awsExports);
+API.configure(awsExports);
 
 function UpdateInfo(props) {
   var {

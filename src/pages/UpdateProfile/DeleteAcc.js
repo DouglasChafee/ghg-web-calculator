@@ -13,6 +13,7 @@ import { Amplify, API, Auth } from 'aws-amplify';
 import { withAuthenticator, Authenticator, ThemeProvider} from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
+API.configure(awsExports);
 
 function DeleteAcc({setLogInState, setLogOutState, theme, formFields}) {
   const user = Auth.currentAuthenticatedUser();

@@ -129,6 +129,14 @@ def handler(event, context):
     userID = event["queryStringParameters"]["userID"]
     Key = event["queryStringParameters"]["s3FileKey"]
 
+    logger.info(Key)
+
+    s3Bucket = s3.Bucket('bucket')
+    for obj in s3Bucket.objects.all():
+        if Key in obj.key:
+            Key = Key
+            break
+
     # tmp folder file name
     local_file_name = '/tmp/userData'
 

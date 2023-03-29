@@ -5,6 +5,8 @@ import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
+Amplify.configure(awsExports);
+API.configure(awsExports);
 
 function Profile({setLogInState, setLogOutState, theme, formFields}) {
     const [FName, setFName] = useState("")

@@ -15,6 +15,7 @@ import {View, Flex, Card, Button} from '@aws-amplify/ui-react';
 import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
+API.configure(awsExports);
 
   ChartJS.register(
     CategoryScale,

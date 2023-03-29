@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
-import { Auth, API} from 'aws-amplify';
+import { Amplify, Auth, API} from 'aws-amplify';
 import { Authenticator, ThemeProvider, Divider,  Collection, Card, Button, CheckboxField, useTheme, Flex, Heading, } from '@aws-amplify/ui-react';
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
+API.configure(awsExports);
 
 function ViewList({setLogInState, setLogOutState, theme, formFields}) {
 
@@ -82,11 +85,12 @@ function ViewList({setLogInState, setLogOutState, theme, formFields}) {
 
         })
         }
-        useEffect(() => {
+
+    useEffect(() => {
         callAPI();
         setLogInState("none"); // disable sign-in button
         setLogOutState("flex"); // enable sign-out button 
-        }, [])
+    }, [])
 
     // Delete Selected Years
     async function deleteAPI(idSel) {

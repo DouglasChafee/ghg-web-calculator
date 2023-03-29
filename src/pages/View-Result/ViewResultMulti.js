@@ -1,7 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import {Amplify, Auth, API} from 'aws-amplify';
 import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
-import awsExports from '../../aws-exports';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -13,8 +12,9 @@ import {
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import {View, Flex, Card} from '@aws-amplify/ui-react';
-
+import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
+API.configure(awsExports);
 
 //Returns random RGB value
 function getRandomColorVal(min, max){
