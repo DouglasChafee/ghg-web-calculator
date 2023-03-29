@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "../../ui-components/utils";
 import { Amplify, Auth } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, Authenticator, ThemeProvider } from '@aws-amplify/ui-react';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
 
@@ -25,6 +25,10 @@ function UpdatePassword(props) {
     onValidate,
     onChange,
     overrides,
+    theme, 
+    formFields,
+    setLogOutState, 
+    setLogInState,
     ...rest
   } = props;
   const initialValues = {
@@ -33,6 +37,8 @@ function UpdatePassword(props) {
     confirmPassword: "",
   };
   const navigate = useNavigate();
+  setLogInState("none"); // disable sign-in button
+  setLogOutState("flex"); // enable sign-out button
   var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
   const passwordErrorMessage = `Requires uppercase, lowercase, and number with a minimum of 8 chars`;
   const compareErrorMessage = `New password does not match confirm password`;
@@ -65,6 +71,9 @@ function UpdatePassword(props) {
 
   // Beginning of Update Password Page Layout
   return (
+    <ThemeProvider theme={theme} >
+    <Authenticator variation="modal" formFields={formFields}>
+    {({ user }) => (
     <Grid
       as="form"
       rowGap="15px"
@@ -265,7 +274,10 @@ function UpdatePassword(props) {
         
       </Flex>
     </Grid>
+    )}
+    </Authenticator>
+    </ThemeProvider>
   );
 }
 
-export default withAuthenticator(UpdatePassword)
+export default (UpdatePassword)

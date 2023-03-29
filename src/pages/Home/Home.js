@@ -1,24 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Amplify, Auth } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { NavBtn, ButtonLinks} from "../../components/Navbar/NavBarElements";
+
+import { withAuthenticator, Authenticator, ThemeProvider, View, Divider, Heading, Flex} from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import style from '../../index.css';
 import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
-
-function Home({ signOut, user, setLogInState, setLogOutState}){
-
-  // List of actions to preform once every page render
+Auth.configure(awsExports);
+  
+function Home({setLogInState, setLogOutState, theme, formFields}){
   useEffect(() => {
     setLogInState("none"); // disable sign-in button
     setLogOutState("flex"); // enable sign-out button
-    console.log(user.attributes)
+    const user = Auth.currentAuthenticatedUser()
   }, [])
 
-  return(
+
+    return(
       <>
-      <h1>Welcome Back ... {user.attributes.email}</h1>
-    </>
-  );
+      <div style={{ display: "flex", flexDirection: 'column', alignItems:'center', justifyContent:'center',  marginBottom: "200px"}}>
+
+      <ThemeProvider theme={theme} >
+        <Authenticator variation="modal" formFields={formFields}>
+        {({ user }) => (
+          <Flex direction="column" alignItems="center" wrap="wrap" marginBottom="5rem">
+            <View
+              as="div"
+              maxWidth="100%"
+              padding="1rem"
+            >
+            <Heading level={1} fontWeight="medium" marginTop="1rem">Welcome Back ... {user.attributes.given_name + " " + user.attributes.family_name}</Heading>
+            <Divider orientation="horizontal" size="large" />
+            </View>
+            <Flex direction="row" alignItems="center" wrap="wrap" justifyContent="center" >   
+              <Flex direction="column" alignItems="center">
+                  <NavBtn>
+                      <ButtonLinks to="/calculator">Scope 1 & 2</ButtonLinks>
+                  </NavBtn>
+                  <NavBtn>
+                      <ButtonLinks to="/ViewList">View Scope 1 & 2
+                      Results</ButtonLinks>
+                  </NavBtn>
+              </Flex>
+            </Flex>
+            <Divider orientation="horizontal" width="20rem" size="small" label="OR" />
+              <Flex direction="column" alignItems="center">
+                  <NavBtn>
+                      <ButtonLinks to="" >Scope 3</ButtonLinks>
+                  </NavBtn>
+                  <NavBtn>
+                      <ButtonLinks to="">View Scope 3
+                      Results</ButtonLinks>
+                  </NavBtn>
+              </Flex>
+          </Flex>
+        )}
+      </ Authenticator>
+    </ThemeProvider>
+    </div>
+     </>
+    );
+
 }
 
-export default withAuthenticator(Home)
+export default (Home)

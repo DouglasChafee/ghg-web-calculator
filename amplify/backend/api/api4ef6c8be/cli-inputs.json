@@ -98,6 +98,19 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/ghgDeleteYear": {
+      "name": "/ghgDeleteYear",
+      "lambdaFunction": "ghgDeleteYear",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
