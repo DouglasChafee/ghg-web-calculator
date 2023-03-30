@@ -78,7 +78,7 @@ function ViewResultSingle({selectedYears, setLogInState, setLogOutState, theme, 
     // Number of facilities = response item length
     // Also assigning total vals by adding up all vals
     var facNum=0;
-    for(let i=0;i<ItemLength;i++){
+    for(let i=ItemLength - 1;i>=0;i--){
       if(responseData.Items[i].YEAR === YEAR_SELECTED){
         facNum = facNum + 1;
         labels.push("Facility " + facNum);
@@ -97,12 +97,14 @@ function ViewResultSingle({selectedYears, setLogInState, setLogOutState, theme, 
     // Creating Scope 1 and Scope 2 totals
     var barDataScope1=[];
     var barDataScope2=[];
-    for(let i=0;i<ItemLength;i++){
+    for(let i=ItemLength - 1 ;i>=0;i--){
       if(responseData.Items[i].YEAR === YEAR_SELECTED){
         barDataScope1.push(responseData.Items[i].COMBUSTION + responseData.Items[i].FUGITIVE + responseData.Items[i].MOBILE);
         barDataScope2.push(responseData.Items[i].NATURAL_GAS + responseData.Items[i].PURCHASED_ELECTRICITY + responseData.Items[i].REFRIGERANTS);
       }
     }
+    console.log(labels)
+    console.log(barDataScope1)
     
 
 
